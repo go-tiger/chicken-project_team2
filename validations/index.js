@@ -1,19 +1,33 @@
 const Joi = require('joi');
 
 const signupValidation = Joi.object({
-  email: Joi.string().alphanum().required(),
-  password: Joi.string().min(4).not('').required(),
-  userName: Joi.string()
+  userName: Joi.string().min(2).not('').required().messages({
+    'any.invalid': ' 비밀번호가 일치하지 않습니다',
+    'string.min': '최소 2자 이상 입력해 주세요',
+  }),
+  password: Joi.string()
     .min(4)
     .not('')
     .required()
-    .messages({ 'any.only': '이름이 비어있습니다.' }),
-  phone: Joi.string().min(8).not('').required(),
-  address: Joi.string().min(8).not('').required(),
-  userType: Joi.number().not('').required(),
+    .messages({ 'string.min': '최소 4자 이상 입력해 주세요' }),
   confirm: Joi.equal(Joi.ref('password'))
     .required()
-    .messages({ 'any.only': ' 비비번호가 일치하지 않습니다' }),
+    .messages({ 'any.only': ' 비밀번호가 일치하지 않습니다' }),
+  email: Joi.string()
+    .email()
+    .required()
+    .messages({ 'string.email': '이메일 형식이 아닙니다.' }),
+  phone: Joi.string()
+    .min(8)
+    .not('')
+    .required()
+    .messages({ 'string.min': '최소 8자 이상 입력해 주세요' }),
+  address: Joi.string()
+    .min(8)
+    .not('')
+    .required()
+    .messages({ 'string.min': '최소 4자 이상 입력해 주세요' }),
+  userType: Joi.number().not('').required(),
 });
 module.exports = {
   signupValidation,
