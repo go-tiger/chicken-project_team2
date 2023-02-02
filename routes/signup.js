@@ -32,12 +32,11 @@ router.post('/signup', async (req, res) => {
       userType,
     });
 
-    res.json(User);
+    res.status(201).json({ message: '회원가입 완료되었습니다.' });
   } catch (error) {
     if (error.isJoi) {
       return res.status(422).json({ message: error.details[0].message });
     }
-
     res.status(500).json({ message: error.message });
   }
 });
