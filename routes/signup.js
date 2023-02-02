@@ -1,44 +1,45 @@
 require('dotenv').config();
 
-const express = require("express")
+const express = require('express');
 const router = express.Router();
 
-const{signupValidation} = require('../validations')
-const {user} = require('../models') 
-const bycypt =require('bcrypt');
+const { signupValidation } = require('../validations');
+const { user } = require('../models');
+const bcrypt = require('bcrypt');
 
-router.get('/users', async (req,res)=>{
-    try{
-        const users = await User.findAll({
-            attribute: {exclude : ['password']},
-        });
-        res.json(users);
-    }catch (err){}
-})
+const { JWT_SECRET_KET } = process.env;
 
-router.post('/signup',async(req,res)=>{
-    console.log(req.body)
-    try{
-        const {email,password,userName,phone,address,userType} = await signupValidation.validateAsync(
-            req.body
-        );
-        const hashedPassword = await bycypt.hash(password, 12)
-        const User = await user.create({
-            email,
-            password:hashedPassword,
-            userName,
-            phone,
-            address,
-            userType,
-    })
-    res.json(User)
-
-    }catch (err){
-        if(err.isJoi){
-            return res.status(422).json({message: error.details[0].message});
-        }
-        res.status(500).json({message: err.message})
-    }
+router.get('/users', async (req, res) => {
+  try {
+    const User = await user.findAll({
+      attributes: { exclude: ['password'] },
+    });
+    res.json(User);
+  } catch (error) {}
 });
 
-module.exports = router; 
+router.post('/signup', async (req, res) => {
+  try {
+    const { userName, password, email, phone, address, userType } =
+      await signupValidation.validateAsync(req.body);
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const User = await user.create({
+      userName,
+      password: hashedPassword,
+      email,
+      phone,
+      address,
+      userType,
+    });
+
+    res.json(User);
+  } catch (error) {
+    if (error.isJoi) {
+      return res.status(422).json({ message: error.details[0].message });
+    }
+
+    res.status(500).json({ message: error.message });
+  }
+});
+
+module.exports = router;
