@@ -1,0 +1,32 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+}
+
+/* .bg-sign {
+  background-color: #ffdead;
+} */
+
+.card {
+  max-width: 800px;
+  padding: 100px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  width: 300px;
+}
+
+.input-group-text {
+  padding: 0.8rem;
+}
+
+/*경고문구 숨김 처리*/
+#phoneErr {
+  display: none;
+}
