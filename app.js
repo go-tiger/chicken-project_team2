@@ -9,11 +9,14 @@ const app = express();
 /* Routes */
 const ejsRouter = require('./routes/ejs.routes');
 const signinRouter = require('./routes/signin');
+const signupRouter = require('./routes/signup')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(ejsRouter);
 app.use(signinRouter);
+app.use(signupRouter);
+
 
 /* views */
 app.set('views', __dirname + '/views');
