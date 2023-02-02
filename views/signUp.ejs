@@ -22,6 +22,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/signUp.css" />
     <title>회원가입</title>
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body class="bg-sign">
     <div class="container bg-sign">
@@ -31,24 +36,21 @@
 
           <form id="myForm">
             <div class="form-group input-group">
-              <!-- form-group// ID-->
+              <!-- form-group// userName-->
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   <i class="fa fa-user"></i>
                 </span>
               </div>
               <input
-                id="id"
+                id="userName"
                 type="text"
                 class="form-control"
-                placeholder="Email"
+                placeholder="Name"
                 required
               />
-              <div id="overlapErr" class="invalid-feedback help-block">
-                2글자 이상 입력하세요.
-              </div>
             </div>
-            <!-- form-group// ID-->
+            <!-- form-group// userName-->
             <!-- form-group// pwd-->
             <div class="form-group input-group">
               <div class="input-group-prepend">
@@ -57,15 +59,12 @@
                 </span>
               </div>
               <input
-                id="pwd"
+                id="pw"
                 type="password"
                 class="form-control"
                 placeholder="password"
                 required
               />
-              <div id="pwdRegErr" class="invalid-feedback help-block">
-                8글자 이상 12글자 이하 입력하세요.
-              </div>
             </div>
             <!-- form-group// pwd-->
             <!-- form-group// rePwd-->
@@ -76,15 +75,12 @@
                 </span>
               </div>
               <input
-                id="rePwd"
+                id="rePw"
                 type="password"
                 class="form-control"
                 placeholder="repassword"
                 required
               />
-              <div id="rePwdgErr" class="invalid-feedback help-block">
-                비밀번호와 일치하지 않습니다. 다시 입력해 주세요.
-              </div>
             </div>
             <!-- form-group// rePwd-->
             <!-- form-group// email-->
@@ -101,9 +97,6 @@
                 placeholder="ex> aaa@naver.com"
                 required
               />
-              <div id="emailErr" class="invalid-feedback help-block">
-                이메일 형식에 맞지 않습니다.
-              </div>
             </div>
             <!-- form-group// email-->
             <!-- form-group// phone-->
@@ -120,11 +113,24 @@
                 placeholder="000-0000-0000"
                 required
               />
-              <div id="phoneErr" class="invalid-feedback help-block">
-                휴대폰 번호 형식에 맞지 않습니다.
-              </div>
             </div>
             <!-- form-group// phone-->
+            <!-- form-group// address-->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-address-book"></i>
+                </span>
+              </div>
+              <input
+                id="address"
+                type="text"
+                class="form-control"
+                placeholder="address"
+                required
+              />
+            </div>
+            <!-- form-group// address-->
             <!-- form-group// admin-->
             <div
               class="form-group btn-group"
@@ -137,6 +143,7 @@
                 class="btn-check"
                 name="btnradio"
                 id="btnradio1"
+                value="0"
                 autocomplete="off"
                 checked
               />
@@ -149,6 +156,7 @@
                 class="btn-check"
                 name="btnradio"
                 id="btnradio2"
+                value="1"
                 autocomplete="off"
               />
               <label class="btn btn-outline-primary" for="btnradio2"
@@ -160,6 +168,7 @@
                 class="btn-check"
                 name="btnradio"
                 id="btnradio3"
+                value="2"
                 autocomplete="off"
               />
               <label class="btn btn-outline-primary" for="btnradio3"
@@ -173,7 +182,7 @@
                 type="button"
                 class="btn btn-primary btn-block"
                 style="width: 100%"
-                onclick="saveAccount()"
+                onclick="signUp()"
               >
                 Create Account
               </button>
@@ -186,25 +195,41 @@
       <!-- card.// -->
     </div>
     <!--container end.//-->
-    <script
-      src="https://code.jquery.com/jquery-3.6.1.min.js"
-      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-      crossorigin="anonymous"
-    ></script>
-    <!-- <script>
-      let id = $('#id').val;
-      $.ajax({
-        type: 'post',
-        url: '/test',
-        data: {
-          id: id,
-        },
-        success: function (result) {},
-        error: function (request, status, error) {
-          // 결과 에러 콜백함수
-          console.log(error);
-        },
-      });
-    </script> -->
+    <script>
+      function signUp() {
+        let userName = $('#userName').val();
+        let password = $('#pw').val();
+        let confirm = $('#rePw').val();
+        let email = $('#email').val();
+        let phone = $('#phone').val();
+        let address = $('#address').val();
+        let userType = $('input[name=btnradio]:checked').val();
+        // console.log(userType);
+
+        $.ajax({
+          type: 'POST',
+          url: '/signup',
+          data: {
+            userName,
+            password,
+            confirm,
+            email,
+            phone,
+            address,
+            userType,
+          },
+          success: function (response) {
+            alert(response['message']);
+          },
+          error: function (response) {
+            if ('Validation error' == response['responseJSON'].message) {
+              alert('중복된 정보가 있습니다.');
+            } else {
+              alert(response['responseJSON'].message);
+            }
+          },
+        });
+      }
+    </script>
   </body>
 </html>
