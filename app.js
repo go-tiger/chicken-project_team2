@@ -1,17 +1,18 @@
 const express = require('express');
-const app = express();
-const signupRouter = require('./routes/signup')
+const router = express.Router();
 
-app.use(signupRouter);
-
+/* .env */
 require('dotenv').config();
 
-app.get('/', (req, res) => {
-  res.send('초기페이지입니다.');
-});
+const app = express();
+
+/* Routes */
+const signupRouter = require('./routes/signup')
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(signupRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`서버가 실행되었습니다. http://127.0.0.1:${process.env.PORT}`);
 });
-
-
