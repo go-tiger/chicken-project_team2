@@ -8,11 +8,21 @@ router.get('/', (req, res) => {
 });
 
 router.get('/signup', (req, res) => {
-  res.render('signUp.ejs');
+  res.render('index.ejs', { components: 'signup' });
 });
 
-router.get('/userMyPage', authMWRouter, async (req, res) => {
-  res.render('userMyPage.ejs');
+router.get('/main', authMWRouter, async (req, res) => {
+  if (res.locals.user) {
+    if (res.locals.user.userType == 0) {
+      return res.render('index.ejs', { components: 'usermain' });
+    } else if (res.locals.user.userType == 1) {
+      return res.render('index.ejs', { components: 'ownermain' });
+    } else {
+      return res.render('index.ejs', { components: 'adminmain' });
+    }
+  } else {
+    location.href = '/';
+  }
 });
 
 //토큰 검증 api
