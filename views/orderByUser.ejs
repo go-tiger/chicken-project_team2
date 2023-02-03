@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="myPage.css" />
+    <title>주문하기</title>
+  </head>
+  <body>
+    <!-----------------헤더 네비게이션---------------->
+    <header style="margin-bottom: 80px">
+      <div class="collapse bg-dark" id="navbarHeader">
+        <div class="row">
+          <div class="col-sm-8 col-md-7 py-4">
+            <h4 class="text-white">About</h4>
+            <p class="about-text">
+              정기치킨은 깨끗한 치킨으로 여러분을 모십니다.
+            </p>
+          </div>
+          <div class="col-sm-4 offset-md-1 py-4">
+            <h4 class="text-white">Contact</h4>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white">회원 관리</a></li>
+              <li><a href="#" class="text-white">상품 관리</a></li>
+              <li><a href="#" class="text-white">마이페이지</a></li>
+              <li><a href="#" class="text-white">로그아웃</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+          <a href="#" class="navbar-brand d-flex align-items-center">
+            <strong>정기치킨주식회사</strong>
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarHeader"
+            aria-controls="navbarHeader"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <!-----------------헤더 네비게이션---------------->
+    <!-----------------마이페이지---------------->
+    <main class="form-signin w-100 m-auto container">
+      <form>
+        <div class="title">
+          <h1>주문하기</h1>
+        </div>
+        <div>
+          <hr class="col-12" />
+          <!----주소(고정)----->
+          <div class="mb-3 row">
+            <label for="inputCart" class="col-2 col-form-label">주문</label>
+            <div class="col-10 cartMenu">
+              <p>후라이드 <strong>1</strong></p>
+              <p>후라이드 <strong>2</strong></p>
+              <p>후라이드 <strong>3</strong></p>
+              <p>후라이드 <strong>4</strong></p>
+            </div>
+          </div>
+          <hr class="col-12" />
+          <!----주소(고정)----->
+          <!----추가된 메뉴----->
+          <div class="mb-2 row">
+            <label for="staticAddress" class="col-2 col-form-label">주소</label>
+            <div class="col-6">
+              <p>서울 특별시 특별시 주소 어딘가</p>
+              <p>아바트 밑에 빌라 위에 옥탑방같은 상세주소</p>
+            </div>
+            <div class="col-2">
+              <button type="submit" class="btn btn-primary">수정</button>
+            </div>
+          </div>
+          <hr class="col-12" />
+          <!----추가된 메뉴----->
+          <!----요청사항----->
+          <div class="mb-3">
+            <label for="Textarea" class="form-label">요청사항</label>
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+            ></textarea>
+          </div>
+          <!----요청사항----->
+          <hr class="col-12" />
+        </div>
+        <div class="amount text-center fs-3">
+          <p>총 : <span>40000</span></p>
+        </div>
+        <button type="submit" class="btn btn-primary">주문</button>
+      </form>
+    </main>
+    <!-----------------마이페이지---------------->
+  </body>
+</html>
