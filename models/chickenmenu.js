@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.myCart.hasMany(models.myCart, { foreignKey: 'menuId' });
     }
   }
   chickenMenu.init(
@@ -22,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
       },
-      memoPhoto: {
+      memuPhoto: {
         type: DataTypes.STRING,
       },
     },
