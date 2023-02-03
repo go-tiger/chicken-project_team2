@@ -75,7 +75,8 @@
           url: '/login',
           data: { email, password },
           success: function (response) {
-            console.log(response['message']);
+            console.log(response);
+            location.href = '/userMyPage';
           },
           error: function (response) {
             alert(response['responseJSON'].message);

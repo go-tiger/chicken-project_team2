@@ -21,8 +21,23 @@ router.post('/login', async (req, res) => {
         .status(400)
         .json({ message: '이메일이나 비밀번호가 틀렸습니다!.' });
     }
+    // console.log(User);
+
     const userId = await User.dataValues.id;
 
+    const accessToken = jwt.sign(
+      {
+        userId: User.dataValues.id,
+        userName: User.dataValues.userName,
+        email: User.dataValues.email,
+        phone: User.dataValues.phone,
+        address: User.dataValues.address,
+        userType: User.dataValues.userType,
+      },
+      JWT_SECRET_KET,
+      { expiresIn: '1d' }
+    );
+    res.cookie('accessToken', accessToken);
     res.json({ token: jwt.sign({ userId }, JWT_SECRET_KET) });
   } catch (err) {
     res.status(500).json({ message: err.message });
