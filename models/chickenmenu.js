@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       menuPrice: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
       },
       memoPhoto: {
