@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const app = express();
+const userRouter = require('./user.routes');
+const menuRouter = require('./menu.routes');
+const mycartRouter = require('./mycart.routes');
+const orderRouter = require('./order.routes');
 
-const signinRouter = require('./signin');
-const signupRouter = require('./signup');
-const adminMenuRouter = require('./menu');
-
-app.use(signinRouter);
-app.use(signupRouter);
-app.use(adminMenuRouter);
+router.use('/user', userRouter);
+router.use('/menu', menuRouter);
+router.use('/mycart', mycartRouter);
+router.use('/order', orderRouter);
 
 module.exports = router;
