@@ -188,6 +188,8 @@
         },
         success: function (response) {
           alert(response['message']);
+          var signIn = 'http://localhost:3000/';
+          location.href = signIn;
         },
         error: function (response) {
           if ('Validation error' == response['responseJSON'].message) {
@@ -197,10 +199,6 @@
           }
         },
       });
-
-      var signIn = 'http://localhost:3000/';
-
-      location.href = signIn;
     }
   </script>
 </body>
