@@ -13,7 +13,7 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const User = await user.findOne({ email });
+    const User = await user.findOne({ where: { email }, raw: true });
     const inPasswordCorrect = await bcrypt.compare(password, User.password);
 
     if (!User || !inPasswordCorrect) {
@@ -21,18 +21,17 @@ router.post('/login', async (req, res) => {
         .status(400)
         .json({ message: '이메일이나 비밀번호가 틀렸습니다!.' });
     }
-    // console.log(User);
 
-    const userId = await User.dataValues.id;
+    const userId = await User['id'];
 
     const accessToken = jwt.sign(
       {
-        userId: User.dataValues.id,
-        userName: User.dataValues.userName,
-        email: User.dataValues.email,
-        phone: User.dataValues.phone,
-        address: User.dataValues.address,
-        userType: User.dataValues.userType,
+        userId: User['id'],
+        userName: User['userName'],
+        email: User['email'],
+        phone: User['phone'],
+        address: User['address'],
+        userType: User['userType'],
       },
       JWT_SECRET_KET,
       { expiresIn: '1d' }
