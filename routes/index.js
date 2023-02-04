@@ -8,7 +8,7 @@ const orderRouter = require('./order.routes');
 
 router.use('/user', userRouter);
 router.use('/menu', menuRouter);
-router.use('/mycart', mycartRouter);
+router.use('/cart', mycartRouter);
 router.use('/order', orderRouter);
 
 module.exports = router;
