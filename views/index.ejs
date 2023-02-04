@@ -51,8 +51,8 @@
     <%- include('header.ejs') %>
 
     <!-- body -->
-    <% if (components === 'main') { %> <%- include('userMain.ejs') %><% } %> <%
-    if (components === 'signup') { %> <%- include('signUp.ejs') %> <% } %> <% if
+    <% if (components === 'main') { %> <%- include('signIn.ejs') %><% } %> <% if
+    (components === 'signup') { %> <%- include('signUp.ejs') %> <% } %> <% if
     (components === 'usermain') { %> <%- include('userMyPage.ejs') %><% } %> <%
     if (components === 'ownermain') { %> <%- include('ownerMain.ejs') %><% } %>
     <% if (components === 'adminmain') { %> <%- include('adminMain.ejs') %><% }

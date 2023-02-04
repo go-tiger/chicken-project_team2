@@ -1,0 +1,55 @@
+<body class="text-center">
+  <main class="form-signin w-100 m-auto">
+    <form>
+      <div class="bubbles">
+        <h1>정기치킨</h1>
+      </div>
+      <div class="form-floating">
+        <input
+          type="email"
+          class="form-control"
+          id="signUpEmail"
+          placeholder="name@example.com"
+        />
+        <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="password"
+          class="form-control"
+          id="signUpPassword"
+          placeholder="Password"
+        />
+        <label for="floatingPassword">Password</label>
+      </div>
+      <button
+        class="w-100 btn btn-lg btn-primary"
+        type="button"
+        onclick="signIn()"
+      >
+        Login
+      </button>
+      <a class="btn btn-link" href="/signup"> 회원이 아니신가요?? </a>
+    </form>
+  </main>
+  <script>
+    function signIn() {
+      let email = $('#signUpEmail').val();
+      let password = $('#signUpPassword').val();
+      console.log(email, password);
+
+      $.ajax({
+        type: 'POST',
+        url: '/login',
+        data: { email, password },
+        success: function (response) {
+          console.log(response);
+          location.href = '/main';
+        },
+        error: function (response) {
+          alert(response['responseJSON'].message);
+        },
+      });
+    }
+  </script>
+</body>
