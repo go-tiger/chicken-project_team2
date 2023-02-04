@@ -36,27 +36,18 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"
     />
-
-    <!-- css -->
-    <link rel="stylesheet" href="./" />
-    <link rel="stylesheet" href="./css/userMyPage.css" />
-    <link rel="stylesheet" href="./css/signIn.css" />
-    <link rel="stylesheet" href="./css/signUp.css" />
-    <link rel="stylesheet" href="./css/main.css" />
-
+    <link rel="stylesheet" href="./css/mainUser.css" />
+    <link rel="stylesheet" href="./css/mainOwner.css" />
     <title>정기치킨</title>
   </head>
   <body>
     <!-- header -->
-    <%- include('header.ejs') %>
-
+    <%- include('mainHeader.ejs') %>
     <!-- body -->
-    <% if (components === 'main') { %> <%- include('userMain.ejs') %><% } %> <%
-    if (components === 'signup') { %> <%- include('signUp.ejs') %> <% } %> <% if
-    (components === 'usermain') { %> <%- include('userMyPage.ejs') %><% } %> <%
-    if (components === 'ownermain') { %> <%- include('ownerMain.ejs') %><% } %>
-    <% if (components === 'adminmain') { %> <%- include('adminMain.ejs') %><% }
-    %>
+    <% if (components === 'usermain') { %> <%- include('mainUser.ejs') %><% } %>
+    <% if (components === 'ownermain') { %> <%- include('mainOwner.ejs') %><% }
+    %> <% if (components === 'adminmain') { %> <%- include('mainAdmin.ejs') %><%
+    } %>
   </body>
   <script>
     $(document).ready(function () {

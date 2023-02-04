@@ -1,203 +1,231 @@
-<body class="bg-sign">
-  <div class="container bg-sign">
-    <div class="card bg-sign mx-auto">
-      <article class="card-body mx-auto">
-        <h1 class="text-center">정기치킨</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!------ Include the above in your HEAD tag ---------->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/882e525969.js"
+      crossorigin="anonymous"
+    ></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/signUp.css" />
+    <title>회원가입</title>
+  </head>
+  <body class="bg-sign">
+    <div class="container bg-sign">
+      <div class="card bg-sign mx-auto">
+        <article class="card-body mx-auto">
+          <h1 class="text-center">정기치킨</h1>
 
-        <form id="myForm">
-          <div class="form-group input-group">
+          <form id="myForm">
+            <div class="form-group input-group">
+              <!-- form-group// userName-->
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-user"></i>
+                </span>
+              </div>
+              <input
+                id="userName"
+                type="text"
+                class="form-control"
+                placeholder="Name"
+                required
+              />
+            </div>
             <!-- form-group// userName-->
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fa fa-user"></i>
-              </span>
+            <!-- form-group// pwd-->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-lock"></i>
+                </span>
+              </div>
+              <input
+                id="pw"
+                type="password"
+                class="form-control"
+                placeholder="password"
+                required
+              />
             </div>
-            <input
-              id="userName"
-              type="text"
-              class="form-control"
-              placeholder="Name"
-              required
-            />
-          </div>
-          <!-- form-group// userName-->
-          <!-- form-group// pwd-->
-          <div class="form-group input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fa fa-lock"></i>
-              </span>
+            <!-- form-group// pwd-->
+            <!-- form-group// rePwd-->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-lock"></i>
+                </span>
+              </div>
+              <input
+                id="rePw"
+                type="password"
+                class="form-control"
+                placeholder="repassword"
+                required
+              />
             </div>
-            <input
-              id="pw"
-              type="password"
-              class="form-control"
-              placeholder="password"
-              required
-            />
-          </div>
-          <!-- form-group// pwd-->
-          <!-- form-group// rePwd-->
-          <div class="form-group input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fa fa-lock"></i>
-              </span>
+            <!-- form-group// rePwd-->
+            <!-- form-group// email-->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-envelope"></i>
+                </span>
+              </div>
+              <input
+                id="email"
+                type="text"
+                class="form-control"
+                placeholder="ex> aaa@naver.com"
+                required
+              />
             </div>
-            <input
-              id="rePw"
-              type="password"
-              class="form-control"
-              placeholder="repassword"
-              required
-            />
-          </div>
-          <!-- form-group// rePwd-->
-          <!-- form-group// email-->
-          <div class="form-group input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fa fa-envelope"></i>
-              </span>
+            <!-- form-group// email-->
+            <!-- form-group// phone-->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-phone"></i>
+                </span>
+              </div>
+              <input
+                id="phone"
+                type="text"
+                class="form-control"
+                placeholder="000-0000-0000"
+                required
+              />
             </div>
-            <input
-              id="email"
-              type="text"
-              class="form-control"
-              placeholder="ex> aaa@naver.com"
-              required
-            />
-          </div>
-          <!-- form-group// email-->
-          <!-- form-group// phone-->
-          <div class="form-group input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fa fa-phone"></i>
-              </span>
+            <!-- form-group// phone-->
+            <!-- form-group// address-->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-address-book"></i>
+                </span>
+              </div>
+              <input
+                id="address"
+                type="text"
+                class="form-control"
+                placeholder="address"
+                required
+              />
             </div>
-            <input
-              id="phone"
-              type="text"
-              class="form-control"
-              placeholder="000-0000-0000"
-              required
-            />
-          </div>
-          <!-- form-group// phone-->
-          <!-- form-group// address-->
-          <div class="form-group input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fa fa-address-book"></i>
-              </span>
-            </div>
-            <input
-              id="address"
-              type="text"
-              class="form-control"
-              placeholder="address"
-              required
-            />
-          </div>
-          <!-- form-group// address-->
-          <!-- form-group// admin-->
-          <div
-            class="form-group btn-group"
-            role="group"
-            aria-label="Basic radio toggle button group"
-            style="width: 100%"
-          >
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio1"
-              value="0"
-              autocomplete="off"
-              checked
-            />
-            <label class="btn btn-outline-primary" for="btnradio1">손놈</label>
-
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio2"
-              value="1"
-              autocomplete="off"
-            />
-            <label class="btn btn-outline-primary" for="btnradio2"
-              >잘생긴사장</label
-            >
-
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio3"
-              value="2"
-              autocomplete="off"
-            />
-            <label class="btn btn-outline-primary" for="btnradio3"
-              >관리자</label
-            >
-          </div>
-          <!-- form-group// admin-->
-          <!-- submit-button// -->
-          <div class="form-group">
-            <button
-              type="button"
-              class="btn btn-primary btn-block"
+            <!-- form-group// address-->
+            <!-- form-group// admin-->
+            <div
+              class="form-group btn-group"
+              role="group"
+              aria-label="Basic radio toggle button group"
               style="width: 100%"
-              onclick="signUp()"
             >
-              Create Account
-            </button>
-          </div>
-          <!-- submit-button// -->
-          <p class="text-center">계정이 있나요?<a href="/">Log In</a></p>
-        </form>
-      </article>
-    </div>
-    <!-- card.// -->
-  </div>
-  <!--container end.//-->
-  <script>
-    function signUp() {
-      let userName = $('#userName').val();
-      let password = $('#pw').val();
-      let confirm = $('#rePw').val();
-      let email = $('#email').val();
-      let phone = $('#phone').val();
-      let address = $('#address').val();
-      let userType = $('input[name=btnradio]:checked').val();
-      // console.log(userType);
+              <input
+                type="radio"
+                class="btn-check"
+                name="btnradio"
+                id="btnradio1"
+                value="0"
+                autocomplete="off"
+                checked
+              />
+              <label class="btn btn-outline-primary" for="btnradio1"
+                >손놈</label
+              >
 
-      $.ajax({
-        type: 'POST',
-        url: '/signup',
-        data: {
-          userName,
-          password,
-          confirm,
-          email,
-          phone,
-          address,
-          userType,
-        },
-        success: function (response) {
-          alert(response['message']);
-          location.href = '/';
-        },
-        error: function (response) {
-          if ('Validation error' == response['responseJSON'].message) {
-            alert('중복된 정보가 있습니다.');
-          } else {
-            alert(response['responseJSON'].message);
-          }
-        },
-      });
-    }
-  </script>
-</body>
+              <input
+                type="radio"
+                class="btn-check"
+                name="btnradio"
+                id="btnradio2"
+                value="1"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary" for="btnradio2"
+                >잘생긴사장</label
+              >
+
+              <input
+                type="radio"
+                class="btn-check"
+                name="btnradio"
+                id="btnradio3"
+                value="2"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary" for="btnradio3"
+                >관리자</label
+              >
+            </div>
+            <!-- form-group// admin-->
+            <!-- submit-button// -->
+            <div class="form-group">
+              <button
+                type="button"
+                class="btn btn-primary btn-block"
+                style="width: 100%"
+                onclick="signUp()"
+              >
+                Create Account
+              </button>
+            </div>
+            <!-- submit-button// -->
+            <p class="text-center">계정이 있나요?<a href="/">Log In</a></p>
+          </form>
+        </article>
+      </div>
+      <!-- card.// -->
+    </div>
+    <!--container end.//-->
+    <script>
+      function signUp() {
+        let userName = $('#userName').val();
+        let password = $('#pw').val();
+        let confirm = $('#rePw').val();
+        let email = $('#email').val();
+        let phone = $('#phone').val();
+        let address = $('#address').val();
+        let userType = $('input[name=btnradio]:checked').val();
+        // console.log(userType);
+
+        $.ajax({
+          type: 'POST',
+          url: '/signup',
+          data: {
+            userName,
+            password,
+            confirm,
+            email,
+            phone,
+            address,
+            userType,
+          },
+          success: function (response) {
+            alert(response['message']);
+            location.href = '/';
+          },
+          error: function (response) {
+            if ('Validation error' == response['responseJSON'].message) {
+              alert('중복된 정보가 있습니다.');
+            } else {
+              alert(response['responseJSON'].message);
+            }
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
