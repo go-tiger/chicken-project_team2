@@ -42,6 +42,7 @@
       </button>
     </div>
   </div>
+  <script defer src="./js/user.js"></script>
 </header>
 <% } else if (components === 'ownermain') { %>
 <header>
@@ -80,6 +81,7 @@
       </button>
     </div>
   </div>
+  <script defer src="./js/user.js"></script>
 </header>
 <% } else { %>
 <header>
@@ -124,18 +126,6 @@
       </button>
     </div>
   </div>
-  <script>
-    function signOut() {
-      $.ajax({
-        type: 'DELETE',
-        url: '/logout',
-        data: {},
-        success: function (response) {
-          alert(response['message']);
-          location.href = '/';
-        },
-      });
-    }
-  </script>
+  <script defer src="./js/user.js"></script>
 </header>
 <% } %>

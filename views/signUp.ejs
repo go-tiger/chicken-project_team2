@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!------ Include the above in your HEAD tag ---------->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -9,17 +8,15 @@
       crossorigin="anonymous"
     />
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-      crossorigin="anonymous"
-    ></script>
-    <script
       src="https://kit.fontawesome.com/882e525969.js"
       crossorigin="anonymous"
     ></script>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- 코드 리팩토링 -->
+    <link rel="stylesheet" href="./js/main.js" />
     <link rel="stylesheet" href="./css/signUp.css" />
     <title>회원가입</title>
   </head>
@@ -190,42 +187,6 @@
       <!-- card.// -->
     </div>
     <!--container end.//-->
-    <script>
-      function signUp() {
-        let userName = $('#userName').val();
-        let password = $('#pw').val();
-        let confirm = $('#rePw').val();
-        let email = $('#email').val();
-        let phone = $('#phone').val();
-        let address = $('#address').val();
-        let userType = $('input[name=btnradio]:checked').val();
-        // console.log(userType);
-
-        $.ajax({
-          type: 'POST',
-          url: '/signup',
-          data: {
-            userName,
-            password,
-            confirm,
-            email,
-            phone,
-            address,
-            userType,
-          },
-          success: function (response) {
-            alert(response['message']);
-            location.href = '/';
-          },
-          error: function (response) {
-            if ('Validation error' == response['responseJSON'].message) {
-              alert('중복된 정보가 있습니다.');
-            } else {
-              alert(response['responseJSON'].message);
-            }
-          },
-        });
-      }
-    </script>
+    <script defer src="./js/user.js"></script>
   </body>
 </html>
