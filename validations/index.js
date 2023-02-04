@@ -21,12 +21,12 @@ const signupValidation = Joi.object({
     .min(8)
     .not('')
     .required()
-    .messages({ 'string.min': '최소 8자 이상 입력해 주세요' }),
+    .messages({ 'string.min': '핸드폰을 최소 8자 이상 입력해 주세요' }),
   address: Joi.string()
-    .min(8)
+    .min(4)
     .not('')
     .required()
-    .messages({ 'string.min': '최소 4자 이상 입력해 주세요' }),
+    .messages({ 'string.min': '주소를 최소 4자 이상 입력해 주세요' }),
   userType: Joi.number().not('').required(),
 });
 module.exports = {
