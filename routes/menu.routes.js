@@ -2,15 +2,17 @@ require('dotenv').config();
 
 const express = require('express');
 const router = express.Router();
+const authMWRouter = require('../middlewares/auth');
 
 const { chickenMenu } = require('../models');
 
 const { JWT_SECRET_KET } = process.env;
 
-router.get('/admin/menu', async (req, res) => {
+router.get('/admin/menu', authMWRouter, async (req, res) => {
+  const userid = res.locals.user.id;
   try {
     const menu = await chickenMenu.findAll();
-    res.json(menu);
+    res.json([{ Menu: menu, id: userid }]);
   } catch (error) {}
 });
 
