@@ -4,14 +4,14 @@ const authMWRouter = require('../middlewares/auth');
 
 // 메인페이지
 router.get('/', (req, res) => {
-  res.render('index.ejs', { components: 'main' });
+  res.render('signIn.ejs');
 });
 
 router.get('/signup', (req, res) => {
-  res.render('index.ejs', { components: 'signup' });
+  res.render('signUp.ejs');
 });
 
-router.get('/main', authMWRouter, async (req, res) => {
+router.get('/main', authMWRouter, (req, res) => {
   if (res.locals.user) {
     if (res.locals.user.userType == 0) {
       return res.render('index.ejs', { components: 'usermain' });
