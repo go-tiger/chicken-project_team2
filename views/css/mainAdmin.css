@@ -1,3 +1,7 @@
+.about-text {
+  color: white;
+}
+
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;
@@ -48,4 +52,10 @@
   text-align: center;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
 }
