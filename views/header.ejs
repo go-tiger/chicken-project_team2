@@ -25,7 +25,9 @@
             <li><a href="#" class="text-white">회원 관리</a></li>
             <li><a href="#" class="text-white">상품 관리</a></li>
             <li><a href="#" class="text-white">마이페이지</a></li>
-            <li><a href="#" class="text-white">로그아웃</a></li>
+            <li>
+              <a href="#" class="text-white" onclick="signOut()">로그아웃</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -49,5 +51,18 @@
       </button>
     </div>
   </div>
+  <script>
+    function signOut() {
+      $.ajax({
+        type: 'DELETE',
+        url: '/logout',
+        data: {},
+        success: function (response) {
+          alert(response['message']);
+          location.href = '/';
+        },
+      });
+    }
+  </script>
 </header>
 <% } %>
