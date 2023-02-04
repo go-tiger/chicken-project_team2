@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const cookieParser = require('cookie-parser');
 
 /* .env */
 require('dotenv').config();
@@ -7,17 +7,14 @@ require('dotenv').config();
 const app = express();
 
 /* Routes */
+const router = require('./routes');
 const ejsRouter = require('./routes/ejs.routes');
-const signinRouter = require('./routes/signin');
-const signupRouter = require('./routes/signup');
-const adminMenuRouter = require('./routes/menu');
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use('/api', router);
 app.use(ejsRouter);
-app.use(signinRouter);
-app.use(signupRouter);
-app.use(adminMenuRouter);
 
 /* views */
 app.set('views', __dirname + '/views');
