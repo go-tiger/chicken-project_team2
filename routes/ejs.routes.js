@@ -30,4 +30,12 @@ router.get('/login/check', authMWRouter, async (req, res) => {
   res.json({ user: res.locals.user });
 });
 
+router.delete('/logout', authMWRouter, async (req, res) => {
+  console.log('로그아웃을 시도');
+  return res
+    .status(200)
+    .clearCookie('accessToken')
+    .json({ message: '성공적으로 로그아웃 되었습니다.' });
+});
+
 module.exports = router;
