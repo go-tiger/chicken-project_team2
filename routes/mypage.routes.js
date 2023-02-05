@@ -2,23 +2,25 @@ require('dotenv').config();
 
 const express = require('express');
 const router = express.Router();
+const authMWRouter = require('../middlewares/auth');
 
 const { user } = require('../models');
 const bcrypt = require('bcrypt');
 
-router.get('/user/myPage/:userId', async (req, res) => {
-  const userId = req.params.userId;
+router.get('/', authMWRouter, async (req, res) => {
+  // const userId = req.params.userId;
+  const userId = res.locals.user.id;
 
   try {
     const User = await user.findOne({
       attributes: { exclude: ['password'] },
       where: { id: userId },
     });
-    res.status(200).json(User);
+    res.status(200).json([{ user: User }]);
   } catch (error) {}
 });
 
-router.put('/user/myPage/:userId', async (req, res) => {
+router.put('/:userId', async (req, res) => {
   const userId = req.params.userId;
 });
 
@@ -29,7 +31,7 @@ router.get('/admin/users', async (req, res) => {
   } catch (error) {}
 });
 
-router.delete('/admin/users/:userId', async (req, res) => {
+router.delete('/admin/:userId', async (req, res) => {
   const userId = req.params.userId;
 
   try {
