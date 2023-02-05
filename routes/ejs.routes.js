@@ -23,9 +23,9 @@ router.get('/main', authMWRouter, (req, res) => {
   }
 });
 
-router.get('/mypage', (req, res) => {
-  res.render('myPage.ejs');
-});
+// router.get('/mypage', (req, res) => {
+//   res.render('myPage.ejs');
+// });
 
 router.get('/mypage', authMWRouter, (req, res) => {
   if (res.locals.user) {
