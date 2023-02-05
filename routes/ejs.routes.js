@@ -20,13 +20,23 @@ router.get('/main', authMWRouter, (req, res) => {
     } else {
       return res.render('index.ejs', { components: 'adminmain' });
     }
-  } else {
-    location.href = '/';
   }
 });
 
-router.get('/myPage', (req, res) => {
+router.get('/mypage', (req, res) => {
   res.render('myPage.ejs');
+});
+
+router.get('/mypage', authMWRouter, (req, res) => {
+  if (res.locals.user) {
+    if (res.locals.user.userType == 0) {
+      return res.render('myPage.ejs', { components: 'usermain' });
+    } else if (res.locals.user.userType == 1) {
+      return res.render('myPage.ejs', { components: 'ownermain' });
+    } else {
+      return res.render('myPage.ejs', { components: 'adminmain' });
+    }
+  }
 });
 
 //토큰 검증 api
