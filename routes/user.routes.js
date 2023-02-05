@@ -16,7 +16,16 @@ router.get('/users', async (req, res) => {
     const User = await user.findAll({
       attributes: { exclude: ['password'] },
     });
-    res.json(User);
+    res.status(200).json([{ users: User }]);
+  } catch (error) {}
+});
+
+router.delete('/admin/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const deleteUser = await user.destroy({ where: { id: userId } });
+    res.status(200).json({ message: '선택된 회원 탈퇴가 완료되었습니다.' });
   } catch (error) {}
 });
 
