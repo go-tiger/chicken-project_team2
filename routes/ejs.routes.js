@@ -32,9 +32,9 @@ router.get('/main', authMWRouter, (req, res) => {
     if (res.locals.user.userType == 0) {
       return res.render('index.ejs', { components: 'mainUser' });
     } else if (res.locals.user.userType == 1) {
-      return res.render('index.ejs', { components: 'mainUser' });
+      return res.render('index.ejs', { components: 'mainOwner' });
     } else {
-      return res.render('index.ejs', { components: 'mainUser' });
+      return res.render('index.ejs', { components: 'mainAdmin' });
     }
   }
 });
