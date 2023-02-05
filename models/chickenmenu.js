@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
       },
-      memuPhoto: {
+      menuPhoto: {
         type: DataTypes.STRING,
       },
     },
