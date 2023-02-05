@@ -67,7 +67,7 @@ router.get('/mypage/edit', authMWRouter, (req, res) => {
 
 /* 임시 랜더 라우터 */
 router.get('/cart', authMWRouter, (req, res) => {
-  res.render('myPage.ejs');
+  res.render('cart.ejs');
 });
 router.get('/cartempty', authMWRouter, (req, res) => {
   res.render('cartEmptied.ejs');
