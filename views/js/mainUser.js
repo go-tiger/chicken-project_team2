@@ -28,6 +28,22 @@ function getMenuList() {
           <h4 class="card-title">${name}</h4>
           <p class="card-text">가격 : ${price}원</p>
         </div>
+        <div>
+        <button
+          type="submit"
+          class="btn btn-primary col-6 mb-3"
+          onclick="a()"
+        >
+          장바구니 추가
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary col-4 mb-3"
+          onclick="b()"
+        >
+          주문하기
+        </button>
+      </div>
       </div>`;
         $('#chickenMenu').append(temp_html);
       }

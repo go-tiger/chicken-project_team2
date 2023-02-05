@@ -26,7 +26,6 @@
     <!-- header -->
 
     <!-- body -->
-
     <div class="container">
       <div class="row g-5">
         <!------메뉴 추가 폼--------->
@@ -59,55 +58,42 @@
         </div>
         <!-----메뉴 추가 폼---------->
         <hr class="col-12" />
-        <h2>추가된 메뉴</h2>
-        <!-------------메뉴 카드----------->
-        <div class="col-4">
-          <div class="card shadow-sm">
-            <svg
-              class="bd-placeholder-img card-img-top"
-              width="100%"
-              height="225"
-              xmlns="http://www.w3.org/2000/svg"
-              role="img"
-              aria-label="Placeholder: Thumbnail"
-              preserveAspectRatio="xMidYMid slice"
-              focusable="false"
-            >
-              <title>Placeholder</title>
-              <rect width="100%" height="100%" fill="#55595c" />
-              <text x="50%" y="50%" fill="#eceeef" dy=".3em">
-                이미지를 넣으세요
-              </text>
-            </svg>
+        <!--추가된 메뉴들-->
+        <div class="row" id="chickenMenu">
+          <div class="card mb-4 col-4 mx-4" style="width: 18rem">
+            <img
+              class="card-img-top img-fluid"
+              src="http://www.bhc.co.kr/upload/bhc/menu/ckc20150130_470_v.jpg"
+              alt="Card image cap"
+            />
             <div class="card-body">
-              <p class="card-text">곱창 후라이드</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-secondary"
-                  >
-                    메뉴 수정
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-secondary"
-                  >
-                    메뉴 삭제
-                  </button>
-                </div>
-              </div>
+              <h4 class="card-title">후라이드</h4>
+              <p class="card-text">가격 : 20000</p>
+            </div>
+            <div>
+              <button
+                type="submit"
+                class="btn btn-primary col-3 mb-3"
+                onclick=""
+              >
+                수정
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary col-3 mb-3"
+                onclick=""
+              >
+                삭제
+              </button>
             </div>
           </div>
         </div>
-        <!-------------메뉴 카드----------->
-
+        <!--추가된 메뉴들-->
         <footer class="pt-5 my-5 text-muted border-top">
           정기치킨주식회사 &middot; &copy; 2023
         </footer>
       </div>
     </div>
-
-    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
   </body>
+  <script defer src="./js/itemAdmin.js"></script>
 </html>
