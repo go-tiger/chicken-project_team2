@@ -30,11 +30,11 @@ router.delete('/logout', authMWRouter, async (req, res) => {
 router.get('/main', authMWRouter, (req, res) => {
   if (res.locals.user) {
     if (res.locals.user.userType == 0) {
-      return res.render('index.ejs', { components: 'usermain' });
+      return res.render('index.ejs', { components: 'mainUser' });
     } else if (res.locals.user.userType == 1) {
-      return res.render('index.ejs', { components: 'ownermain' });
+      return res.render('index.ejs', { components: 'mainUser' });
     } else {
-      return res.render('index.ejs', { components: 'adminmain' });
+      return res.render('index.ejs', { components: 'mainUser' });
     }
   }
 });
@@ -43,11 +43,11 @@ router.get('/main', authMWRouter, (req, res) => {
 router.get('/mypage', authMWRouter, (req, res) => {
   if (res.locals.user) {
     if (res.locals.user.userType == 0) {
-      return res.render('myPage.ejs', { components: 'usermain' });
+      return res.render('indexMyPage.ejs', { components: 'mainUser' });
     } else if (res.locals.user.userType == 1) {
-      return res.render('myPage.ejs', { components: 'ownermain' });
+      return res.render('indexMyPage.ejs', { components: 'mainOwner' });
     } else {
-      return res.render('myPage.ejs', { components: 'adminmain' });
+      return res.render('indexMyPage.ejs', { components: 'mainAdmin' });
     }
   }
 });
@@ -56,11 +56,11 @@ router.get('/mypage', authMWRouter, (req, res) => {
 router.get('/mypage/edit', authMWRouter, (req, res) => {
   if (res.locals.user) {
     if (res.locals.user.userType == 0) {
-      return res.render('myPageEdit.ejs', { components: 'usermain' });
+      return res.render('indexMyPageEdit.ejs', { components: 'mainUser' });
     } else if (res.locals.user.userType == 1) {
-      return res.render('myPageEdit.ejs', { components: 'ownermain' });
+      return res.render('indexMyPageEdit.ejs', { components: 'mainOwner' });
     } else {
-      return res.render('myPageEdit.ejs', { components: 'adminmain' });
+      return res.render('indexMyPageEdit.ejs', { components: 'mainAdmin' });
     }
   }
 });
@@ -84,5 +84,14 @@ router.get('/admin', authMWRouter, (req, res) => {
   res.render('itemAdmin.ejs');
 });
 /* 임시 랜더 라우터 */
+
+/* 테스트 코드 */
+router.get('/test', (req, res) => {
+  if (!req.headers.cookie) {
+    res.location('/');
+  } else {
+    res.render('cart.ejs');
+  }
+});
 
 module.exports = router;
