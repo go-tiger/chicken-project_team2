@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
   <head>
     <link
       rel="stylesheet"
@@ -22,18 +22,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="./css/main.css" />
-
-    <title>정기치킨</title>
+    <title>마이페이지</title>
   </head>
   <body>
     <!-- header -->
     <%- include('header.ejs') %>
     <!-- body -->
-    <% if (components === 'mainUser') { %> <%- include('mainUser.ejs') %><% } %>
-    <% if (components === 'mainOwner') { %> <%- include('mainOwner.ejs') %><% }
-    %> <% if (components === 'mainAdmin') { %> <%- include('mainAdmin.ejs') %><%
-    } %>
+    <%- include('myPage.ejs') %>
   </body>
-  <script defer src="./js/user.js"></script>
 </html>

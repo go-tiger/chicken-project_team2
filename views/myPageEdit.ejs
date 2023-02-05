@@ -1,129 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-      crossorigin="anonymous"
-    />
-
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="stylesheet" href="./css/userMyPage.css" />
-    <title>마이페이지</title>
-  </head>
-  <body>
-    <!-----------------헤더 네비게이션---------------->
-    <header>
-      <div class="collapse bg-dark" id="navbarHeader">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-8 col-md-7 py-4">
-              <h4 class="text-white">About</h4>
-              <p class="about-text">
-                정기치킨은 깨끗한 치킨으로 여러분을 모십니다.
-              </p>
-            </div>
-            <div class="col-sm-4 offset-md-1 py-4">
-              <h4 class="text-white">Contact</h4>
-              <ul class="list-unstyled">
-                <li><a href="#" class="text-white">회원 관리</a></li>
-                <li><a href="#" class="text-white">상품 관리</a></li>
-                <li><a href="#" class="text-white">마이페이지</a></li>
-                <li><a href="#" class="text-white">로그아웃</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+<!-----------------마이페이지---------------->
+<main class="form-signin w-100 m-auto">
+  <form>
+    <div class="title">
+      <h1>마이페이지</h1>
+    </div>
+    <!----이메일(고정)----->
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-12 col-form-label">이메일</label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          readonly
+          class="form-control-plaintext"
+          id="staticEmail"
+          value="email@example.com"
+        />
       </div>
-      <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container">
-          <a href="#" class="navbar-brand d-flex align-items-center">
-            <strong>정기치킨주식회사</strong>
-          </a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarHeader"
-            aria-controls="navbarHeader"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
+    </div>
+    <!----이메일(고정)----->
+    <hr class="col-12" />
+    <!----패스워드(유동)----->
+    <div class="mb-3 row">
+      <label for="inputPassword" class="col-12 col-form-label">비밀번호</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" id="inputPassword" />
       </div>
-    </header>
-    <!-----------------헤더 네비게이션---------------->
-    <!-----------------마이페이지---------------->
-    <main class="form-signin w-100 m-auto">
-      <form>
-        <div class="title">
-          <h1>마이페이지</h1>
-        </div>
-        <!----이메일(고정)----->
-        <div class="mb-3 row">
-          <label for="staticEmail" class="col-12 col-form-label">이메일</label>
-          <div class="col-sm-10">
-            <input
-              type="text"
-              readonly
-              class="form-control-plaintext"
-              id="staticEmail"
-              value="email@example.com"
-            />
-          </div>
-        </div>
-        <!----이메일(고정)----->
-        <hr class="col-12" />
-        <!----패스워드(유동)----->
-        <div class="mb-3 row">
-          <label for="inputPassword" class="col-12 col-form-label"
-            >비밀번호</label
-          >
-          <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPassword" />
-          </div>
-        </div>
-        <!----패스워드(유동)----->
-        <hr class="col-12" />
-        <!----패스워드(유동)----->
-        <div class="mb-3 row">
-          <label for="inputPassword" class="col-12 col-form-label"
-            >비밀번호 확인</label
-          >
-          <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPassword" />
-          </div>
-        </div>
-        <!----패스워드(유동)----->
-        <hr class="col-12" />
-        <!----주소(유동)----->
-        <div class="mb-3 row">
-          <label for="inputAddress" class="col-12 col-form-label">주소</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputAddress" />
-          </div>
-        </div>
-        <!----주소(유동)----->
-        <hr class="col-12" />
-        <!----주소(유동)----->
-        <div class="mb-3 row">
-          <label for="inputPhone" class="col-12 col-form-label">핸드폰</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputPhone" />
-          </div>
-        </div>
-        <!----주소(유동)----->
-        <hr class="col-12" />
-        <button type="submit" class="btn btn-primary">수정</button>
-        <button type="submit" class="btn btn-primary">확인</button>
-      </form>
-    </main>
-    <!-----------------마이페이지---------------->
-  </body>
-</html>
+    </div>
+    <!----패스워드(유동)----->
+    <hr class="col-12" />
+    <!----패스워드(유동)----->
+    <div class="mb-3 row">
+      <label for="inputPassword" class="col-12 col-form-label"
+        >비밀번호 확인</label
+      >
+      <div class="col-sm-10">
+        <input type="password" class="form-control" id="inputPassword" />
+      </div>
+    </div>
+    <!----패스워드(유동)----->
+    <hr class="col-12" />
+    <!----주소(유동)----->
+    <div class="mb-3 row">
+      <label for="inputAddress" class="col-12 col-form-label">주소</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputAddress" />
+      </div>
+    </div>
+    <!----주소(유동)----->
+    <hr class="col-12" />
+    <!----주소(유동)----->
+    <div class="mb-3 row">
+      <label for="inputPhone" class="col-12 col-form-label">핸드폰</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputPhone" />
+      </div>
+    </div>
+    <!----주소(유동)----->
+    <hr class="col-12" />
+    <button type="submit" class="btn btn-primary">수정</button>
+    <button type="submit" class="btn btn-primary">확인</button>
+  </form>
+</main>
+<!-----------------마이페이지---------------->
