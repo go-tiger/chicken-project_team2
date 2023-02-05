@@ -40,6 +40,25 @@ module.exports = {
       onUpdate: 'cascade',
       onDelete: 'cascade',
     });
+
+    /*
+      order 테이블에서 user 테이블 id컬럼 fk
+    */
+    await queryInterface.addColumn('orders', 'userId', {
+      allowNull: false,
+      type: Sequelize.INTEGER,
+    });
+    await queryInterface.addConstraint('orders', {
+      fields: ['userId'],
+      type: 'foreign key',
+      name: 'order_userId_fk',
+      references: {
+        table: 'users',
+        field: 'id',
+      },
+      onUpdate: 'cascade',
+      onDelete: 'cascade',
+    });
   },
 
   async down(queryInterface, Sequelize) {
