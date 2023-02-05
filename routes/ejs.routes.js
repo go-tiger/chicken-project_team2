@@ -25,6 +25,10 @@ router.get('/main', authMWRouter, (req, res) => {
   }
 });
 
+router.get('/myPage', (req, res) => {
+  res.render('myPage.ejs');
+});
+
 //토큰 검증 api
 router.get('/login/check', authMWRouter, async (req, res) => {
   res.json({ user: res.locals.user });
