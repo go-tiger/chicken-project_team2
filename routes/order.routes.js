@@ -26,32 +26,33 @@ router.get('/', async (req, res) => {
   }
 });
 
-/* 오더 주문 하기 */
+/* 오더 등록 */
 router.post('/:userId', async (req, res) => {
-  // const { cookie } = req.headers;
+  const { cookie } = req.headers;
 
-  // if (!cookie) {
-  //   return res.status(401).json({ message: '로그인 후 이용가능합니다.' });
-  // }
+  if (!cookie) {
+    return res.status(401).json({ message: '로그인 후 이용가능합니다.' });
+  }
 
   try {
     const { userId } = req.params;
     const { orderList, address, memo, totalPrice } = req.body;
     // console.log('userid: ', userId);
-    // console.log('body: ', req.body);
+    console.log('body: ', req.body);
+    const order_status = 0;
 
-    const addOrder = await order.create({
+    await order.create({
       orderList,
       address,
       memo,
       totalPrice,
       userId,
+      orderStatus: order_status,
     });
-    console.log(addOrder);
-
-    res.status(200).json({ message: '200' });
-  } catch {
-    res.status(400).json({ message: '400' });
+    // console.log(addOrder[dataValues]);
+    res.status(200).json({ message: '주문' });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 });
 
