@@ -73,3 +73,15 @@ function signIn() {
     },
   });
 }
+
+function myPage() {
+  $.ajax({
+    type: 'GET',
+    url: '/myPage',
+    data: {},
+    success: function (response) {
+      alert(response['message']);
+      location.href = '/myPage';
+    },
+  });
+}
