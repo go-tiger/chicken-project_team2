@@ -65,10 +65,12 @@ router.get('/mypage/edit', authMWRouter, (req, res) => {
   }
 });
 
-/* 임시 랜더 라우터 */
+/* 장바구니 */
 router.get('/cart', authMWRouter, (req, res) => {
-  res.render('cart.ejs');
+  return res.render('cart.ejs', { components: 'mainUser' });
 });
+
+/* 임시 랜더 라우터 */
 router.get('/cartempty', authMWRouter, (req, res) => {
   res.render('cartEmptied.ejs');
 });
