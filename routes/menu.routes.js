@@ -5,6 +5,7 @@ const router = express.Router();
 const authMWRouter = require('../middlewares/auth');
 
 const { chickenMenu } = require('../models');
+const { upload } = require('../util/multer');
 
 const { JWT_SECRET_KET } = process.env;
 
@@ -16,35 +17,40 @@ router.get('/admin/menu', authMWRouter, async (req, res) => {
   } catch (error) {}
 });
 
-router.post('/admin/menu', async (req, res) => {
+/* 메뉴 등록 API 시작*/
+/* Methud: POST | URL: /api/menu */
+router.post('/', upload.single('file'), async (req, res) => {
   try {
-    const { menuName, menuPrice, menuPhoto } = req.body;
-    console.log(req.body);
-    const menuAdd = await chickenMenu.create({
+    const { menuName, menuPrice } = req.body;
+    const imgPath = req.file.path;
+    const menuPhoto = imgPath.split('\\')[2];
+    await chickenMenu.create({
       menuName,
       menuPrice,
       menuPhoto,
     });
-
     res.status(201).json({ message: '메뉴 등록이 완료되었습니다.' });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
+/* 메뉴 등록 API 끝 */
 
-router.put('/admin/menu/:menuId', async (req, res) => {
+/* 메뉴 수정 API 시작 */
+router.put('/:menuId', upload.single('file'), async (req, res) => {
   try {
-    const p = req.params.menuId;
-    const { menuName, menuPrice, menuPhoto } = req.body;
-    console.log(req.body);
-    const menuModify = await chickenMenu.update(
+    const menuId = req.params.menuId;
+    const { menuName, menuPrice } = req.body;
+    const imgPath = req.file.path;
+    const menuPhoto = imgPath.split('\\')[2];
+    await chickenMenu.update(
       {
         menuName,
         menuPrice,
         menuPhoto,
       },
       {
-        where: { id: p },
+        where: { id: menuId },
       }
     );
     res.status(201).json({ message: '메뉴 수정이 완료되었습니다.' });
@@ -52,16 +58,19 @@ router.put('/admin/menu/:menuId', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+/* 메뉴 수정 API 끝 */
 
-router.delete('/admin/menu/:menuId', async (req, res) => {
+/* 메뉴 삭제 API 시작 */
+router.delete('/:menuId', async (req, res) => {
   try {
-    const p = req.params.menuId;
-    console.log(p);
-    const menuDelete = await chickenMenu.destroy({ where: { id: p } });
+    const menuId = req.params.menuId;
+    console.log(menuId);
+    await chickenMenu.destroy({ where: { id: menuId } });
     res.status(201).json({ message: '메뉴 삭제가 완료되었습니다.' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+/* 메뉴 삭제 API 끝 */
 
 module.exports = router;

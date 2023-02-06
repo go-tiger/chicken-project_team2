@@ -9,7 +9,7 @@ const { chickenMenu } = require('../models');
 
 const { JWT_SECRET_KET } = process.env;
 
-router.get('/', authMWRouter, async (req, res) => {
+router.get('/cart', authMWRouter, async (req, res) => {
   const userId = res.locals.user.id;
   // const userId = req.params.userId;
   console.log(userId);

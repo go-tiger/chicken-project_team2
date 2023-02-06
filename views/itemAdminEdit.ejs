@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <%- include('head.ejs') %>
-    <link rel="stylesheet" href="./css/itemAdmin.css" />
     <title>관리자 메인 페이지</title>
+    <link rel="stylesheet" href="../../css/editMenu.css" />
   </head>
   <body>
     <!-- header -->
@@ -11,9 +11,12 @@
     <!-- body -->
     <div class="container">
       <div class="row g-5">
-        <!------메뉴 추가 폼--------->
-        <div id="addMenu">
-          <h2>메뉴 추가</h2>
+        <!------현재메뉴확인------>
+        <div id="editMenu" class="editMenu col-sm-12 col-md-6 col-lg-4"></div>
+        <!------현재메뉴확인------>
+        <!------메뉴 수정 폼--------->
+        <div id="addMenu" class="col-sm-12 col-md-6 col-lg-8">
+          <h2>메뉴 수정</h2>
           <div class="mb-3">
             <label for="FormControlInput" class="form-label">메뉴 이름</label>
             <input
@@ -39,24 +42,19 @@
           </div>
           <button
             type="button"
-            class="col-2 btn btn-primary"
-            onclick="chickenMenuAdd()"
+            class="col-sm-6 col-2 btn btn-primary"
+            onclick="chickenMenuEdit()"
           >
-            메뉴 추가
+            메뉴 수정
           </button>
         </div>
-        <!-----메뉴 추가 폼---------->
+        <!-----메뉴 수정 폼---------->
         <hr class="col-12" />
-        <!--추가된 메뉴들-->
-        <div class="row" id="chickenMenu">
-          <!--메뉴가 추가되는 부분-->
-        </div>
-        <!--추가된 메뉴들-->
         <footer class="pt-5 my-5 text-muted border-top">
           정기치킨주식회사 &middot; &copy; 2023
         </footer>
       </div>
     </div>
   </body>
-  <script defer src="./js/menu.js"></script>
+  <script defer src="/js/menu.js"></script>
 </html>

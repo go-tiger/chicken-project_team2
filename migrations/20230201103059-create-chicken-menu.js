@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.INTEGER.UNSIGNED,
         allowNull: false,
       },
-      memuPhoto: {
+      menuPhoto: {
         type: Sequelize.STRING(200),
       },
       createdAt: {

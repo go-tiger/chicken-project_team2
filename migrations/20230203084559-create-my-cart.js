@@ -9,15 +9,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      menuPrice: {
-        allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED,
-      },
       menuAmount: {
         allowNull: false,
         type: Sequelize.INTEGER.UNSIGNED,
       },
       createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
