@@ -16,31 +16,14 @@
         </div>
         <div id="menuList">
           <hr class="col-12" />
-          <!----추가된 메뉴----->
-          <div class="mb-2 row">
-            <label for="staticEmail" class="col-2 col-form-label"
-              >후라이드</label
-            >
-            <div class="col-6">
-              <input type="number" min="1" name="amount" value="1" />
-            </div>
-            <div class="col-2">
-              <button type="submit" class="btn btn-primary">수정</button>
-            </div>
-            <div class="col-2">
-              <button type="submit" class="btn btn-primary">삭제</button>
-            </div>
-          </div>
-          <!----추가된 메뉴----->
         </div>
         <hr class="col-12" />
-        <div class="amount text-center fs-3">
-          <p>총 : <span>10000</span></p>
-        </div>
+        <div id="totalPrice"></div>
         <button type="submit" class="btn btn-primary">확인</button>
         <button type="submit" class="btn btn-primary">비우기</button>
       </form>
     </main>
     <!-----------------마이페이지---------------->
   </body>
+  <script defer src="./js/mycart.js"></script>
 </html>
