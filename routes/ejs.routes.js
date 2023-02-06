@@ -66,7 +66,7 @@ router.get('/mypage/edit', authMWRouter, (req, res) => {
 });
 
 /* 관리자 유저 정보 수정 */
-router.get('/admin/edit', authMWRouter, (req, res) => {
+router.get('/admin/editUser', authMWRouter, (req, res) => {
   if (res.locals.user) {
     if (res.locals.user.userType == 0) {
       return res.render('indexEditAdmin.ejs', { components: 'mainUser' });
@@ -94,7 +94,11 @@ router.get('/orderchk', authMWRouter, (req, res) => {
 });
 
 router.get('/admin', authMWRouter, (req, res) => {
-  res.render('itemAdmin.ejs');
+  res.render('itemAdmin.ejs', { components: 'mainAdmin' });
+});
+
+router.get('/admin/editMenu', authMWRouter, (req, res) => {
+  res.render('itemAdminEdit.ejs', { components: 'mainAdmin' });
 });
 /* 임시 랜더 라우터 */
 

@@ -28,9 +28,9 @@ $(document).ready(function () {
                             </div>
                             <div>
                               <button
-                                type="submit"
+                                type="button"
                                 class="btn btn-primary col-3 mb-3"
-                                onclick="${id}"
+                                onclick="location.href='/admin/editMenu'"
                               >
                                 수정
                               </button>
