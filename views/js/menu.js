@@ -89,8 +89,8 @@ function chickenMenuAdd() {
     processData: false,
     enctype: 'multipart/form-data',
     success: function (response) {
-      console.log(response);
-      // alert(response['message']);
+      alert(response['message']);
+      window.location.reload();
     },
   });
 }
@@ -119,7 +119,6 @@ function chickenMenuEdit() {
     processData: false,
     enctype: 'multipart/form-data',
     success: function (response) {
-      // console.log(response);
       alert(response['message']);
       location.href = '/admin';
     },
