@@ -21,7 +21,7 @@ function getUserLists() {
         <td>${email}</td>
         <td>${address}</td>
         <td>${phone}</td>
-        <td><button type="button" class="btn btn-warning">수정</button></td>
+        <td><button type="button" class="btn btn-warning" onclick="location.href='/admin/edit/?id=${userId}'">수정</button></td>
         <td><button type="button" class="btn btn-danger" onclick="deleteUser(${userId})">삭제</button></td>
       </tr>
         `;

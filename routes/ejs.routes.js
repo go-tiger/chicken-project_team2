@@ -65,6 +65,19 @@ router.get('/mypage/edit', authMWRouter, (req, res) => {
   }
 });
 
+/* 관리자 유저 정보 수정 */
+router.get('/admin/edit', authMWRouter, (req, res) => {
+  if (res.locals.user) {
+    if (res.locals.user.userType == 0) {
+      return res.render('indexEditAdmin.ejs', { components: 'mainUser' });
+    } else if (res.locals.user.userType == 1) {
+      return res.render('indexEditAdmin.ejs', { components: 'mainOwner' });
+    } else {
+      return res.render('indexEditAdmin.ejs', { components: 'mainAdmin' });
+    }
+  }
+});
+
 /* 임시 랜더 라우터 */
 router.get('/cart', authMWRouter, (req, res) => {
   res.render('cart.ejs');
