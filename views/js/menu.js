@@ -1,16 +1,50 @@
 $(document).ready(function () {
   const searchParams = new URLSearchParams(location.search);
   const editMenuId = searchParams.get('id');
-  // console.log(editMenuId);
+  const onlyAdminUrl = location.pathname.split('/')[1];
   $.ajax({
     type: 'GET',
     url: '/api/menu/admin/menu',
     data: {},
     success: function (response) {
-      // console.log(response);
-      if (editMenuId === null) {
-        console.log('상품 관리 페이지');
-        let rows = response['0']['Menu'];
+      let userId = response['0']['id'];
+      let rows = response['0']['Menu'];
+      if (editMenuId === null && onlyAdminUrl === 'main') {
+        for (let i = 0; i < rows.length; i++) {
+          let id = rows[i]['id'];
+          let name = rows[i]['menuName'];
+          let price = rows[i]['menuPrice'];
+          let img = rows[i]['menuPhoto'];
+          let temp_html = `<div class="card mb-4 col-4 mx-4" style="width: 18rem">
+                            <img
+                              class="card-img-top img-fluid"
+                              src="../images/${img}"
+                              alt="Card image cap"
+                            />
+                            <div class="card-body">
+                              <h4 class="card-title">${name}</h4>
+                              <p class="card-text">가격 : ${price}원</p>
+                            </div>
+                            <div>
+                            <button
+                              type="submit"
+                              class="btn btn-primary col-6 mb-3"
+                              onclick="a()"
+                            >
+                              장바구니 추가
+                            </button>
+                            <button
+                              type="submit"
+                              class="btn btn-primary col-5 mb-3"
+                              onclick="b()"
+                            >
+                              주문하기
+                            </button>
+                          </div>
+                          </div>`;
+          $('#chickenMenu').append(temp_html);
+        }
+      } else if (editMenuId === null && onlyAdminUrl === 'admin') {
         for (let i = 0; i < rows.length; i++) {
           let menuId = rows[i]['id'];
           let name = rows[i]['menuName'];
@@ -46,7 +80,6 @@ $(document).ready(function () {
           $('#chickenMenu').append(menuAppend);
         }
       } else {
-        console.log('상품 수정 페이지');
         let edit = response['0']['Menu'][editMenuId - 1];
         let name = edit['menuName'];
         let price = edit['menuPrice'];
