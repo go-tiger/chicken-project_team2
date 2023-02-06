@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <%- include('head.ejs') %>
-    <link rel="stylesheet" href="./css/itemAdmin.css" />
     <title>관리자 메인 페이지</title>
   </head>
   <body>
@@ -40,23 +39,17 @@
           <button
             type="button"
             class="col-2 btn btn-primary"
-            onclick="chickenMenuAdd()"
+            onclick="chickenMenuEdit()"
           >
-            메뉴 추가
+            메뉴 수정
           </button>
         </div>
         <!-----메뉴 추가 폼---------->
         <hr class="col-12" />
-        <!--추가된 메뉴들-->
-        <div class="row" id="chickenMenu">
-          <!--메뉴가 추가되는 부분-->
-        </div>
-        <!--추가된 메뉴들-->
         <footer class="pt-5 my-5 text-muted border-top">
           정기치킨주식회사 &middot; &copy; 2023
         </footer>
       </div>
     </div>
   </body>
-  <script defer src="./js/menu.js"></script>
 </html>
