@@ -119,9 +119,9 @@ function chickenMenuEdit() {
     processData: false,
     enctype: 'multipart/form-data',
     success: function (response) {
-      console.log(response);
+      // console.log(response);
       alert(response['message']);
-      history.back();
+      location.href = '/admin';
     },
   });
 }
