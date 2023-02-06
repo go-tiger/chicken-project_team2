@@ -16,7 +16,7 @@ $(document).ready(function () {
           let name = rows[i]['menuName'];
           let price = rows[i]['menuPrice'];
           let img = rows[i]['menuPhoto'];
-          let menuAppend = `<div class="card mb-4 col-4 mx-4" style="width: 18rem">
+          let menuAppend = `<div class="card" style="width: 18rem">
                               <img
                                 class="card-img-top img-fluid"
                                 src="../images/${img}"
