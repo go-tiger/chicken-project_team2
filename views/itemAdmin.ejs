@@ -42,7 +42,7 @@
           </div>
           <div class="mb-3">
             <label for="formFile" class="form-label">이미지</label>
-            <input class="form-control" type="file" id="menuImg" />
+            <input class="file" type="file" id="file" name="file" />
           </div>
 
           <div class="mb-3">
@@ -54,7 +54,13 @@
               placeholder="10000"
             />
           </div>
-          <button type="button" class="col-2 btn btn-primary">메뉴 추가</button>
+          <button
+            type="button"
+            class="col-2 btn btn-primary"
+            onclick="chickenMenuAdd()"
+          >
+            메뉴 추가
+          </button>
         </div>
         <!-----메뉴 추가 폼---------->
         <hr class="col-12" />

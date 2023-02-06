@@ -48,3 +48,30 @@ $(document).ready(function () {
     },
   });
 });
+
+/* 메뉴 추가 */
+function chickenMenuAdd() {
+  let menuName = $('#menuName').val();
+  let menuPrice = $('#menuPrice').val();
+  let file = $('#file')[0].files[0];
+  /* 파일을 보낼려면 formdata에 보내야한다 */
+  /* 보낼 벨류값도 같이 */
+  let formData = new FormData();
+  formData.append('file', file);
+  formData.append('menuName', menuName);
+  formData.append('menuPrice', menuPrice);
+
+  $.ajax({
+    type: 'POST',
+    url: `/api/menu/`,
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false,
+    enctype: 'multipart/form-data',
+    success: function (response) {
+      console.log(response);
+      // alert(response['message']);
+    },
+  });
+}
