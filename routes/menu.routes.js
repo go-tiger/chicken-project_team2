@@ -5,6 +5,7 @@ const router = express.Router();
 const authMWRouter = require('../middlewares/auth');
 
 const { chickenMenu } = require('../models');
+const { upload } = require('../util/multer');
 
 const { JWT_SECRET_KET } = process.env;
 
@@ -29,6 +30,27 @@ router.post('/admin/menu', async (req, res) => {
     res.status(201).json({ message: '메뉴 등록이 완료되었습니다.' });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+/* 메뉴 등록 API */
+/* Methud: POST | URL: /api/menu */
+router.post('/', upload.single('file'), async (req, res) => {
+  try {
+    const { menuName, menuPrice } = req.body;
+    const imgPath = req.file.path;
+    const img = imgPath.split('\\')[2];
+    const menuPhoto = img;
+    console.log(menuPhoto);
+    const up = await chickenMenu.create({
+      menuName,
+      menuPrice,
+      menuPhoto,
+    });
+    console.log(up);
+    res.status(201).json({ message: '업로드 완료.' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
