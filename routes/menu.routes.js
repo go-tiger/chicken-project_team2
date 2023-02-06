@@ -60,15 +60,17 @@ router.put('/:menuId', upload.single('file'), async (req, res) => {
 });
 /* 메뉴 수정 API 끝 */
 
-router.delete('/admin/menu/:menuId', async (req, res) => {
+/* 메뉴 삭제 API 시작 */
+router.delete('/:menuId', async (req, res) => {
   try {
-    const p = req.params.menuId;
-    console.log(p);
-    const menuDelete = await chickenMenu.destroy({ where: { id: p } });
+    const menuId = req.params.menuId;
+    console.log(menuId);
+    await chickenMenu.destroy({ where: { id: menuId } });
     res.status(201).json({ message: '메뉴 삭제가 완료되었습니다.' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+/* 메뉴 삭제 API 끝 */
 
 module.exports = router;

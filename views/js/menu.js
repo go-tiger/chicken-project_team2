@@ -37,7 +37,7 @@ $(document).ready(function () {
                                 <button
                                   type="submit"
                                   class="btn btn-primary col-3 mb-3"
-                                  onclick=""
+                                  onclick="chickenMenuDel(${menuId})"
                                 >
                                   삭제
                                 </button>
@@ -121,6 +121,19 @@ function chickenMenuEdit() {
     success: function (response) {
       alert(response['message']);
       location.href = '/admin';
+    },
+  });
+}
+
+/* 메뉴 삭제 */
+function chickenMenuDel(menuId) {
+  $.ajax({
+    type: 'DELETE',
+    url: `/api/menu/${menuId}`,
+    data: {},
+    success: function (response) {
+      alert(response['message']);
+      window.location.reload();
     },
   });
 }
