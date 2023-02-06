@@ -47,14 +47,10 @@ $(document).ready(function () {
         }
       } else {
         console.log('상품 수정 페이지');
-        let edit = response['0']['Menu'][editMenuId];
-        // console.log(edit);
+        let edit = response['0']['Menu'][editMenuId - 1];
         let name = edit['menuName'];
         let price = edit['menuPrice'];
         let img = edit['menuPhoto'];
-        console.log(name);
-        console.log(price);
-        console.log(img);
         let menuEdit = `<div class="card mb-4 col-4 mx-4" style="width: 18rem">
                           <img
                             class="card-img-top img-fluid"
