@@ -6,13 +6,11 @@ const menuRouter = require('./menu.routes');
 const mycartRouter = require('./mycart.routes');
 const orderRouter = require('./order.routes');
 const mypageRouter = require('./mypage.routes');
-const multerRouter = require('./multer.routes');
 
 router.use('/user', userRouter);
 router.use('/menu', menuRouter);
 router.use('/cart', mycartRouter);
 router.use('/order', orderRouter);
 router.use('/mypage', mypageRouter);
-router.use('/multer', multerRouter);
 
 module.exports = router;
