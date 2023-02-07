@@ -4,9 +4,32 @@ const express = require('express');
 const router = express.Router();
 const authMWRouter = require('../middlewares/auth');
 
-const { myCart, chickenMenu } = require('../models');
+const { user, myCart, chickenMenu } = require('../models');
 
 const { JWT_SECRET_KET } = process.env;
+
+router.get('/order', authMWRouter, async (req, res) => {
+  const userId = res.locals.user.id;
+  // const userId = req.params.userId;
+  console.log(userId);
+
+  try {
+    const cart = await myCart.findAll({
+      where: { userId: userId },
+      include: [
+        {
+          model: chickenMenu,
+          attributes: ['menuName', 'menuPrice'],
+        },
+        {
+          model: user,
+          attributes: ['address'],
+        },
+      ],
+    });
+    res.status(200).json([{ cart: cart }]);
+  } catch (error) {}
+});
 
 router.get('/', authMWRouter, async (req, res) => {
   const userId = res.locals.user.id;
