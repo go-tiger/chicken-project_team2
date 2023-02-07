@@ -27,7 +27,7 @@ router.get('/', authMWRouter, async (req, res) => {
     res.status(200).json([{ cart: cart }]);
   } catch (error) {}
 });
-console.log(cart);
+// console.log(cart);
 
 router.post('/menu', async (req, res) => {
   try {
