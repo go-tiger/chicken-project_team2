@@ -11,7 +11,7 @@ const { JWT_SECRET_KET } = process.env;
 router.get('/', authMWRouter, async (req, res) => {
   const userId = res.locals.user.id;
   // const userId = req.params.userId;
-  console.log(userId);
+  // console.log(userId);
 
   try {
     const cart = await myCart.findAll({
@@ -59,26 +59,17 @@ router.post('/:menuId', authMWRouter, async (req, res) => {
   }
 });
 
-// 메뉴만 수정
-router.put('/cart/menu/:menuId', async (req, res) => {
+/* 메뉴 수량 수정 */
+router.put('/:menuId', async (req, res) => {
   try {
-    const m = req.params.menuId;
-    const u = req.locals.user.id;
-    const { menuName, menuPrice, menuAmount } = req.body;
-    // console.log(req.body);
+    const menuid = req.params.menuId;
+    const putMenuAmount = req.body.menuAmount;
+
     const menuModify = await myCart.update(
-      {
-        menuPrice,
-        menuAmount,
-        menuName,
-      },
-      {
-        where: { mid: m },
-      },
-      {
-        where: { uid: u },
-      }
+      { menuAmount: putMenuAmount },
+      { where: { id: menuid } }
     );
+
     res.status(201).json({ message: '메뉴 수정이 완료되었습니다.' });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -86,13 +77,11 @@ router.put('/cart/menu/:menuId', async (req, res) => {
 });
 
 //메뉴만 삭제
-router.delete('/cart/menu/:menuId', async (req, res) => {
+router.delete('/:menuId', async (req, res) => {
   try {
-    const p = req.params.menuId;
-    console.log(p);
-    const b = req.locals.user.id;
-    console.log(b);
-    const menuDelete = await myCart.destroy({ where: { id: p } });
+    const menuid = req.params.menuId;
+    console.log(menuid);
+    await myCart.destroy({ where: { id: menuid } });
     res.status(201).json({ message: '메뉴 삭제가 완료되었습니다.' });
   } catch (error) {
     res.status(500).json({ message: error.message });
