@@ -32,7 +32,7 @@ function getOrderLists() {
           orderStat = '주문 거절';
         }
         let temp_html = `<tr>
-                          <td>1${orderId}</td>
+                          <td>${orderId}</td>
                           <td>${email}</td>
                           <td>${menuName}</td>
                           <td>${menuAmount}</td>
