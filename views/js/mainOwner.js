@@ -47,7 +47,11 @@ function getOrderLists() {
           <td><button type="button" class="btn btn-secondary">진행중</button></td>
         </tr>`;
           $('#orderIng').append(temp_html);
-        } else if (orderStatus == 2) {
+        } else if (orderStatus == 2 || 3) {
+          let orderStat = '완료';
+          if (orderStatus == 3) {
+            orderStat = '거절';
+          }
           let temp_html = `<tr>
           <td>${orderId}</td>
           <td>${email}</td>
@@ -55,6 +59,7 @@ function getOrderLists() {
           <td>${address}</td>
           <td>${phone}</td>
           <td>${memo}</td>
+          <td>${orderStat}</td>
         </tr>`;
           $('#orderDone').append(temp_html);
         }

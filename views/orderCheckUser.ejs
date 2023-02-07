@@ -17,25 +17,17 @@
               <table border="1">
                 <thead >
                 </tr>
-                  <th>index</th>
+                  <th>주문번호</th>
                   <th>이메일</th>
                   <th>메뉴</th>
+                  <th>수량</th>
                   <th>주소</th>
                   <th>핸드폰</th>
                   <th>요청사항</th>
-                  <th>배송현황</th>
+                  <th>주문상태</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>wjdrl@gmail.com</td>
-                  <td>후라이드</td>
-                  <td>서울특별시</td>
-                  <td>01012341234</td>
-                  <td>무조건바삭하게</td>
-                  <td>배송중</td>
-                </tr>
+              <tbody id="userOrderList">
               </tbody>
             </table>
             <!------------페이지네이션---------->
@@ -66,4 +58,5 @@
       </div>
     </div>
   </body>
+  <script defer src="./js/orderCheck.js"></script>
 </html>
