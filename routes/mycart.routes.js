@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const authMWRouter = require('../middlewares/auth');
 
+const { user } = require('../models');
 const { myCart } = require('../models');
 const { chickenMenu } = require('../models');
 
@@ -21,6 +22,29 @@ router.get('/', authMWRouter, async (req, res) => {
         {
           model: chickenMenu,
           attributes: ['menuName', 'menuPrice'],
+        },
+      ],
+    });
+    res.status(200).json([{ cart: cart }]);
+  } catch (error) {}
+});
+
+router.get('/order', authMWRouter, async (req, res) => {
+  const userId = res.locals.user.id;
+  // const userId = req.params.userId;
+  console.log(userId);
+
+  try {
+    const cart = await myCart.findAll({
+      where: { userId: userId },
+      include: [
+        {
+          model: chickenMenu,
+          attributes: ['menuName', 'menuPrice'],
+        },
+        {
+          model: user,
+          attributes: ['address'],
         },
       ],
     });
