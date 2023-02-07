@@ -65,6 +65,10 @@
   -webkit-overflow-scrolling: touch;
 }
 
+table {
+  width: 100%;
+}
+
 table,
 th,
 td {

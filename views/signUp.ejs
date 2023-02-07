@@ -9,8 +9,14 @@
     <div class="container bg-sign">
       <div class="card bg-sign mx-auto">
         <article class="card-body mx-auto">
-          <h1 class="text-center">정기치킨</h1>
-
+          <div class="logoBox">
+            <img
+              id="logo"
+              src="https://i.ibb.co/6gfWtJv/Logo-Makr-3-Dh-TDI.png"
+              alt="Logo-Makr-3-Dh-TDI"
+              border="0"
+            />
+          </div>
           <form id="myForm">
             <div class="form-group input-group">
               <!-- form-group// userName-->
@@ -124,9 +130,7 @@
                 autocomplete="off"
                 checked
               />
-              <label class="btn btn-outline-primary" for="btnradio1"
-                >손놈</label
-              >
+              <label class="btn btn-outline-dark" for="btnradio1">손놈</label>
 
               <input
                 type="radio"
@@ -136,7 +140,7 @@
                 value="1"
                 autocomplete="off"
               />
-              <label class="btn btn-outline-primary" for="btnradio2"
+              <label class="btn btn-outline-dark" for="btnradio2"
                 >잘생긴사장</label
               >
 
@@ -148,16 +152,14 @@
                 value="2"
                 autocomplete="off"
               />
-              <label class="btn btn-outline-primary" for="btnradio3"
-                >관리자</label
-              >
+              <label class="btn btn-outline-dark" for="btnradio3">관리자</label>
             </div>
             <!-- form-group// admin-->
             <!-- submit-button// -->
             <div class="form-group">
               <button
                 type="button"
-                class="btn btn-primary btn-block"
+                class="btn btn-dark btn-block"
                 style="width: 100%"
                 onclick="signUp()"
               >
@@ -165,7 +167,7 @@
               </button>
             </div>
             <!-- submit-button// -->
-            <p class="text-center">계정이 있나요?<a href="/">Log In</a></p>
+            <p class="text-center">계정이 있나요?<a href="/"> Log In</a></p>
           </form>
         </article>
       </div>
