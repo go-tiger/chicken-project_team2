@@ -4,8 +4,7 @@ const express = require('express');
 const router = express.Router();
 const authMWRouter = require('../middlewares/auth');
 
-const { myCart } = require('../models');
-const { chickenMenu } = require('../models');
+const { myCart, chickenMenu } = require('../models');
 
 const { JWT_SECRET_KET } = process.env;
 
@@ -29,18 +28,30 @@ router.get('/', authMWRouter, async (req, res) => {
 });
 // console.log(cart);
 
-router.post('/menu', async (req, res) => {
+router.post('/:menuId', authMWRouter, async (req, res) => {
+  // console.log(req.body);
+  // console.log(req.params);
   try {
-    // const mid = req.params.menuId;
-    // const uid = req.locals.user.id;
-    const { menuName, menuPrice, menuAmount } = req.body;
-    // console.log(req.body);
-    const menuAdd = await myCart.create({
-      menuPrice,
-      menuAmount,
-      menuName,
-    });
+    const menuid = req.params.menuId;
+    const userid = res.locals.user.id;
 
+    const findMenuAll = await myCart.findAll({
+      where: { menuId: menuid, userId: userid },
+      raw: true,
+    });
+    if (findMenuAll.length === 0) {
+      const addMenu = 1;
+      await myCart.create({ menuAmount: addMenu, userId, menuId: menuid });
+    } else {
+      const addAmount = findMenuAll['0']['menuAmount'];
+
+      NewAmount = addAmount + 1;
+
+      await myCart.update(
+        { menuAmount: NewAmount },
+        { where: { menuId: menuid, userId: userid } }
+      );
+    }
     res.status(201).json({ message: '장바구니에 담겼습니다.' });
   } catch (error) {
     res.status(500).json({ message: error.message });

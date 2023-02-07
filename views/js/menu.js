@@ -7,11 +7,13 @@ $(document).ready(function () {
     url: '/api/menu/admin/menu',
     data: {},
     success: function (response) {
+      // console.log(response);
       let userId = response['0']['id'];
       let rows = response['0']['Menu'];
+      console.log(rows);
       if (editMenuId === null && onlyAdminUrl === 'main') {
         for (let i = 0; i < rows.length; i++) {
-          let id = rows[i]['id'];
+          let menuId = rows[i]['id'];
           let name = rows[i]['menuName'];
           let price = rows[i]['menuPrice'];
           let img = rows[i]['menuPhoto'];
@@ -30,14 +32,14 @@ $(document).ready(function () {
                             <button
                               type="submit"
                               class="btn btn-dark col-6 mb-3"
-                              onclick="a()"
+                              onclick="cartAdd(${menuId})"
                             >
                               장바구니 추가
                             </button>
                             <button
                               type="submit"
                               class="btn btn-dark col-5 mb-3"
-                              onclick="b()"
+                              onclick="b(${menuId})"
                             >
                               주문하기
                             </button>
@@ -168,6 +170,20 @@ function chickenMenuDel(menuId) {
     success: function (response) {
       alert(response['message']);
       window.location.reload();
+    },
+  });
+}
+
+/* 장바구니 추가 */
+function cartAdd(menuId) {
+  $.ajax({
+    type: 'POST',
+    url: `/api/cart/${menuId}`,
+    data: { menuId },
+    success: function (response) {
+      console.log(response);
+      alert(response['message']);
+      // window.location.reload();
     },
   });
 }
