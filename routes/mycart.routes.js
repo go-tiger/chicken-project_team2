@@ -4,7 +4,6 @@ const express = require('express');
 const router = express.Router();
 const authMWRouter = require('../middlewares/auth');
 
-const { user } = require('../models');
 const { myCart } = require('../models');
 const { chickenMenu } = require('../models');
 
@@ -28,39 +27,18 @@ router.get('/', authMWRouter, async (req, res) => {
     res.status(200).json([{ cart: cart }]);
   } catch (error) {}
 });
+console.log(cart);
 
-router.get('/order', authMWRouter, async (req, res) => {
-  const userId = res.locals.user.id;
-  // const userId = req.params.userId;
-  console.log(userId);
-
+router.post('/menu', async (req, res) => {
   try {
-    const cart = await myCart.findAll({
-      where: { userId: userId },
-      include: [
-        {
-          model: chickenMenu,
-          attributes: ['menuName', 'menuPrice'],
-        },
-        {
-          model: user,
-          attributes: ['address'],
-        },
-      ],
-    });
-    res.status(200).json([{ cart: cart }]);
-  } catch (error) {}
-});
-
-router.post('/cart/menu', async (req, res) => {
-  try {
-    const mid = req.params.menuId;
-    const uid = req.locals.user.id;
-    const { menuPrice, menuAmount } = req.body;
+    // const mid = req.params.menuId;
+    // const uid = req.locals.user.id;
+    const { menuName, menuPrice, menuAmount } = req.body;
     // console.log(req.body);
     const menuAdd = await myCart.create({
       menuPrice,
       menuAmount,
+      menuName,
     });
 
     res.status(201).json({ message: '장바구니에 담겼습니다.' });
@@ -69,18 +47,24 @@ router.post('/cart/menu', async (req, res) => {
   }
 });
 
+// 메뉴만 수정
 router.put('/cart/menu/:menuId', async (req, res) => {
   try {
-    const p = req.params.menuId;
-    const { menuPrice, menuAmount } = req.body;
+    const m = req.params.menuId;
+    const u = req.locals.user.id;
+    const { menuName, menuPrice, menuAmount } = req.body;
     // console.log(req.body);
     const menuModify = await myCart.update(
       {
         menuPrice,
         menuAmount,
+        menuName,
       },
       {
-        where: { id: p },
+        where: { mid: m },
+      },
+      {
+        where: { uid: u },
       }
     );
     res.status(201).json({ message: '메뉴 수정이 완료되었습니다.' });
@@ -89,10 +73,13 @@ router.put('/cart/menu/:menuId', async (req, res) => {
   }
 });
 
+//메뉴만 삭제
 router.delete('/cart/menu/:menuId', async (req, res) => {
   try {
     const p = req.params.menuId;
     console.log(p);
+    const b = req.locals.user.id;
+    console.log(b);
     const menuDelete = await myCart.destroy({ where: { id: p } });
     res.status(201).json({ message: '메뉴 삭제가 완료되었습니다.' });
   } catch (error) {
