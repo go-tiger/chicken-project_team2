@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authMWRouter = require('../middlewares/auth');
-const { order, myCart, orderList } = require('../models');
+const { user, order, myCart, orderList, chickenMenu } = require('../models');
 
 /* 전체 오더 목록 API 시작 */
 router.get('/', async (req, res) => {
@@ -28,7 +28,79 @@ router.get('/', async (req, res) => {
 });
 /* 전체 오더 목록 API 끝 */
 
+/* 오더 목록(사장님) API 시작 */
+router.get('/owner', async (req, res) => {
+  try {
+    // const menus = await chickenMenu.findAll({
+    //   attributes: {
+    //     exclude: ['menuPrice', 'menuPhoto', 'createdAt', 'updatedAt'],
+    //   },
+    // });
+
+    const orders = await orderList.findAll({
+      include: [
+        {
+          model: order,
+          attributes: ['address', 'memo'],
+          include: [
+            {
+              model: user,
+              attributes: ['email', 'phone'],
+            },
+          ],
+        },
+      ],
+      attributes: {
+        exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
+      },
+    });
+    res.status(200).json(orders);
+  } catch (error) {}
+});
+/* 오더 목록(사장님) API 끝 */
+
 /* 오더 등록(바로 주문하기) API 시작 */
+router.post('/one/:menuId', authMWRouter, async (req, res) => {
+  const { cookie } = req.headers;
+
+  if (!cookie) {
+    return res.status(401).json({ message: '로그인 후 이용가능합니다.' });
+  }
+
+  try {
+    const userId = res.locals.user.id;
+    const menuId = req.params.menuId;
+
+    const menu = await chickenMenu.findOne({ where: { id: menuId } });
+    const menuPrice = menu['menuPrice'];
+
+    const { address } = req.body;
+
+    const orderAddStatus = 0;
+
+    const addOrder = await order.create({
+      address,
+      totalPrice: menuPrice,
+      userId,
+      orderStatus: orderAddStatus,
+    });
+
+    const orderId = addOrder['dataValues']['id'];
+
+    await orderList.create({
+      menuAmount: 1,
+      menuId,
+      userId,
+      orderId,
+    });
+
+    res.json(addOrder);
+  } catch (error) {}
+});
+
+/* 오더 등록(바로 주문하기) API 끝 */
+
+/* 오더 등록 API 시작 */
 router.post('/', authMWRouter, async (req, res) => {
   const { cookie } = req.headers;
 
@@ -81,12 +153,13 @@ router.post('/', authMWRouter, async (req, res) => {
         orderId,
       });
     }
+    console.log('주문');
 
-    res.status(200).json({ message: '주문' });
+    res.status(200).json({ message: '주문이 완료되었습니다.' });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 });
-/* 오더 등록(바로 주문하기) API 끝 */
+/* 오더 등록 API 끝 */
 
 module.exports = router;
