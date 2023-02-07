@@ -2,6 +2,42 @@ $(document).ready(function () {
   getOrderLists();
 });
 
+function update(orderId) {
+  $.ajax({
+    type: 'PUT',
+    url: `/api/order/update/${orderId}`,
+    data: {},
+    success: function (response) {
+      alert(response['message']);
+      window.location.reload();
+    },
+  });
+}
+
+function done(orderId) {
+  $.ajax({
+    type: 'PUT',
+    url: `/api/order/done/${orderId}`,
+    data: {},
+    success: function (response) {
+      alert(response['message']);
+      window.location.reload();
+    },
+  });
+}
+
+function refuse(orderId) {
+  $.ajax({
+    type: 'PUT',
+    url: `/api/order/refuse/${orderId}`,
+    data: {},
+    success: function (response) {
+      alert(response['message']);
+      window.location.reload();
+    },
+  });
+}
+
 function getOrderLists() {
   $.ajax({
     type: 'GET',
@@ -31,8 +67,8 @@ function getOrderLists() {
           <td>${address}</td>
           <td>${phone}</td>
           <td>${memo}</td>
-          <td><button type="button" class="btn btn-success">수락</button></td>
-          <td><button type="button" class="btn btn-danger">거절</button></td>
+          <td><button type="button" class="btn btn-success" onclick="update(${orderId})">수락</button></td>
+          <td><button type="button" class="btn btn-danger" onclick="refuse(${orderId})">거절</button></td>
         </tr>
           `;
           $('#orderList').append(temp_html);
@@ -44,7 +80,7 @@ function getOrderLists() {
           <td>${address}</td>
           <td>${phone}</td>
           <td>${memo}</td>
-          <td><button type="button" class="btn btn-secondary">진행중</button></td>
+          <td><button type="button" class="btn btn-secondary" onclick="done(${orderId})">진행중</button></td>
         </tr>`;
           $('#orderIng').append(temp_html);
         } else if (orderStatus == 2 || 3) {

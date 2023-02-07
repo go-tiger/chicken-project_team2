@@ -217,4 +217,31 @@ router.post('/', authMWRouter, async (req, res) => {
 });
 /* 오더 등록 API 끝 */
 
+/* 주문 수락하기 */
+router.put('/update/:orderId', async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    await order.update({ orderStatus: 1 }, { where: { id: orderId } });
+    res.status(202).json({ message: '주문이 수락되었습니다.' });
+  } catch (error) {}
+});
+
+/* 주문 완료하기 */
+router.put('/done/:orderId', async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    await order.update({ orderStatus: 2 }, { where: { id: orderId } });
+    res.status(202).json({ message: '주문이 완료되었습니다.' });
+  } catch (error) {}
+});
+
+/* 주문 거절하기 */
+router.put('/refuse/:orderId', async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    await order.update({ orderStatus: 3 }, { where: { id: orderId } });
+    res.status(202).json({ message: '주문이 거절되었습니다.' });
+  } catch (error) {}
+});
+
 module.exports = router;
