@@ -53,12 +53,20 @@ function getMyCart() {
       </div>
       <div class="col-sm-10">
       </div>
-      `;
+      <button
+          type="button"
+          class="btn btn-dark"
+          onclick="location.href='/order'"
+        >
+          확인
+        </button>
+        <button type="button" class="btn btn-dark">비우기</button>`;
       $('#totalPrice').append(temp_html);
     },
   });
 }
 
+/* 장바구니 페이지에서 메뉴 수량 수정 */
 function cartMenuEdit(menuId) {
   let menuAmount = $('#menuAmount').val();
   $.ajax({
@@ -72,6 +80,7 @@ function cartMenuEdit(menuId) {
   });
 }
 
+/* 장바구니 페이지에서 해당 메뉴 삭제 */
 function cartMenuDel(menuId) {
   $.ajax({
     type: 'DELETE',
