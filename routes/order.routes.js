@@ -107,6 +107,8 @@ router.get('/', authMWRouter, async (req, res) => {
       console.log(orders[i]['dataValues']['menuName']);
     }
 
+    await myCart.destroy({ where: { userId: userId } });
+
     res.status(200).json({ orders });
   } catch (error) {}
 });
