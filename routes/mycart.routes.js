@@ -33,12 +33,13 @@ router.post('/:menuId', authMWRouter, async (req, res) => {
   // console.log(req.params);
   try {
     const menuid = req.params.menuId;
-    const userid = res.locals.user.id;
+    const userId = res.locals.user.id;
 
     const findMenuAll = await myCart.findAll({
-      where: { menuId: menuid, userId: userid },
+      where: { menuId: menuid, userId },
       raw: true,
     });
+
     if (findMenuAll.length === 0) {
       const addMenu = 1;
       await myCart.create({ menuAmount: addMenu, userId, menuId: menuid });
@@ -49,7 +50,7 @@ router.post('/:menuId', authMWRouter, async (req, res) => {
 
       await myCart.update(
         { menuAmount: NewAmount },
-        { where: { menuId: menuid, userId: userid } }
+        { where: { menuId: menuid, userId } }
       );
     }
     res.status(201).json({ message: '장바구니에 담겼습니다.' });
