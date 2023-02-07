@@ -3,6 +3,18 @@ $(document).ready(function () {
   getUserLists(page);
 });
 
+function deleteUser(userId) {
+  $.ajax({
+    type: 'DELETE',
+    url: `/api/user/admin/${userId}`,
+    data: {},
+    success: function (response) {
+      alert(response['message']);
+      location.reload();
+    },
+  });
+}
+
 function getUserLists(page) {
   $.ajax({
     type: 'GET',
