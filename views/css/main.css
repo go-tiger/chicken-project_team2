@@ -89,7 +89,12 @@ table.type09 thead th {
 }
 
 table.type09 td {
-  padding: 10px;
+  padding: 5px;
   vertical-align: top;
   border-bottom: 1px solid #ccc;
+  font-size: 0.8rem;
+}
+
+table.type09 td button {
+  font-size: 0.8rem;
 }

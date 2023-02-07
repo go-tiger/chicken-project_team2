@@ -74,6 +74,15 @@ router.get('/adminDone', authMWRouter, (req, res) => {
   res.render('mainAdminDone.ejs', { components: 'mainAdmin' });
 });
 
+// 오너 메인페이지 쪼개버리기
+router.get('/OwnerDoing', authMWRouter, (req, res) => {
+  res.render('mainOwnerDoing.ejs', { components: 'mainOwner' });
+});
+
+router.get('/OwnerDone', authMWRouter, (req, res) => {
+  res.render('mainOwnerDone.ejs', { components: 'mainOwner' });
+});
+
 /* 관리자 유저 정보 수정 */
 router.get('/admin/editUser', authMWRouter, (req, res) => {
   if (res.locals.user) {
@@ -88,7 +97,6 @@ router.get('/admin/editUser', authMWRouter, (req, res) => {
 });
 
 /* 임시 랜더 라우터 */
-
 router.get('/cart', authMWRouter, (req, res) => {
   res.render('cart.ejs', { components: 'mainUser' });
 });
