@@ -46,7 +46,7 @@ router.get('/', authMWRouter, async (req, res) => {
         },
       ],
     });
-    res.status(200).json([{ cart: cart }]);
+    res.status(200).json([{ cart: cart, id: userId }]);
   } catch (error) {}
 });
 // console.log(cart);
@@ -105,7 +105,17 @@ router.delete('/:menuId', async (req, res) => {
     const menuid = req.params.menuId;
     console.log(menuid);
     await myCart.destroy({ where: { id: menuid } });
-    res.status(201).json({ message: '메뉴 삭제가 완료되었습니다.' });
+    res.status(201).json({ message: '메뉴가 삭제되었습니다.' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//장바구니 메뉴 모두 삭제
+router.delete('/order/:userId', async (req, res) => {
+  try {
+    await myCart.destroy({ where: { userId: req.params.userId } });
+    res.status(200).json({ message: '장바구니를 비웠습니다.' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

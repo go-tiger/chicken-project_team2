@@ -2,23 +2,16 @@ $(document).ready(function () {
   getMyCart();
 });
 
-function postOrder() {
-  $.ajax({
-    type: 'POST',
-    url: '/api/order',
-    data: {},
-  });
-}
-
 function getMyCart() {
   $.ajax({
     type: 'GET',
     url: '/api/cart',
     data: {},
     success: function (response) {
+      let userId = response['0']['id'];
       let rows = response['0']['cart'];
       let totalPrice = 0;
-      console.log(rows);
+      console.log(response);
 
       for (let i = 0; i < rows.length; i++) {
         let menuId = rows[i]['id'];
@@ -60,7 +53,7 @@ function getMyCart() {
         >
           확인
         </button>
-        <button type="button" class="btn btn-dark">비우기</button>`;
+        <button type="button" class="btn btn-dark" onclick="cartMenuAllDel(${userId})">비우기</button>`;
       $('#totalPrice').append(temp_html);
     },
   });
@@ -87,6 +80,20 @@ function cartMenuDel(menuId) {
     url: `/api/cart/${menuId}`,
     data: { menuId },
     success: function (response) {
+      alert(response['message']);
+      window.location.reload();
+    },
+  });
+}
+
+/* 장바구니 페이지에서 비우기 버튼 눌렀을때 삭제 */
+function cartMenuAllDel(userId) {
+  $.ajax({
+    type: 'DELETE',
+    url: `/api/cart/order/${userId}`,
+    data: { userId },
+    success: function (response) {
+      // console.log(response);
       alert(response['message']);
       window.location.reload();
     },
