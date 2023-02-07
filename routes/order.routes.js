@@ -31,17 +31,11 @@ router.get('/', async (req, res) => {
 /* 오더 목록(사장님) API 시작 */
 router.get('/owner', async (req, res) => {
   try {
-    // const menus = await chickenMenu.findAll({
-    //   attributes: {
-    //     exclude: ['menuPrice', 'menuPhoto', 'createdAt', 'updatedAt'],
-    //   },
-    // });
-
     const orders = await orderList.findAll({
       include: [
         {
           model: order,
-          attributes: ['address', 'memo'],
+          attributes: ['address', 'memo', 'orderStatus'],
           include: [
             {
               model: user,
@@ -54,7 +48,20 @@ router.get('/owner', async (req, res) => {
         exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
       },
     });
-    res.status(200).json(orders);
+
+    for (let i = 0; i < orders.length; i++) {
+      let menuId = orders[i]['menuId'];
+      console.log(i, menuId);
+      const menu = await chickenMenu.findOne({
+        where: { id: menuId },
+        raw: true,
+      });
+      console.log(menu['menuName']);
+
+      orders[i].menuName = 1;
+    }
+
+    res.status(200).json({ orders });
   } catch (error) {}
 });
 /* 오더 목록(사장님) API 끝 */
