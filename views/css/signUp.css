@@ -6,6 +6,7 @@ body {
 body {
   display: flex;
   align-items: center;
+  background-color: #bf9334;
 }
 
 /* .bg-sign {
@@ -15,6 +16,7 @@ body {
 .card {
   max-width: 800px;
   padding: 100px;
+  background-color: #ffc545;
 }
 
 .form-group {
@@ -29,4 +31,13 @@ body {
 /*경고문구 숨김 처리*/
 #phoneErr {
   display: none;
+}
+
+.logoBox {
+  display: flex;
+  justify-content: center;
+}
+
+a {
+  text-decoration: none;
 }
