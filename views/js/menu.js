@@ -64,14 +64,14 @@ $(document).ready(function () {
                               <div>
                                 <button
                                   type="button"
-                                  class="btn btn-primary col-3 mb-3"
+                                  class="btn btn-dark col-3 mb-3"
                                   onclick="location.href='/admin/editMenu/?id=${menuId}'"
                                 >
                                   수정
                                 </button>
                                 <button
                                   type="submit"
-                                  class="btn btn-primary col-3 mb-3"
+                                  class="btn btn-dark col-3 mb-3"
                                   onclick="chickenMenuDel(${menuId})"
                                 >
                                   삭제
