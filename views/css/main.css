@@ -27,6 +27,12 @@
   }
 }
 
+@media (max-width: 767px) {
+  #cardCenter {
+    margin: 0 auto;
+  }
+}
+
 .b-example-divider {
   height: 3rem;
   background-color: rgba(0, 0, 0, 0.1);
@@ -63,6 +69,10 @@
   text-align: center;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
 }
 
 table,

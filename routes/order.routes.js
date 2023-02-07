@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authMWRouter = require('../middlewares/auth');
-const { order } = require('../models');
-const { myCart } = require('../models');
+const { order, myCart, orderList } = require('../models');
 
 /* 전체 오더 목록 API 시작 */
 router.get('/', async (req, res) => {
@@ -32,19 +31,6 @@ router.get('/', async (req, res) => {
 /* 오더 등록(바로 주문하기) API 시작 */
 router.post('/', authMWRouter, async (req, res) => {
   const { cookie } = req.headers;
-  const userId = res.locals.user.id;
-
-  const { address, memo, totalPrice } = req.body;
-
-  const cart = await myCart.findAll({
-    where: { userId: userId },
-    raw: true,
-    attributes: {
-      exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
-    },
-  });
-
-  console.log(cart);
 
   // console.log(req.body);
   if (!cookie) {
@@ -52,20 +38,50 @@ router.post('/', authMWRouter, async (req, res) => {
   }
 
   try {
+    const userId = res.locals.user.id;
+
     const { address, memo, totalPrice } = req.body;
     // console.log('userid: ', userId);
     // console.log('body: ', req.body);
-    // const orderAddStatus = 0;
+    const orderAddStatus = 0;
 
-    // await order.create({
-    //   address,
-    //   memo,
-    //   totalPrice,
-    //   userId,
-    //   orderStatus: orderAddStatus,
-    // });
+    const addOrder = await order.create({
+      address,
+      memo,
+      totalPrice,
+      userId,
+      orderStatus: orderAddStatus,
+    });
 
+    const orderId = addOrder['dataValues']['id'];
     // console.log(addOrder[dataValues]);
+
+    const cart = await myCart.findAll({
+      where: { userId: userId },
+      raw: true,
+      attributes: {
+        exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
+      },
+    });
+
+    // console.log('카트 불러옴', cart);
+    // console.log(cart['0']);
+    // console.log(cart.length);
+
+    for (let i = 0; i < cart.length; i++) {
+      let menuId = cart[i]['menuId'];
+      let menuAmount = cart[i]['menuAmount'];
+
+      // console.log(menuId, menuAmount, userId, orderId);
+
+      await orderList.create({
+        menuAmount,
+        menuId,
+        userId,
+        orderId,
+      });
+    }
+
     res.status(200).json({ message: '주문' });
   } catch (error) {
     res.status(400).json({ message: error.message });
