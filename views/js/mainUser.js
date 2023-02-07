@@ -18,32 +18,34 @@ function getMenuList() {
         let name = rows[i]['menuName'];
         let price = rows[i]['menuPrice'];
         let url = rows[i]['menuPhoto'];
-        let temp_html = `<div class="card mb-4 col-4 mx-4" style="width: 18rem">
-        <img
-          class="card-img-top img-fluid"
-          src="${url}"
-          alt="Card image cap"
-        />
-        <div class="card-body">
-          <h4 class="card-title">${name}</h4>
-          <p class="card-text">가격 : ${price}원</p>
-        </div>
+        let temp_html = `
+      <div class="col" id="cardCenter">
+        <div class="card p-3" style="width: 18rem">
+          <img
+            class="card-img-top img-fluid"
+            src="${url}"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <h4 class="card-title">${name}</h4>
+            <p class="card-text">가격 : ${price}원</p>
+          </div>
         <div>
-        <button
-          type="submit"
-          class="btn btn-primary col-6 mb-3"
-          onclick="a()"
-        >
-          장바구니 추가
-        </button>
-        <button
-          type="submit"
-          class="btn btn-primary col-4 mb-3"
-          onclick="b()"
-        >
-          주문하기
-        </button>
-      </div>
+          <button
+            type="submit"
+            class="btn btn-primary col-6 mb-3"
+            onclick="a()"
+          >
+            장바구니 추가
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary col-4 mb-3"
+            onclick="b()"
+          >
+            주문하기
+          </button>
+        </div>
       </div>`;
         $('#chickenMenu').append(temp_html);
       }

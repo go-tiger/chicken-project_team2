@@ -18,7 +18,7 @@ $(document).ready(function () {
           let price = rows[i]['menuPrice'];
           let img = rows[i]['menuPhoto'];
           let temp_html = `<div class="col" id="cardCenter">
-          <div class="card p-3" style="width: 18rem">
+                            <div class="card p-3" style="width: 18rem">
                             <img
                               class="card-img-top img-fluid"
                               src="../images/${img}"
@@ -87,7 +87,10 @@ $(document).ready(function () {
         let name = edit['menuName'];
         let price = edit['menuPrice'];
         let img = edit['menuPhoto'];
-        let menuEdit = `<div class="card mb-4 col-4 mx-4" style="width: 18rem">
+        let menuEdit = `
+        
+        <div class="col" id="cardCenter">
+        <div class="card p-3" style="width: 18rem">
                           <img
                             class="card-img-top img-fluid"
                             src="../../images/${img}"
@@ -97,7 +100,8 @@ $(document).ready(function () {
                             <h4 class="card-title">${name}</h4>
                             <p class="card-text">가격 : ${price}</p>
                           </div>
-                          <div>`;
+                          <div>
+                          </div>`;
         $('#editMenu').append(menuEdit);
       }
     },
