@@ -21,7 +21,8 @@ function postOrder() {
       totalPrice,
     },
     success: function (response) {
-      console.log(response);
+      alert(response['message']);
+      location.href = '/orderchk';
     },
   });
 }
