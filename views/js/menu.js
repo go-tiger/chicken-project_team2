@@ -37,9 +37,9 @@ $(document).ready(function () {
                               장바구니 추가
                             </button>
                             <button
-                              type="submit"
+                              type="button"
                               class="btn btn-dark col-5 mb-3"
-                              onclick="b(${menuId})"
+                              onclick="nowOrder(${menuId})"
                             >
                               주문하기
                             </button>
@@ -184,6 +184,20 @@ function cartAdd(menuId) {
       console.log(response);
       alert(response['message']);
       // window.location.reload();
+    },
+  });
+}
+
+/* 바로 주문하기 */
+function nowOrder(menuId) {
+  $.ajax({
+    type: 'POST',
+    url: `/api/order/now/${menuId}`,
+    data: { menuId },
+    success: function (response) {
+      console.log(response);
+      alert(response['message']);
+      location.href = '/orderchk';
     },
   });
 }
