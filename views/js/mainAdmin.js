@@ -15,8 +15,8 @@ function getUserLists(page) {
         <td>${user.email}</td>
         <td>${user.address}</td>
         <td>${user.phone}</td>
-        <td><button type="button" class="btn btn-warning" onclick="location.href='/admin/editUser/?id=${user.id}'">수정</button></td>
-        <td><button type="button" class="btn btn-danger" onclick="deleteUser(${user.id})">삭제</button></td>
+        <td><button type="button" class="btn btn-outline-primary" onclick="location.href='/admin/editUser/?id=${user.id}'">수정</button></td>
+        <td><button type="button" class="btn btn-outline-danger" onclick="deleteUser(${user.id})">삭제</button></td>
         </tr>`;
       });
       $('#userList').append(html.join());
