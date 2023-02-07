@@ -31,10 +31,10 @@ function getMyCart() {
             <input type="number" min="1" name="amount" id="menuAmount" value="${menuAmount}" />
           </div>
           <div class="col-2">
-            <button type="button" class="btn btn-primary" onclick="cartMenuEdit(${menuId})">수정</button>
+            <button type="submit" class="btn btn-dark">수정</button>
           </div>
           <div class="col-2">
-            <button type="button" class="btn btn-primary" onclick="cartMenuDel(${menuId})">삭제</button>
+            <button type="submit" class="btn btn-dark">삭제</button>
           </div>
         </div>
         <!----추가된 메뉴----->
