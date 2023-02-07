@@ -19,46 +19,33 @@
           <!----주소(고정)----->
           <div class="mb-3 row">
             <label for="inputCart" class="col-2 col-form-label">주문</label>
-            <div class="col-10 cartMenu">
-              <p>후라이드 <strong>1</strong></p>
-              <p>후라이드 <strong>2</strong></p>
-              <p>후라이드 <strong>3</strong></p>
-              <p>후라이드 <strong>4</strong></p>
-            </div>
+            <div id="menuList" class="col-10 cartMenu"></div>
           </div>
           <hr class="col-12" />
           <!----주소(고정)----->
           <!----추가된 메뉴----->
           <div class="mb-2 row">
             <label for="staticAddress" class="col-2 col-form-label">주소</label>
-            <div class="col-6">
-              <p>서울 특별시 특별시 주소 어딘가</p>
-              <p>아바트 밑에 빌라 위에 옥탑방같은 상세주소</p>
-            </div>
-            <div class="col-2">
-              <button type="submit" class="btn btn-primary">수정</button>
-            </div>
+            <div id="userAddress" class="col-6"></div>
           </div>
           <hr class="col-12" />
           <!----추가된 메뉴----->
           <!----요청사항----->
           <div class="mb-3">
             <label for="Textarea" class="form-label">요청사항</label>
-            <textarea
-              class="form-control"
-              id="exampleFormControlTextarea1"
-              rows="3"
-            ></textarea>
+            <textarea class="form-control" id="memo" rows="3"></textarea>
           </div>
           <!----요청사항----->
           <hr class="col-12" />
         </div>
-        <div class="amount text-center fs-3">
-          <p>총 : <span>40000</span></p>
-        </div>
-        <button type="submit" class="btn btn-primary">주문</button>
+        <div id="totalPrice"></div>
+        <input type="text" class="form-control" id="price" value="" />
+        <button type="button" class="btn btn-primary" onclick="postOrder()">
+          주문
+        </button>
       </form>
     </main>
     <!-----------------마이페이지---------------->
   </body>
+  <script defer src="/js/order.js"></script>
 </html>

@@ -10,10 +10,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   myCart.init(
     {
-      menuPrice: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-      },
       menuAmount: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
