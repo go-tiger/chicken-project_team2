@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <%- include('head.ejs') %>
-    <link rel="stylesheet" href="./css/orderCheckUser.css" />
-    <title>사장님 메인페이지</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <title>주문확인</title>
   </head>
   <body>
     <%- include('header.ejs') %> 
@@ -14,7 +14,7 @@
           <div class="row g-5">
             <div class="col-md-12">
               <h2>주문 확인</h2>
-              <table border="1">
+              <table class="type09 mb-3">
                 <thead >
                 </tr>
                   <th>주문번호</th>
@@ -32,7 +32,7 @@
             </table>
             <!------------페이지네이션---------->
             <nav aria-label="Page navigation example">
-              <ul class="pagination">
+              <ul class="pagination justify-content-center">
                 <li class="page-item">
                   <a class="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
@@ -52,7 +52,7 @@
             </div>
           </div>
         <!----------------그룹---------------->
-          <footer class="pt-5 my-5 text-muted border-top">
+          <footer class="pt-5 my-5 text-muted border-top text-center">
             정기치킨주식회사 &middot; &copy; 2023
           </footer>
       </div>
