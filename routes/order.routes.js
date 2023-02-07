@@ -51,20 +51,58 @@ router.get('/owner', async (req, res) => {
 
     for (let i = 0; i < orders.length; i++) {
       let menuId = orders[i]['menuId'];
-      console.log(i, menuId);
+      // console.log(i, menuId);
       const menu = await chickenMenu.findOne({
         where: { id: menuId },
         raw: true,
       });
       // console.log(menu['menuName']);
       orders[i]['dataValues'].menuName = menu['menuName'];
-      console.log(orders[i]['dataValues']['menuName']);
+      // console.log(orders[i]['dataValues']['menuName']);
     }
 
     res.status(200).json({ orders });
   } catch (error) {}
 });
 /* 오더 목록(사장님) API 끝 */
+
+/* 오더 목록(관리자) API 시작 */
+router.get('/admin', async (req, res) => {
+  try {
+    const orders = await orderList.findAll({
+      include: [
+        {
+          model: order,
+          attributes: ['address', 'memo', 'orderStatus'],
+          include: [
+            {
+              model: user,
+              attributes: ['email', 'phone'],
+            },
+          ],
+        },
+      ],
+      attributes: {
+        exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
+      },
+    });
+
+    for (let i = 0; i < orders.length; i++) {
+      let menuId = orders[i]['menuId'];
+      // console.log(i, menuId);
+      const menu = await chickenMenu.findOne({
+        where: { id: menuId },
+        raw: true,
+      });
+      // console.log(menu['menuName']);
+      orders[i]['dataValues'].menuName = menu['menuName'];
+      // console.log(orders[i]['dataValues']['menuName']);
+    }
+
+    res.status(200).json({ orders });
+  } catch (error) {}
+});
+/* 오더 목록(관리자) API 끝 */
 
 /* 오더 목록(손님) API 시작 */
 router.get('/', authMWRouter, async (req, res) => {
@@ -97,14 +135,14 @@ router.get('/', authMWRouter, async (req, res) => {
 
     for (let i = 0; i < orders.length; i++) {
       let menuId = orders[i]['menuId'];
-      console.log(i, menuId);
+      // console.log(i, menuId);
       const menu = await chickenMenu.findOne({
         where: { id: menuId },
         raw: true,
       });
       // console.log(menu['menuName']);
       orders[i]['dataValues'].menuName = menu['menuName'];
-      console.log(orders[i]['dataValues']['menuName']);
+      // console.log(orders[i]['dataValues']['menuName']);
     }
 
     await myCart.destroy({ where: { userId: userId } });
@@ -242,6 +280,17 @@ router.put('/refuse/:orderId', async (req, res) => {
     await order.update({ orderStatus: 3 }, { where: { id: orderId } });
     res.status(202).json({ message: '주문이 거절되었습니다.' });
   } catch (error) {}
+});
+
+/* 주문 삭제하기(관리자) */
+router.delete('/delete/:orderId', async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    await order.destroy({ where: { id: orderId } });
+    res.status(202).json({ message: '주문이 삭제되었습니다.' });
+  } catch (error) {
+    res.status(400).json({ message: '주문을 삭제할 수 없습니다.' });
+  }
 });
 
 module.exports = router;

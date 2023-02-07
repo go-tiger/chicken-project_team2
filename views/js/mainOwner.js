@@ -83,7 +83,7 @@ function getOrderLists() {
           <td><button type="button" class="btn btn-secondary" onclick="done(${orderId})">진행중</button></td>
         </tr>`;
           $('#orderIng').append(temp_html);
-        } else if (orderStatus == 2 || 3) {
+        } else if (orderStatus > 1) {
           let orderStat = '완료';
           if (orderStatus == 3) {
             orderStat = '거절';
