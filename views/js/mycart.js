@@ -36,10 +36,10 @@ function getMyCart() {
             <input type="number" min="1" name="amount" value="${menuAmount}" />
           </div>
           <div class="col-2">
-            <button type="submit" class="btn btn-primary">수정</button>
+            <button type="submit" class="btn btn-dark">수정</button>
           </div>
           <div class="col-2">
-            <button type="submit" class="btn btn-primary">삭제</button>
+            <button type="submit" class="btn btn-dark">삭제</button>
           </div>
         </div>
         <!----추가된 메뉴----->

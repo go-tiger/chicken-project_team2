@@ -65,6 +65,15 @@ router.get('/mypage/edit', authMWRouter, (req, res) => {
   }
 });
 
+// 관리자 메인페이지 쪼개버리기
+router.get('/adminOrder', authMWRouter, (req, res) => {
+  res.render('mainAdminOrder.ejs', { components: 'mainAdmin' });
+});
+
+router.get('/adminDone', authMWRouter, (req, res) => {
+  res.render('mainAdminDone.ejs', { components: 'mainAdmin' });
+});
+
 /* 관리자 유저 정보 수정 */
 router.get('/admin/editUser', authMWRouter, (req, res) => {
   if (res.locals.user) {
