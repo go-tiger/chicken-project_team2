@@ -9,10 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      orderList: {
-        type: Sequelize.JSON,
-        allowNull: false,
-      },
       address: {
         type: Sequelize.STRING(200),
         allowNull: false,

@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.myCart.hasMany(models.myCart, { foreignKey: 'menuId' });
+      models.orderlist.hasMany(models.orderlist, { foreignKey: 'menuId' });
     }
   }
   chickenMenu.init(

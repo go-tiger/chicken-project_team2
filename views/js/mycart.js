@@ -2,10 +2,18 @@ $(document).ready(function () {
   getMyCart();
 });
 
+function postOrder() {
+  $.ajax({
+    type: 'POST',
+    url: '/api/order',
+    data: {},
+  });
+}
+
 function getMyCart() {
   $.ajax({
     type: 'GET',
-    url: 'api/cart',
+    url: '/api/cart',
     data: {},
     success: function (response) {
       let rows = response['0']['cart'];
@@ -39,11 +47,12 @@ function getMyCart() {
         $('#menuList').append(temp_html);
       }
       temp_html = `<div class="amount text-center fs-3">
-      <p>총 : <span>${totalPrice}원</span></p>
+      <p>총 : <span>${totalPrice}</span>원</p>
+      </div>
+      <div class="col-sm-10">
       </div>
       `;
       $('#totalPrice').append(temp_html);
-      console.log(totalPrice);
     },
   });
 }
