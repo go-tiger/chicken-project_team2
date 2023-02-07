@@ -80,17 +80,18 @@ router.get('/admin/editUser', authMWRouter, (req, res) => {
 
 /* 임시 랜더 라우터 */
 router.get('/cart', authMWRouter, (req, res) => {
-  res.render('cart.ejs');
+  res.render('cart.ejs', { components: 'mainUser' });
 });
 router.get('/cartempty', authMWRouter, (req, res) => {
-  res.render('cartEmptied.ejs');
+  res.render('cartEmptied.ejs', { components: 'mainUser' });
 });
+
 router.get('/order', authMWRouter, (req, res) => {
-  res.render('orderByUser.ejs');
+  res.render('orderByUser.ejs', { components: 'mainUser' });
 });
 
 router.get('/orderchk', authMWRouter, (req, res) => {
-  res.render('orderCheckUser.ejs');
+  res.render('orderCheckUser.ejs', { components: 'mainUser' });
 });
 
 router.get('/admin', authMWRouter, (req, res) => {
