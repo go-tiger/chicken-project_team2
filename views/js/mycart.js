@@ -11,7 +11,6 @@ function getMyCart() {
       let userId = response['0']['id'];
       let rows = response['0']['cart'];
       let totalPrice = 0;
-      console.log(response);
 
       for (let i = 0; i < rows.length; i++) {
         let menuId = rows[i]['id'];
@@ -93,7 +92,6 @@ function cartMenuAllDel(userId) {
     url: `/api/cart/order/${userId}`,
     data: { userId },
     success: function (response) {
-      // console.log(response);
       alert(response['message']);
       window.location.reload();
     },

@@ -19,7 +19,6 @@ router.get('/signup', (req, res) => {
 
 /* 로그아웃 */
 router.delete('/logout', authMWRouter, async (req, res) => {
-  console.log('로그아웃을 시도');
   return res
     .status(200)
     .clearCookie('accessToken')

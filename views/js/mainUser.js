@@ -8,9 +8,6 @@ function getMenuList() {
     url: '/api/menu/admin/menu',
     data: {},
     success: function (response) {
-      // console.log(response['0']['id']);
-      // console.log(response['0']['Menu']);
-      console.log(response);
       let userId = response['0']['id'];
       let rows = response['0']['Menu'];
       for (let i = 0; i < rows.length; i++) {

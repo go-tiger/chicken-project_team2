@@ -110,13 +110,11 @@ router.delete('/admin/:userId', async (req, res) => {
 
 router.get('/admin/edit/:userId', async (req, res) => {
   const userId = req.params.userId;
-  console.log(userId);
   try {
     const User = await user.findOne({
       attributes: { exclude: ['password'] },
       where: { id: userId },
     });
-    //console.log(User);
     res.status(200).json([{ user: User }]);
   } catch (error) {}
 });
@@ -128,9 +126,8 @@ router.put('/admin/edit/:userId', async (req, res) => {
     const { password, phone, address } = await editValidation.validateAsync(
       req.body
     );
-    console.log(req.body);
     const hashedPassword = await bcrypt.hash(password, 12);
-    const User = await user.update(
+    await user.update(
       {
         password: hashedPassword,
         phone: phone,

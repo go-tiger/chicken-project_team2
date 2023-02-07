@@ -5,7 +5,6 @@ $(document).ready(function () {
 function editUserAdmin() {
   const searchParams = new URLSearchParams(location.search);
   const userId = searchParams.get('id');
-  console.log(userId);
 
   let password = $('#pw').val();
   let confirm = $('#rePw').val();
@@ -38,14 +37,12 @@ function editUserAdmin() {
 function getEditProfile() {
   const searchParams = new URLSearchParams(location.search);
   const userId = searchParams.get('id');
-  console.log(userId);
 
   $.ajax({
     type: 'GET',
     url: `/api/user/admin/edit/${userId}`,
     data: {},
     success: function (response) {
-      console.log(response);
       let email = response['0']['user']['email'];
       let address = response['0']['user']['address'];
       let phone = response['0']['user']['phone'];
@@ -105,18 +102,3 @@ function getEditProfile() {
     },
   });
 }
-
-// function getEditProfile() {
-//   const searchParams = new URLSearchParams(location.search);
-//   const userId = searchParams['1']
-//   $.ajax({
-//     type: 'GET',
-//     url: `/api/user/admin/${userId}`,
-//     data: {},
-//     success: function (response) {
-//       const user = response['0'];
-
-//       console.log(user);
-//     },
-//   });
-// }

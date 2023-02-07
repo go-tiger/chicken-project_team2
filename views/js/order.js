@@ -4,13 +4,8 @@ $(document).ready(function () {
 
 function postOrder() {
   let address = $('#address').val();
-  console.log(address);
-
   let memo = $('#memo').val();
-  console.log(memo);
-
   let totalPrice = $('#price').val();
-  console.log(totalPrice);
 
   $.ajax({
     type: 'POST',
@@ -47,13 +42,11 @@ function getMyCart() {
         let temp_html = `<p>${menuName}<strong> ${menuAmount} 마리</strong></p>`;
         $('#menuList').append(temp_html);
       }
-      // console.log(orderList);
-
       temp_html = `<textarea class="form-control" id="address" rows="3">${address}</textarea>`;
       $('#userAddress').append(temp_html);
+
       temp_html = `<p>총 : <span>${totalPrice}</span>원</p>`;
       $('#totalPrice').append(temp_html);
-
       $('#price').val(totalPrice);
     },
   });

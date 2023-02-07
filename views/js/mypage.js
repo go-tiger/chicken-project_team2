@@ -11,8 +11,6 @@ function getMyProfile() {
       let email = response['0']['user']['email'];
       let address = response['0']['user']['address'];
       let phone = response['0']['user']['phone'];
-      console.log(email, address, phone);
-
       let temp_html = `<!----이메일(고정)----->
       <div class="mb-3 row">
         <label for="staticEmail" class="col-12 col-form-label">이메일</label>

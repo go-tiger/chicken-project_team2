@@ -3,10 +3,7 @@ $(document).ready(function () {
     type: 'GET',
     url: '/login/check',
     data: {},
-    success: function (response) {
-      // let userType = response.user.userType;
-      // console.log(userType);
-    },
+    success: function (response) {},
   });
 });
 
@@ -59,13 +56,11 @@ function signOut() {
 function signIn() {
   let email = $('#signUpEmail').val();
   let password = $('#signUpPassword').val();
-  console.log(email, password);
   $.ajax({
     type: 'POST',
     url: '/api/user/login',
     data: { email, password },
     success: function (response) {
-      console.log(response);
       location.href = '/main';
     },
     error: function (response) {
@@ -73,15 +68,3 @@ function signIn() {
     },
   });
 }
-
-// function myPage() {
-//   $.ajax({
-//     type: 'GET',
-//     url: '/myPage',
-//     data: {},
-//     success: function (response) {
-//       alert(response['message']);
-//       location.href = '/myPage';
-//     },
-//   });
-// }

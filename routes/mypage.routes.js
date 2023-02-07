@@ -23,16 +23,12 @@ router.get('/', authMWRouter, async (req, res) => {
 
 router.put('/edit', authMWRouter, async (req, res) => {
   const userId = res.locals.user.id;
-
-  console.log(req.body);
-
   try {
     const { password, phone, address } = await editValidation.validateAsync(
       req.body
     );
-    console.log(req.body);
     const hashedPassword = await bcrypt.hash(password, 12);
-    const User = await user.update(
+    await user.update(
       {
         password: hashedPassword,
         phone: phone,

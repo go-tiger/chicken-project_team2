@@ -4,30 +4,6 @@ const router = express.Router();
 const authMWRouter = require('../middlewares/auth');
 const { user, order, myCart, orderList, chickenMenu } = require('../models');
 
-// /* 전체 오더 목록 API 시작 */
-// router.get('/', async (req, res) => {
-//   console.log(req.headers);
-//   const { cookie } = req.headers;
-
-//   if (!cookie) {
-//     return res.status(401).json({ message: '로그인 후 이용가능합니다.' });
-//   }
-
-//   try {
-//     const allOrderList = await order.findAll({
-//       raw: true,
-//     });
-
-//     if (allOrderList.length === 0) {
-//       return res.status(412).json({ message: '오더목록이 없습니다.' });
-//     }
-//     return res.status(200).json({ message: '전체 오더목록을 불러왔습니다.' });
-//   } catch (err) {
-//     res.status(400).json({ errorMessage: '게시글 조회에 실패하였습니다.' });
-//   }
-// });
-// /* 전체 오더 목록 API 끝 */
-
 /* 오더 목록(사장님) API 시작 */
 router.get('/owner', async (req, res) => {
   try {
@@ -51,14 +27,11 @@ router.get('/owner', async (req, res) => {
 
     for (let i = 0; i < orders.length; i++) {
       let menuId = orders[i]['menuId'];
-      // console.log(i, menuId);
       const menu = await chickenMenu.findOne({
         where: { id: menuId },
         raw: true,
       });
-      // console.log(menu['menuName']);
       orders[i]['dataValues'].menuName = menu['menuName'];
-      // console.log(orders[i]['dataValues']['menuName']);
     }
 
     res.status(200).json({ orders });
@@ -89,14 +62,11 @@ router.get('/admin', async (req, res) => {
 
     for (let i = 0; i < orders.length; i++) {
       let menuId = orders[i]['menuId'];
-      // console.log(i, menuId);
       const menu = await chickenMenu.findOne({
         where: { id: menuId },
         raw: true,
       });
-      // console.log(menu['menuName']);
       orders[i]['dataValues'].menuName = menu['menuName'];
-      // console.log(orders[i]['dataValues']['menuName']);
     }
 
     res.status(200).json({ orders });
@@ -135,14 +105,11 @@ router.get('/', authMWRouter, async (req, res) => {
 
     for (let i = 0; i < orders.length; i++) {
       let menuId = orders[i]['menuId'];
-      // console.log(i, menuId);
       const menu = await chickenMenu.findOne({
         where: { id: menuId },
         raw: true,
       });
-      // console.log(menu['menuName']);
       orders[i]['dataValues'].menuName = menu['menuName'];
-      // console.log(orders[i]['dataValues']['menuName']);
     }
 
     await myCart.destroy({ where: { userId: userId } });
@@ -197,7 +164,6 @@ router.post('/now/:menuId', authMWRouter, async (req, res) => {
 router.post('/', authMWRouter, async (req, res) => {
   const { cookie } = req.headers;
 
-  // console.log(req.body);
   if (!cookie) {
     return res.status(401).json({ message: '로그인 후 이용가능합니다.' });
   }
@@ -206,8 +172,6 @@ router.post('/', authMWRouter, async (req, res) => {
     const userId = res.locals.user.id;
 
     const { address, memo, totalPrice } = req.body;
-    // console.log('userid: ', userId);
-    // console.log('body: ', req.body);
     const orderAddStatus = 0;
 
     const addOrder = await order.create({
@@ -219,7 +183,6 @@ router.post('/', authMWRouter, async (req, res) => {
     });
 
     const orderId = addOrder['dataValues']['id'];
-    // console.log(addOrder[dataValues]);
 
     const cart = await myCart.findAll({
       where: { userId: userId },
@@ -229,15 +192,9 @@ router.post('/', authMWRouter, async (req, res) => {
       },
     });
 
-    // console.log('카트 불러옴', cart);
-    // console.log(cart['0']);
-    // console.log(cart.length);
-
     for (let i = 0; i < cart.length; i++) {
       let menuId = cart[i]['menuId'];
       let menuAmount = cart[i]['menuAmount'];
-
-      // console.log(menuId, menuAmount, userId, orderId);
 
       await orderList.create({
         menuAmount,
@@ -246,7 +203,6 @@ router.post('/', authMWRouter, async (req, res) => {
         orderId,
       });
     }
-    console.log('주문');
 
     res.status(200).json({ message: '주문이 완료되었습니다.' });
   } catch (error) {

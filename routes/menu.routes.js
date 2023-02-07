@@ -64,7 +64,6 @@ router.put('/:menuId', upload.single('file'), async (req, res) => {
 router.delete('/:menuId', async (req, res) => {
   try {
     const menuId = req.params.menuId;
-    console.log(menuId);
     await chickenMenu.destroy({ where: { id: menuId } });
     res.status(201).json({ message: '메뉴 삭제가 완료되었습니다.' });
   } catch (error) {

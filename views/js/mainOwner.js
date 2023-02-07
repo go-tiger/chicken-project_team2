@@ -45,9 +45,6 @@ function getOrderLists() {
     data: {},
     success: function (response) {
       let rows = response['orders'];
-
-      console.log(response);
-
       for (let i = 0; i < rows.length; i++) {
         let orderId = rows[i]['orderId'];
         let email = rows[i]['order']['user']['email'];

@@ -7,10 +7,8 @@ $(document).ready(function () {
     url: '/api/menu/admin/menu',
     data: {},
     success: function (response) {
-      // console.log(response);
       let userId = response['0']['id'];
       let rows = response['0']['Menu'];
-      console.log(rows);
       if (editMenuId === null && onlyAdminUrl === 'main') {
         for (let i = 0; i < rows.length; i++) {
           let menuId = rows[i]['id'];
@@ -185,9 +183,7 @@ function cartAdd(menuId) {
     url: `/api/cart/${menuId}`,
     data: { menuId },
     success: function (response) {
-      console.log(response);
       alert(response['message']);
-      // window.location.reload();
     },
   });
 }
@@ -199,7 +195,6 @@ function nowOrder(menuId) {
     url: `/api/order/now/${menuId}`,
     data: { menuId },
     success: function (response) {
-      console.log(response);
       alert(response['message']);
       location.href = '/orderchk';
     },

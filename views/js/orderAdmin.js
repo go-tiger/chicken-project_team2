@@ -21,9 +21,6 @@ function getOrderList() {
     data: {},
     success: function (response) {
       let rows = response['orders'];
-
-      console.log(response);
-
       for (let i = 0; i < rows.length; i++) {
         let orderId = rows[i]['orderId'];
         let email = rows[i]['order']['user']['email'];
@@ -33,7 +30,6 @@ function getOrderList() {
         let phone = rows[i]['order']['user']['phone'];
         let memo = rows[i]['order']['memo'];
         let orderStatus = rows[i]['order']['orderStatus'];
-        console.log(orderStatus);
         if (orderStatus < 2) {
           let temp_html = `<tr>
               <td>${orderId}</td>          
@@ -56,8 +52,8 @@ function getOrderList() {
               <td>${address}</td>
               <td>${phone}</td>
               <td>${memo}</td>
-             </tr>
-             `;
+            </tr>
+            `;
           $('#ordersDone').append(temp_html);
         }
       }
