@@ -56,9 +56,9 @@ router.get('/owner', async (req, res) => {
         where: { id: menuId },
         raw: true,
       });
-      console.log(menu['menuName']);
-
-      orders[i].menuName = 1;
+      // console.log(menu['menuName']);
+      orders[i]['dataValues'].menuName = menu['menuName'];
+      console.log(orders[i]['dataValues']['menuName']);
     }
 
     res.status(200).json({ orders });
