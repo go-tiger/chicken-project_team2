@@ -67,7 +67,7 @@ router.get('/owner', async (req, res) => {
 /* 오더 목록(사장님) API 끝 */
 
 /* 오더 등록(바로 주문하기) API 시작 */
-router.post('/one/:menuId', authMWRouter, async (req, res) => {
+router.post('/now/:menuId', authMWRouter, async (req, res) => {
   const { cookie } = req.headers;
 
   if (!cookie) {
@@ -81,7 +81,7 @@ router.post('/one/:menuId', authMWRouter, async (req, res) => {
     const menu = await chickenMenu.findOne({ where: { id: menuId } });
     const menuPrice = menu['menuPrice'];
 
-    const { address } = req.body;
+    const address = res.locals.user.address;
 
     const orderAddStatus = 0;
 
@@ -101,7 +101,7 @@ router.post('/one/:menuId', authMWRouter, async (req, res) => {
       orderId,
     });
 
-    res.json(addOrder);
+    res.status(201).json({ message: '주문이 완료되었습니다.' });
   } catch (error) {}
 });
 
