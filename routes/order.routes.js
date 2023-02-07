@@ -4,29 +4,29 @@ const router = express.Router();
 const authMWRouter = require('../middlewares/auth');
 const { user, order, myCart, orderList, chickenMenu } = require('../models');
 
-/* 전체 오더 목록 API 시작 */
-router.get('/', async (req, res) => {
-  console.log(req.headers);
-  const { cookie } = req.headers;
+// /* 전체 오더 목록 API 시작 */
+// router.get('/', async (req, res) => {
+//   console.log(req.headers);
+//   const { cookie } = req.headers;
 
-  if (!cookie) {
-    return res.status(401).json({ message: '로그인 후 이용가능합니다.' });
-  }
+//   if (!cookie) {
+//     return res.status(401).json({ message: '로그인 후 이용가능합니다.' });
+//   }
 
-  try {
-    const allOrderList = await order.findAll({
-      raw: true,
-    });
+//   try {
+//     const allOrderList = await order.findAll({
+//       raw: true,
+//     });
 
-    if (allOrderList.length === 0) {
-      return res.status(412).json({ message: '오더목록이 없습니다.' });
-    }
-    return res.status(200).json({ message: '전체 오더목록을 불러왔습니다.' });
-  } catch (err) {
-    res.status(400).json({ errorMessage: '게시글 조회에 실패하였습니다.' });
-  }
-});
-/* 전체 오더 목록 API 끝 */
+//     if (allOrderList.length === 0) {
+//       return res.status(412).json({ message: '오더목록이 없습니다.' });
+//     }
+//     return res.status(200).json({ message: '전체 오더목록을 불러왔습니다.' });
+//   } catch (err) {
+//     res.status(400).json({ errorMessage: '게시글 조회에 실패하였습니다.' });
+//   }
+// });
+// /* 전체 오더 목록 API 끝 */
 
 /* 오더 목록(사장님) API 시작 */
 router.get('/owner', async (req, res) => {
@@ -65,6 +65,52 @@ router.get('/owner', async (req, res) => {
   } catch (error) {}
 });
 /* 오더 목록(사장님) API 끝 */
+
+/* 오더 목록(손님) API 시작 */
+router.get('/', authMWRouter, async (req, res) => {
+  const { cookie } = req.headers;
+
+  if (!cookie) {
+    return res.status(401).json({ message: '로그인 후 이용가능합니다.' });
+  }
+
+  try {
+    const userId = res.locals.user.id;
+    const orders = await orderList.findAll({
+      where: { userid: userId },
+      include: [
+        {
+          model: order,
+          attributes: ['address', 'memo', 'orderStatus'],
+          include: [
+            {
+              model: user,
+              attributes: ['email', 'phone'],
+            },
+          ],
+        },
+      ],
+      attributes: {
+        exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
+      },
+    });
+
+    for (let i = 0; i < orders.length; i++) {
+      let menuId = orders[i]['menuId'];
+      console.log(i, menuId);
+      const menu = await chickenMenu.findOne({
+        where: { id: menuId },
+        raw: true,
+      });
+      // console.log(menu['menuName']);
+      orders[i]['dataValues'].menuName = menu['menuName'];
+      console.log(orders[i]['dataValues']['menuName']);
+    }
+
+    res.status(200).json({ orders });
+  } catch (error) {}
+});
+/* 오더 목록(손님) API 끝 */
 
 /* 오더 등록(바로 주문하기) API 시작 */
 router.post('/now/:menuId', authMWRouter, async (req, res) => {
