@@ -87,11 +87,13 @@ router.put('/:menuId', async (req, res) => {
   try {
     const menuid = req.params.menuId;
     const putMenuAmount = req.body.menuAmount;
+    // console.log(putMenuAmount);
 
-    const menuModify = await myCart.update(
+    await myCart.update(
       { menuAmount: putMenuAmount },
       { where: { id: menuid } }
     );
+    // console.log(menuModify);
 
     res.status(201).json({ message: '메뉴 수정이 완료되었습니다.' });
   } catch (error) {

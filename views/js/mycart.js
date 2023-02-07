@@ -28,7 +28,7 @@ function getMyCart() {
             >${menuName}</label
           >
           <div class="col-6">
-            <input type="number" min="1" name="amount" id="menuAmount" value="${menuAmount}" />
+            <input type="number" min="1" name="amount" id="menuAmount${menuId}" value="${menuAmount}" />
           </div>
           <div class="col-2">
             <button type="button" class="btn btn-dark" onclick="cartMenuEdit(${menuId})">수정</button>
@@ -61,7 +61,7 @@ function getMyCart() {
 
 /* 장바구니 페이지에서 메뉴 수량 수정 */
 function cartMenuEdit(menuId) {
-  let menuAmount = $('#menuAmount').val();
+  let menuAmount = $(`#menuAmount${menuId}`).val();
   $.ajax({
     type: 'PUT',
     url: `/api/cart/${menuId}`,
