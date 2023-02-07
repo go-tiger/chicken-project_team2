@@ -16,7 +16,6 @@ router.get('/', async (req, res) => {
     const allOrderList = await order.findAll({
       raw: true,
     });
-
     if (allOrderList.length === 0) {
       return res.status(412).json({ message: '오더목록이 없습니다.' });
     }

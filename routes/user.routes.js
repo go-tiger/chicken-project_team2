@@ -76,7 +76,26 @@ router.get('/users', async (req, res) => {
     const User = await user.findAll({
       attributes: { exclude: ['password'] },
     });
-    res.status(200).json([{ users: User }]);
+
+    const page = req.query.page || 1;
+    const cloneUsers = [...User];
+
+    const postsPerPage = 5;
+
+    //한 페이지에 보이는 페이지 수
+    const lastPage = Math.ceil(User.length / postsPerPage); // 2
+    //각 페이지마다 시작하는 인덱스
+    const startIndex = (page - 1) * postsPerPage; // 0
+    //설정한 값에 맞춰 데이터 가져오기
+    const paginationUsers = cloneUsers.splice(startIndex, postsPerPage);
+    res.json({
+      pageInfo: {
+        lastPage,
+      },
+      paginationUsers,
+    });
+
+    // res.status(200).json([{ users: User }]);
   } catch (error) {}
 });
 
