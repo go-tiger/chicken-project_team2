@@ -18,7 +18,9 @@ router.get('/', authMWRouter, async (req, res) => {
       where: { id: userId },
     });
     res.status(200).json([{ user: User }]);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 router.put('/edit', authMWRouter, async (req, res) => {
@@ -49,7 +51,9 @@ router.get('/admin/users', async (req, res) => {
   try {
     const User = await user.findAll({ attributes: { exclude: ['password'] } });
     res.status(200).json(User);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 module.exports = router;

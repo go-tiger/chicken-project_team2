@@ -95,12 +95,10 @@ router.get('/admin/editUser', authMWRouter, (req, res) => {
   }
 });
 
-/* 임시 랜더 라우터 */
 router.get('/cart', authMWRouter, (req, res) => {
   res.render('cart.ejs', { components: 'mainUser' });
 });
 
-/* 임시 랜더 라우터 */
 router.get('/cartempty', authMWRouter, (req, res) => {
   res.render('cartEmptied.ejs', { components: 'mainUser' });
 });
@@ -119,16 +117,6 @@ router.get('/admin', authMWRouter, (req, res) => {
 
 router.get('/admin/editMenu', authMWRouter, (req, res) => {
   res.render('itemAdminEdit.ejs', { components: 'mainAdmin' });
-});
-/* 임시 랜더 라우터 */
-
-/* 테스트 코드 */
-router.get('/test', (req, res) => {
-  if (!req.headers.cookie) {
-    res.location('/');
-  } else {
-    res.render('cart.ejs');
-  }
 });
 
 module.exports = router;

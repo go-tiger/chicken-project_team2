@@ -96,7 +96,9 @@ router.get('/users', async (req, res) => {
     });
 
     // res.status(200).json([{ users: User }]);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 router.delete('/admin/:userId', async (req, res) => {
@@ -116,7 +118,9 @@ router.get('/admin/edit/:userId', async (req, res) => {
       where: { id: userId },
     });
     res.status(200).json([{ user: User }]);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 router.put('/admin/edit/:userId', async (req, res) => {

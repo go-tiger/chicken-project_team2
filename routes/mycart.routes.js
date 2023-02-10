@@ -26,7 +26,9 @@ router.get('/order', authMWRouter, async (req, res) => {
       ],
     });
     res.status(200).json([{ cart: cart }]);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 router.get('/', authMWRouter, async (req, res) => {

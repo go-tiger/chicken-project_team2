@@ -35,7 +35,9 @@ router.get('/owner', async (req, res) => {
     }
 
     res.status(200).json({ orders });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 /* 오더 목록(사장님) API 끝 */
 
@@ -70,7 +72,9 @@ router.get('/admin', async (req, res) => {
     }
 
     res.status(200).json({ orders });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 /* 오더 목록(관리자) API 끝 */
 
@@ -115,7 +119,9 @@ router.get('/', authMWRouter, async (req, res) => {
     await myCart.destroy({ where: { userId: userId } });
 
     res.status(200).json({ orders });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 /* 오더 목록(손님) API 끝 */
 
@@ -155,7 +161,9 @@ router.post('/now/:menuId', authMWRouter, async (req, res) => {
     });
 
     res.status(201).json({ message: '주문이 완료되었습니다.' });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 /* 오더 등록(바로 주문하기) API 끝 */
@@ -217,7 +225,9 @@ router.put('/update/:orderId', async (req, res) => {
     const orderId = req.params.orderId;
     await order.update({ orderStatus: 1 }, { where: { id: orderId } });
     res.status(202).json({ message: '주문이 수락되었습니다.' });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 /* 주문 완료하기 */
@@ -226,7 +236,9 @@ router.put('/done/:orderId', async (req, res) => {
     const orderId = req.params.orderId;
     await order.update({ orderStatus: 2 }, { where: { id: orderId } });
     res.status(202).json({ message: '주문이 완료되었습니다.' });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 /* 주문 거절하기 */
@@ -235,7 +247,9 @@ router.put('/refuse/:orderId', async (req, res) => {
     const orderId = req.params.orderId;
     await order.update({ orderStatus: 3 }, { where: { id: orderId } });
     res.status(202).json({ message: '주문이 거절되었습니다.' });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 /* 주문 삭제하기(관리자) */

@@ -14,7 +14,9 @@ router.get('/admin/menu', authMWRouter, async (req, res) => {
   try {
     const menu = await chickenMenu.findAll();
     res.json([{ Menu: menu, id: userid }]);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 /* 메뉴 등록 API 시작*/
