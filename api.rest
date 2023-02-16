@@ -1,0 +1,16 @@
+GET http://localhost:3000/api/user
+
+###
+
+POST http://localhost:3000/api/user/signup
+Content-Type: application/json; charset=UTF-8
+
+{
+      "userName": "64영환",
+      "password": "12341234",
+      "email": "dudg622@gmail.com",
+      "phone": "010-4449-0663",
+      "address": "강서구 서구 서구다",
+      "userType": 0
+}
+
