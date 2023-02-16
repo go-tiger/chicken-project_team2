@@ -17,14 +17,6 @@ router.get('/signup', (req, res) => {
   res.render('signUp.ejs');
 });
 
-/* 로그아웃 */
-router.delete('/logout', authMWRouter, async (req, res) => {
-  return res
-    .status(200)
-    .clearCookie('accessToken')
-    .json({ message: '성공적으로 로그아웃 되었습니다.' });
-});
-
 /* 로그인 후 메인페이지 */
 router.get('/main', authMWRouter, (req, res) => {
   if (res.locals.user) {
@@ -64,20 +56,22 @@ router.get('/mypage/edit', authMWRouter, (req, res) => {
   }
 });
 
-// 관리자 메인페이지 쪼개버리기
+// 관리자 안에 주문목록
 router.get('/adminOrder', authMWRouter, (req, res) => {
   res.render('mainAdminOrder.ejs', { components: 'mainAdmin' });
 });
 
+// 관리자 안에 완료 목록
 router.get('/adminDone', authMWRouter, (req, res) => {
   res.render('mainAdminDone.ejs', { components: 'mainAdmin' });
 });
 
-// 오너 메인페이지 쪼개버리기
+// 오너 진행중 오더 목록
 router.get('/OwnerDoing', authMWRouter, (req, res) => {
   res.render('mainOwnerDoing.ejs', { components: 'mainOwner' });
 });
 
+// 오너 완료 오더 목록
 router.get('/OwnerDone', authMWRouter, (req, res) => {
   res.render('mainOwnerDone.ejs', { components: 'mainOwner' });
 });
