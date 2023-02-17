@@ -11,13 +11,18 @@ class UserRepositories {
       userType: userInfo.userType,
     });
 
-    getUser = async;
     return;
   };
 
   getUser = async () => {
     return await user.findAll({
       attributes: { exclude: ['password'] },
+    });
+  };
+
+  getOneUser = async email => {
+    return await user.findOne({
+      where: { email },
     });
   };
 }

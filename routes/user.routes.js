@@ -4,16 +4,11 @@ const router = express.Router();
 const UserController = require('../controllers/user.controller');
 const userController = new UserController();
 
+router.get('/list', userController.getUsers);
+router.post('/login', userController.login);
+// router.delete('/logout', userController.logout);
 router.post('/signup', userController.register);
-router.get('/', userController.getUsers);
-router.delete('/');
-
-/* 로그아웃 */
-router.delete('/logout', authMWRouter, async (req, res) => {
-  return res
-    .status(200)
-    .clearCookie('accessToken')
-    .json({ message: '성공적으로 로그아웃 되었습니다.' });
-});
+router.put('/:userId', userController.editUsers);
+router.delete('/:userId', userController.deleteUsers);
 
 module.exports = router;

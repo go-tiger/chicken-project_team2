@@ -6,11 +6,20 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json; charset=UTF-8
 
 {
-      "userName": "64영환",
+      "userName": "영환",
       "password": "12341234",
-      "email": "dudg622@gmail.com",
-      "phone": "010-4449-0663",
+      "email": "wjdrl@gmail.com",
+      "phone": "010-4449-0673",
       "address": "강서구 서구 서구다",
-      "userType": 0
+      "userType": 2
 }
 
+###
+
+POST http://localhost:3000/api/user/login
+Content-Type: application/json; charset=UTF-8
+
+{
+      "email": "dudg622@gmail.com",
+      "password": "12341234"
+}
