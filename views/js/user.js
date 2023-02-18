@@ -1,12 +1,3 @@
-$(document).ready(function () {
-  $.ajax({
-    type: 'GET',
-    url: '/login/check',
-    data: {},
-    success: function (response) {},
-  });
-});
-
 function signUp() {
   let userName = $('#userName').val();
   let password = $('#pw').val();

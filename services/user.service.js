@@ -37,7 +37,7 @@ class UserService {
 
     const accessToken = jwt.sign(
       {
-        email: user.email,
+        id: user.id,
       },
       process.env.JWT_SECRET_KET
     );
@@ -45,14 +45,34 @@ class UserService {
     return accessToken;
   };
 
-  editUsers = async userInfo => {
-    // userInfo -> password, email , address
-    // 3개의 값이 있는지 없는지 확인을 해주고 레포지토리에 넘겨주면
-    // 레포지토리는 이 세개의 값을 해당 유저를 찾아서 업데이트 시켜준다!
-    //
+  updateUser = async (userInfo, userId) => {
+    const { password, address, phone } = userInfo;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return await this.userRepositories.updateUser(
+      userId,
+      hashedPassword,
+      address,
+      phone
+    );
   };
 
-  deleteUsers = async () => {};
+  deleteUsers = async userId => {
+    try {
+      const getUser = await this.userRepositories.getOneUser(userId);
+      if (getUser === null) {
+        throw new Error('해당 유저가 존재하지 않습니다.');
+      }
+
+      const deleteUser = await this.userRepositories.deleteUser(getUser);
+      if (deleteUser === 0) {
+        throw new Error('삭제를 실패하였습니다.');
+      }
+
+      return deleteUser;
+    } catch (err) {
+      throw err;
+    }
+  };
 }
 
 module.exports = UserService;

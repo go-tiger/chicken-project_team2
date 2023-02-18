@@ -6,7 +6,7 @@ $(document).ready(function () {
 function deleteUser(userId) {
   $.ajax({
     type: 'DELETE',
-    url: `/api/user/admin/${userId}`,
+    url: `/api/user/${userId}`,
     data: {},
     success: function (response) {
       alert(response['message']);

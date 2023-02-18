@@ -23,3 +23,21 @@ Content-Type: application/json; charset=UTF-8
       "email": "dudg622@gmail.com",
       "password": "12341234"
 }
+
+###
+PUT http://localhost:3000/api/user
+Content-Type: application/json; charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjc2NjI1NjEwfQ.RA6tCHLDSP7EgeovLgrZGnfEKJ7GUKg_lXi1ZOnF1V8;
+
+
+{
+      "password": "12341234",
+      "address": "서울남남남남",
+      "phone": "010-1232-3232"
+}
+
+###
+DELETE http://localhost:3000/api/user/100
+Content-Type: application/json; charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjc2NjI1NjEwfQ.RA6tCHLDSP7EgeovLgrZGnfEKJ7GUKg_lXi1ZOnF1V8;
+

@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { user } = require('../models');
+const dotenv = require('dotenv');
+dotenv.config();
 
 module.exports = (req, res, next) => {
   const { cookie } = req.headers;
@@ -13,9 +15,8 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ message: '로그인 후 이용가능합니다.' });
   }
   try {
-    const { userId } = jwt.verify(authToken, process.env.JWT_SECRET_KET);
-
-    user.findByPk(userId).then(user => {
+    const { id } = jwt.verify(authToken, process.env.JWT_SECRET_KET);
+    user.findByPk(id).then(user => {
       res.locals.user = user;
       next();
     });

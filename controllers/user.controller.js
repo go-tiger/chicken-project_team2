@@ -35,17 +35,23 @@ class UserController {
   //   res.status(200).json({logout})
   // };
 
-  editUsers = async (req, res, next) => {
+  editUser = async (req, res, next) => {
+    const { id: userId } = res.locals.user;
     const userInfo = req.body;
-    await this.userService.editUsers(userInfo);
+    await this.userService.updateUser(userInfo, userId);
 
     res.status(201).json();
   };
 
   deleteUsers = async (req, res, next) => {
-    await this.userService.deleteUsers();
+    try {
+      const { userId } = req.params;
+      await this.userService.deleteUsers(userId);
 
-    res.status(200).json();
+      res.status(200).json();
+    } catch (err) {
+      res.status(400).send({ errorMessage: err.message });
+    }
   };
 }
 

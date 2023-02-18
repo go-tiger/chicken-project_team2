@@ -3,9 +3,6 @@ $(document).ready(function () {
 });
 
 function editUserAdmin() {
-  const searchParams = new URLSearchParams(location.search);
-  const userId = searchParams.get('id');
-
   let password = $('#pw').val();
   let confirm = $('#rePw').val();
   let phone = $('#phone').val();
@@ -13,7 +10,7 @@ function editUserAdmin() {
 
   $.ajax({
     type: 'PUT',
-    url: `/api/user/admin/edit/${userId}`,
+    url: `/api/user`,
     data: {
       password,
       confirm,

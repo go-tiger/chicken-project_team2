@@ -39,41 +39,6 @@ router.get('/owner', async (req, res) => {
 });
 /* 오더 목록(사장님) API 끝 */
 
-/* 오더 목록(관리자) API 시작 */
-router.get('/admin', async (req, res) => {
-  try {
-    const orders = await orderList.findAll({
-      include: [
-        {
-          model: order,
-          attributes: ['address', 'memo', 'orderStatus'],
-          include: [
-            {
-              model: user,
-              attributes: ['email', 'phone'],
-            },
-          ],
-        },
-      ],
-      attributes: {
-        exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
-      },
-    });
-
-    for (let i = 0; i < orders.length; i++) {
-      let menuId = orders[i]['menuId'];
-      const menu = await chickenMenu.findOne({
-        where: { id: menuId },
-        raw: true,
-      });
-      orders[i]['dataValues'].menuName = menu['menuName'];
-    }
-
-    res.status(200).json({ orders });
-  } catch (error) {}
-});
-/* 오더 목록(관리자) API 끝 */
-
 /* 오더 목록(손님) API 시작 */
 router.get('/', authMWRouter, async (req, res) => {
   const { cookie } = req.headers;
@@ -248,5 +213,40 @@ router.delete('/delete/:orderId', async (req, res) => {
     res.status(400).json({ message: '주문을 삭제할 수 없습니다.' });
   }
 });
+
+/* 오더 목록(관리자) API 시작 */
+router.get('/admin', async (req, res) => {
+  try {
+    const orders = await orderList.findAll({
+      include: [
+        {
+          model: order,
+          attributes: ['address', 'memo', 'orderStatus'],
+          include: [
+            {
+              model: user,
+              attributes: ['email', 'phone'],
+            },
+          ],
+        },
+      ],
+      attributes: {
+        exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
+      },
+    });
+
+    for (let i = 0; i < orders.length; i++) {
+      let menuId = orders[i]['menuId'];
+      const menu = await chickenMenu.findOne({
+        where: { id: menuId },
+        raw: true,
+      });
+      orders[i]['dataValues'].menuName = menu['menuName'];
+    }
+
+    res.status(200).json({ orders });
+  } catch (error) {}
+});
+/* 오더 목록(관리자) API 끝 */
 
 module.exports = router;
