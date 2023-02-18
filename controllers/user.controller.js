@@ -36,9 +36,16 @@ class UserController {
   // };
 
   editUser = async (req, res, next) => {
-    const { id: userId } = res.locals.user;
+    const { userType } = res.locals.user;
     const userInfo = req.body;
-    await this.userService.updateUser(userInfo, userId);
+
+    if (userType === 0) {
+      const { id: userId } = res.locals.user;
+      await this.userService.updateUser(userInfo, userId);
+    } else if (userType === 2) {
+      const { userId } = req.params;
+      await this.userService.updateUser(userInfo, userId);
+    }
 
     res.status(201).json();
   };
