@@ -8,7 +8,6 @@ dotenv.config();
 class UserService {
   userRepositories = new UserRepositories();
 
-  //
   newUser = async userInfo => {
     const hashedPassword = await bcrypt.hash(userInfo.password, 10);
     userInfo.password = hashedPassword;

@@ -5,9 +5,11 @@ const authMWRouter = require('../middlewares/auth');
 const AdminController = require('../controllers/admin.controller');
 const adminController = new AdminController();
 
-router.get('/userList', authMWRouter, adminController.getAllorder);
-router.get('/orderList', authMWRouter, adminController.getAllorder);
-router.get('/orderDone', authMWRouter, adminController.getAllorder);
-router.get('/itemList', authMWRouter, adminController.getAllorder);
+router.get('/userList', adminController.getUserList);
+router.delete('/:userId', adminController.deleteUser);
+router.get('/orderList', adminController.getOrderList);
+router.get('/orderDone', adminController.getOrderDone);
+router.get('/itemList', adminController.getItemList);
+router.post('/', adminController.updateItem);
 
 module.exports = router;

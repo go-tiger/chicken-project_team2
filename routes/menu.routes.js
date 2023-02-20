@@ -3,19 +3,11 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const authMWRouter = require('../middlewares/auth');
+const MenuController = require('../controllers/menu.controller');
+const menuController = new MenuController();
 
 const { chickenMenu } = require('../models');
 const { upload } = require('../util/multer');
-
-const { JWT_SECRET_KET } = process.env;
-
-router.get('/admin/menu', authMWRouter, async (req, res) => {
-  const userid = res.locals.user.id;
-  try {
-    const menu = await chickenMenu.findAll();
-    res.json([{ Menu: menu, id: userid }]);
-  } catch (error) {}
-});
 
 /* 메뉴 등록 API 시작*/
 /* Methud: POST | URL: /api/menu */

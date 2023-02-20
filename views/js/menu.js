@@ -192,7 +192,7 @@ function cartAdd(menuId) {
 function nowOrder(menuId) {
   $.ajax({
     type: 'POST',
-    url: `/api/order/now/${menuId}`,
+    url: `/api/order/${menuId}`,
     data: { menuId },
     success: function (response) {
       alert(response['message']);

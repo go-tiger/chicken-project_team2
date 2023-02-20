@@ -1,4 +1,30 @@
-GET http://localhost:3000/api/user
+GET http://localhost:3000/api/user/list
+
+###
+
+DELETE  http://localhost:3000/api/admin/2
+
+###
+
+GET http://localhost:3000/api/admin/orderList
+
+###
+
+GET http://localhost:3000/api/admin/orderDone
+
+###
+
+GET http://localhost:3000/api/admin/itemList
+
+###
+POST http://localhost:3000/api/admin
+Content-Type: application/json; charset=UTF-8
+
+{
+      "menuName" : "간장양념",
+      "menuPrice" : "24000"
+}
+
 
 ###
 
