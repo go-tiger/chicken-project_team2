@@ -1,4 +1,5 @@
 const { user } = require('../models');
+const { Op } = require('sequelize');
 
 class UserRepositories {
   registerUser = async userInfo => {
@@ -16,25 +17,33 @@ class UserRepositories {
 
   getUser = async () => {
     return await user.findAll({
+      where: { userType: '0' },
       attributes: { exclude: ['password'] },
     });
   };
 
-  //login api
-  getOneUser = async email => {
+  getOneUser = async info => {
+    // if (type === 'userId') {
+    //   const User = await user.findOne({
+    //     where: {
+    //       id: info,
+    //     },
+    //   });
+    //   return User;
+    // }
+    // if (type === 'email') {
+    //   const User = await user.findOne({
+    //     where: {
+    //       email: info,
+    //     },
+    //   });
+    //   return User;
+    // }
     return await user.findOne({
       where: {
-        email,
+        [Op.or]: [{ id: info }, { email: info }],
       },
-    });
-  };
-
-  //delete api
-  getUserId = async userId => {
-    return await user.findOne({
-      where: {
-        id: userId,
-      },
+      attributes: { exclude: ['password'] },
     });
   };
 
@@ -56,7 +65,7 @@ class UserRepositories {
       const removeUser = await user.destroy({
         where: { id: userId },
       });
-
+      console.log(removeUser);
       return removeUser;
     } catch (err) {
       throw err;

@@ -2,12 +2,100 @@
 <html lang="en">
   <head>
     <%- include('head.ejs') %>
+
     <title>마이페이지</title>
   </head>
   <body>
     <!-- header -->
     <%- include('header.ejs') %>
     <!-- body -->
-    <%- include('myPage.ejs') %>
+    <!-----------------마이페이지---------------->
+    <main class="form-signin w-100 m-auto container">
+      <div class="row">
+        <form>
+          <div class="title">
+            <h1>마이페이지</h1>
+          </div>
+          <div id="myProfile"></div>
+          <hr class="col-12" />
+          <button
+            type="button"
+            class="btn btn-dark"
+            onclick="location.href='/editUser'"
+          >
+            수정
+          </button>
+        </form>
+      </div>
+    </main>
+    <!-----------------마이페이지---------------->
+    <script>
+      const id = window.location.pathname.split('/')[2];
+      getUserLists(id);
+
+      function getUserLists(id) {
+        $.ajax({
+          type: 'GET',
+          url: `/api/user/list/${id}`,
+          data: {},
+          success: function (response) {
+            let row = response['oneUser'];
+            console.log(row);
+            sessionStorage.setItem('userDetails', JSON.stringify(row));
+            let id = row['id'];
+            let email = row['email'];
+            let phone = row['phone'];
+            let address = row['address'];
+
+            let html = `<!----이메일(고정)----->
+            <div class="mb-3 row">
+              <label for="staticEmail" class="col-12 col-form-label">이메일</label>
+              <div class="col-sm-10">
+                <input
+                  type="text"
+                  readonly
+                  class="form-control-plaintext"
+                  id="staticEmail"
+                  value="${email}"
+                />
+              </div>
+            </div>
+            <!----이메일(고정)----->
+            <hr class="col-12" />
+            <!----주소(고정)----->
+            <div class="mb-3 row">
+              <label for="inputAddress" class="col-12 col-form-label">주소</label>
+              <div class="col-sm-10">
+                <input
+                  type="text"
+                  readonly
+                  class="form-control-plaintext"
+                  id="staticAddress"
+                  value="${address}"
+                />
+              </div>
+            </div>
+            <!----주소(고정)----->
+            <hr class="col-12" />
+            <!----핸드폰(고정)----->
+            <div class="mb-3 row">
+              <label for="inputPhone" class="col-12 col-form-label">핸드폰</label>
+              <div class="col-sm-10">
+                <input
+                  type="text"
+                  readonly
+                  class="form-control-plaintext"
+                  id="staticEmail"
+                  value="${phone}"
+                />
+              </div>
+            </div>
+            <!----핸드폰(고정)----->`;
+
+            $('#myProfile').append(html);
+          },
+        });
+      }
+    </script>
   </body>
 </html>

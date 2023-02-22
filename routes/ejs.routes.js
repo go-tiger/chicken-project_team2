@@ -39,7 +39,7 @@ router.get('/mypage', authMWRouter, (req, res) => {
 });
 
 /* 수정 마이페이지 */
-router.get('/mypage/edit', authMWRouter, (req, res) => {
+router.get('/editUser', authMWRouter, (req, res) => {
   if (res.locals.user) {
     if (res.locals.user.userType == 0) {
       return res.render('indexMyPageEdit.ejs', { components: 'mainUser' });
@@ -72,14 +72,10 @@ router.get('/OwnerDone', authMWRouter, (req, res) => {
 });
 
 /* 관리자 유저 정보 수정 */
-router.get('/admin/editUser', authMWRouter, (req, res) => {
+router.get('/user/:id', authMWRouter, (req, res) => {
   if (res.locals.user) {
-    if (res.locals.user.userType == 0) {
-      return res.render('indexEditAdmin.ejs', { components: 'mainUser' });
-    } else if (res.locals.user.userType == 1) {
-      return res.render('indexEditAdmin.ejs', { components: 'mainOwner' });
-    } else {
-      return res.render('indexEditAdmin.ejs', { components: 'mainAdmin' });
+    if (res.locals.user.userType == 2) {
+      return res.render('indexMyPage.ejs', { components: 'mainAdmin' });
     }
   }
 });

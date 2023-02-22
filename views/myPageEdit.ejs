@@ -7,10 +7,96 @@
     <div id="editProfile"></div>
     <hr class="col-12" />
     <button type="button" class="btn btn-dark" onclick="editProfile()">
-      수정
+      확인
     </button>
-    <button type="submit" class="btn btn-dark">확인</button>
   </form>
-  <script defer src="/js/mypageEdit.js"></script>
+  <script>
+    const oneUserJson = sessionStorage.getItem('userDetails');
+    const oneUser = JSON.parse(oneUserJson);
+
+    let email = oneUser['email'];
+    let id = oneUser['id'];
+    let address = oneUser['address'];
+    let phone = oneUser['phone'];
+
+    let html = `<!----이메일(고정)----->
+      <div class="mb-3 row">
+        <label for="staticEmail" class="col-12 col-form-label">이메일</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            readonly
+            class="form-control-plaintext"
+            id="staticEmail"
+            value="${email}"
+          />
+        </div>
+      </div>
+      <!----이메일(고정)----->
+      <hr class="col-12" />
+      <!----패스워드(유동)----->
+      <div class="mb-3 row">
+        <label for="pw" class="col-12 col-form-label">비밀번호</label>
+        <div class="col-sm-10">
+          <input type="password" class="form-control" id="pw" />
+        </div>
+      </div>
+      <!----패스워드(유동)----->
+      <hr class="col-12" />
+      <!----패스워드(유동)----->
+      <div class="mb-3 row">
+        <label for="rePw" class="col-12 col-form-label"
+          >비밀번호 확인</label
+        >
+        <div class="col-sm-10">
+          <input type="password" class="form-control" id="rePw" />
+        </div>
+      </div>
+      <!----패스워드(유동)----->
+      <hr class="col-12" />
+      <!----주소(유동)----->
+      <div class="mb-3 row">
+        <label for="address" class="col-12 col-form-label">주소</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="address" value="${address}" />
+        </div>
+      </div>
+      <!----주소(유동)----->
+      <hr class="col-12" />
+      <!----주소(유동)----->
+      <div class="mb-3 row">
+        <label for="phone" class="col-12 col-form-label">핸드폰</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="phone" value="${phone}"/>
+        </div>
+      </div>
+      <!----주소(유동)----->
+    `;
+    $('#editProfile').append(html);
+
+    function editProfile() {
+      let password = $('#pw').val();
+      let confirm = $('#rePw').val();
+      let phone = $('#phone').val();
+      let address = $('#address').val();
+      $.ajax({
+        type: 'PATCH',
+        url: `/api/user/${id}`,
+        data: {
+          password,
+          confirm,
+          phone,
+          address,
+        },
+        success: function (response) {
+          alert('수정되었습니다.');
+          window.location.href = '/main';
+        },
+        error: function (response) {
+          alert('실패했습니다.');
+        },
+      });
+    }
+  </script>
 </main>
 <!-----------------마이페이지---------------->

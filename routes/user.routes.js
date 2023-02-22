@@ -6,10 +6,10 @@ const UserController = require('../controllers/user.controller');
 const userController = new UserController();
 
 router.get('/list', userController.getUsers);
+router.get('/list/:id', userController.getOneUser);
 router.post('/login', userController.login);
 // router.delete('/logout', userController.logout);
 router.post('/signup', userController.register);
-router.patch('/', authMWRouter, userController.editUser);
-router.delete('/:userId', authMWRouter, userController.deleteUsers);
-
+router.patch('/:userId', authMWRouter, userController.editUser);
+router.delete('/:userId', userController.deleteUsers);
 module.exports = router;

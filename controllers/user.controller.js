@@ -8,7 +8,7 @@ class UserController {
 
     await this.userService.newUser(userInfo);
 
-    res.status(201).json();
+    res.status(201);
   };
 
   getUsers = async (req, res, next) => {
@@ -17,14 +17,23 @@ class UserController {
     res.status(200).json({ allUsers });
   };
 
+  getOneUser = async (req, res, next) => {
+    const { id } = req.params;
+
+    const oneUser = await this.userService.oneUser(id);
+    console.log(oneUser);
+    res.status(200).json({ oneUser });
+  };
+
   login = async (req, res, next) => {
     try {
       const userInfo = req.body;
       const accessToken = await this.userService.login(userInfo);
       res.cookie('accessToken', accessToken);
 
-      res.status(200).json();
+      res.status(200).json({});
     } catch (err) {
+      console.log(err);
       res.status(400).json({ errorMessage: err.message });
     }
   };
@@ -37,8 +46,9 @@ class UserController {
 
   editUser = async (req, res, next) => {
     const { userType } = res.locals.user;
+    console.log(userType);
     const userInfo = req.body;
-
+    console.log(userInfo);
     if (userType === 0) {
       const { id: userId } = res.locals.user;
       await this.userService.updateUser(userInfo, userId);
@@ -47,7 +57,7 @@ class UserController {
       await this.userService.updateUser(userInfo, userId);
     }
 
-    res.status(201).json();
+    res.status(201).json({});
   };
 
   deleteUsers = async (req, res, next) => {
@@ -55,7 +65,7 @@ class UserController {
       const { userId } = req.params;
       await this.userService.deleteUsers(userId);
 
-      res.status(200).json();
+      res.status(200).json({});
     } catch (err) {
       res.status(400).send({ errorMessage: err.message });
     }
