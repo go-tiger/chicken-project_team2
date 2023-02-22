@@ -89,13 +89,13 @@
           const { count, rows, firstPage, lastPage, totalPage } = response;
           const AdminUser = rows.map(user => {
             return `<tr>
-      <td>${user.id}</td>
-      <td>${user.email}</td>
-      <td>${user.address}</td>
-      <td>${user.phone}</td>
-      <td><button type="button" class="btn btn-outline-dark"><a href="/user/${user.id}">수정</a></button></td>
-      <td><button type="button" class="btn btn-outline-dark" onclick="deleteUser(${user.id})">삭제</button></td>  
-    </tr>`;
+              <td>${user.id}</td>
+              <td>${user.email}</td>
+              <td>${user.address}</td>
+              <td>${user.phone}</td>
+              <td><button type="button" class="btn btn-outline-dark"><a href="/user/${user.id}">수정</a></button></td>
+              <td><button type="button" class="btn btn-outline-dark" onclick="deleteUser(${user.id})">삭제</button></td>  
+            </tr>`;
           });
           $('#userList').append(AdminUser.join());
 
