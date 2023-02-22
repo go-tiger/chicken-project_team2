@@ -12,16 +12,17 @@ class UserController {
   };
 
   getUsers = async (req, res, next) => {
-    const allUsers = await this.userService.allUsers();
+    const { page } = req.query;
+    const { count, rows, firstPage, lastPage, totalPage } =
+      await this.userService.allUsers(page);
 
-    res.status(200).json({ allUsers });
+    res.status(200).json({ count, rows, firstPage, lastPage, totalPage });
   };
 
   getOneUser = async (req, res, next) => {
     const { id } = req.params;
 
     const oneUser = await this.userService.oneUser(id);
-    console.log(oneUser);
     res.status(200).json({ oneUser });
   };
 
@@ -33,7 +34,6 @@ class UserController {
 
       res.status(200).json({});
     } catch (err) {
-      console.log(err);
       res.status(400).json({ errorMessage: err.message });
     }
   };
@@ -46,9 +46,7 @@ class UserController {
 
   editUser = async (req, res, next) => {
     const { userType } = res.locals.user;
-    console.log(userType);
     const userInfo = req.body;
-    console.log(userInfo);
     if (userType === 0) {
       const { id: userId } = res.locals.user;
       await this.userService.updateUser(userInfo, userId);

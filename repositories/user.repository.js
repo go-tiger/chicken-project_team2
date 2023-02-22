@@ -15,10 +15,12 @@ class UserRepositories {
     return;
   };
 
-  getUser = async () => {
-    return await user.findAll({
+  getUser = async page => {
+    return await user.findAndCountAll({
       where: { userType: '0' },
       attributes: { exclude: ['password'] },
+      offset: (page - 1) * 2,
+      limit: 2,
     });
   };
 
@@ -43,7 +45,6 @@ class UserRepositories {
       where: {
         [Op.or]: [{ id: info }, { email: info }],
       },
-      attributes: { exclude: ['password'] },
     });
   };
 
@@ -65,7 +66,6 @@ class UserRepositories {
       const removeUser = await user.destroy({
         where: { id: userId },
       });
-      console.log(removeUser);
       return removeUser;
     } catch (err) {
       throw err;

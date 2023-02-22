@@ -10,7 +10,6 @@ class adminController {
 
   deleteUser = async (req, res, next) => {
     const { userId } = req.params;
-    console.log(userId);
     await this.adminService.deleteUser(userId);
     res.status(200).json();
   };

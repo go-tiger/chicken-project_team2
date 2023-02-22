@@ -17,8 +17,25 @@ class UserService {
     return;
   };
 
-  allUsers = async () => {
-    return await this.userRepositories.getUser();
+  allUsers = async page => {
+    const { count, rows } = await this.userRepositories.getUser(page);
+
+    let totalPage = Math.ceil(count / 2);
+    // 화면에 보여줄 그룹 : 한 그룹당 5개 페이지 띄우기
+    let pageGroup = Math.ceil(page / 5);
+
+    // 한 그룹의 마지막 페이지 번호
+    let lastPage = pageGroup * 5;
+
+    // 한 그룹의 첫 페이지 번호
+    let firstPage = lastPage - 5 + 1 <= 0 ? 1 : lastPage - 5 + 1;
+
+    // 만약 마지막 페이지 번호가 총 페이지 수 보다 크다면?
+    if (lastPage > totalPage) {
+      lastPage = totalPage;
+    }
+
+    return { count, rows, firstPage, lastPage, totalPage };
   };
 
   oneUser = async id => {

@@ -55,10 +55,7 @@ function a(userId, id) {
     type: 'POST',
     url: `/api/cart/${userId}/${id}`,
     data: {},
-    success: function (response) {
-      // console.log(response);
-      // alert(response['message']);
-    },
+    success: function (response) {},
   });
 }
 
@@ -67,9 +64,6 @@ function b(userId, id) {
     type: 'POST',
     url: `/api/order/${userId}/${id}`,
     data: {},
-    success: function (response) {
-      // console.log(response);
-      // alert(response['message']);
-    },
+    success: function (response) {},
   });
 }

@@ -1,4 +1,4 @@
-GET http://localhost:3000/api/user/list
+GET http://localhost:3000/api/user/list?page=3
 
 ###
 GET http://localhost:3000/api/user/list/32

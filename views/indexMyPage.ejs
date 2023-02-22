@@ -40,7 +40,6 @@
           data: {},
           success: function (response) {
             let row = response['oneUser'];
-            console.log(row);
             sessionStorage.setItem('userDetails', JSON.stringify(row));
             let id = row['id'];
             let email = row['email'];

@@ -106,7 +106,6 @@
           url: '/logout',
           data: {},
           success: function (response) {
-            console.log(response);
             location.href = '/';
           },
         });
@@ -123,7 +122,6 @@
             location.href = '/main';
           },
           error: function (err) {
-            console.log(err);
             alert(err.responseJSON.errorMessage);
           },
         });
