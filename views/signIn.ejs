@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('head.ejs') %>
+    <link rel="stylesheet" href="./css/signIn.css" />
+    <title>Login</title>
+  </head>
+  <body class="text-center">
+    <main class="form-signin w-100 m-auto">
+      <form>
+        <div>
+          <img
+            id="logo"
+            src="./images/Logo.png"
+            alt="Logo-Makr-3-Dh-TDI"
+            border="0"
+          />
+        </div>
+        <div class="form-floating">
+          <input
+            type="email"
+            class="form-control"
+            id="signUpEmail"
+            placeholder="name@example.com"
+          />
+          <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="password"
+            class="form-control"
+            id="signUpPassword"
+            placeholder="Password"
+          />
+          <label for="floatingPassword">Password</label>
+        </div>
+        <button
+          class="w-100 btn btn-lg btn-primary"
+          type="button"
+          onclick="signIn()"
+        >
+          Login
+        </button>
+        <a class="btn btn-link" href="/signup"> 회원이 아니신가요?? </a>
+      </form>
+    </main>
+
+    <script defer src="./js/user.js"></script>
+  </body>
+</html>

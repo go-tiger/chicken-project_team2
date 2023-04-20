@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include('head.ejs') %>
+    <link rel="stylesheet" href="./css/main.css" />
+
+    <title>유저리스트</title>
+  </head>
+  <body>
+    <!-- header -->
+    <%- include('header.ejs') %>
+    <!-- body -->
+    <div class="container">
+<!----------------그룹---------------->
+<div class="row g-5">
+  <div class="col-md-12">
+    <h2>주문 완료 / 거절</h2>
+    <table class="type09 mb-3">
+      <thead >
+      </tr>
+          <th>주문번호</th>
+          <th>이메일</th>
+          <th>메뉴</th>
+          <th>주소</th>
+          <th>핸드폰</th>
+          <th>요청사항</th>
+          <th>완료 상태</th>
+      </tr>
+      </thead>
+      <tbody id="orderDone">
+      </tbody>
+    </table>
+<!------------페이지네이션---------->
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<!------------페이지네이션---------->
+  </div>
+  <hr class="col-md-12 mb-5" />
+<!----------------그룹---------------->
+<footer class="pt-5 my-5 text-muted border-top">
+  정기치킨주식회사 &middot; &copy; 2023
+</footer>
+</div>
+</div>
+  </body>
+  <script defer src="./js/mainOwner.js"></script>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('head.ejs') %>
+    <title>장바구니</title>
+  </head>
+  <body>
+    <!-----------------헤더 네비게이션---------------->
+    <%- include('header.ejs') %>
+    <!-----------------헤더 네비게이션---------------->
+    <!-----------------마이페이지---------------->
+    <main class="form-signin w-100 m-auto container">
+      <form>
+        <div class="title">
+          <h1>장바구니</h1>
+        </div>
+        <div id="menuList"></div>
+        <hr class="col-12" />
+        <div id="totalPrice"></div>
+      </form>
+    </main>
+    <!-----------------마이페이지---------------->
+  </body>
+  <script defer src="./js/mycart.js"></script>
+</html>

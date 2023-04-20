@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include('head.ejs') %>
+    <link rel="stylesheet" href="./css/main.css" />
+
+    <title>유저리스트</title>
+  </head>
+  <body>
+    <!-- header -->
+    <%- include('header.ejs') %>
+    <!-- body -->
+    <% if (components === 'mainUser') { %> <%- include('mainUser.ejs') %><% } %>
+    <% if (components === 'mainOwner') { %> <%- include('mainOwner.ejs') %><% }
+    %> <% if (components === 'mainAdmin') { %> <%- include('mainAdmin.ejs') %><%
+    } %>
+  </body>
+  <script defer src="./js/user.js"></script>
+</html>
