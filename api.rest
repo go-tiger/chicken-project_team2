@@ -1,4 +1,4 @@
-GET http://localhost:3000/api/user/list?page=3
+GET http://localhost:3000/api/user/list?page=1
 
 ###
 GET http://localhost:3000/api/user/list/32
@@ -35,10 +35,10 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json; charset=UTF-8
 
 {
-      "userName": "user7",
+      "userName": "user12",
       "password": "1234",
-      "email": "user7@gmail.com",
-      "phone": "010-7234-0673",
+      "email": "user12@gmail.com",
+      "phone": "010-9434-0343",
       "address": "강서구 서구 서구다",
       "userType": 0
 }

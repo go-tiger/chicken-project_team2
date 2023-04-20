@@ -100,17 +100,6 @@
         });
       }
 
-      function signOut() {
-        $.ajax({
-          type: 'DELETE',
-          url: '/logout',
-          data: {},
-          success: function (response) {
-            location.href = '/';
-          },
-        });
-      }
-
       function signIn() {
         let email = $('#signUpEmail').val();
         let password = $('#signUpPassword').val();

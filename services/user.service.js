@@ -18,9 +18,12 @@ class UserService {
   };
 
   allUsers = async page => {
-    const { count, rows } = await this.userRepositories.getUser(page);
+    const items = await this.userRepositories.getUser(page);
+    const limit = items.limit;
+    const { count, rows } = items.findItems;
 
-    let totalPage = Math.ceil(count / 2);
+    //총 페이지 수
+    let totalPage = Math.ceil(count / limit);
     // 화면에 보여줄 그룹 : 한 그룹당 5개 페이지 띄우기
     let pageGroup = Math.ceil(page / 5);
 

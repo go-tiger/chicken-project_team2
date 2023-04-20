@@ -16,12 +16,15 @@ class UserRepositories {
   };
 
   getUser = async page => {
-    return await user.findAndCountAll({
+    const limit = 5;
+    const findItems = await user.findAndCountAll({
       where: { userType: '0' },
       attributes: { exclude: ['password'] },
-      offset: (page - 1) * 2,
-      limit: 2,
+      offset: (page - 1) * limit,
+      limit: limit,
     });
+
+    return { limit, findItems };
   };
 
   getOneUser = async info => {

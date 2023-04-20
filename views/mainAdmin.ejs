@@ -40,29 +40,11 @@
     let query = window.location.search;
     let param = new URLSearchParams(query);
     let page = Number(param.get('page') || 1);
-    const id = new URLSearchParams(location.search).get('id');
 
     getUserLists(page);
 
     function deleteUser(id) {
-      let result = confirm('정말로 삭제하시겠습니까?');
-
-      if (result) {
-        $.ajax({
-          type: 'DELETE',
-          url: `/api/user/${id}`,
-          data: {},
-          success: function () {
-            alert('삭제되었습니다.');
-            location.reload();
-          },
-        });
-      } else {
-        alert('취소되었습니다.');
-      }
-    }
-
-    function deleteUser(id) {
+      console.log(id)
       let result = confirm('정말로 삭제하시겠습니까?');
 
       if (result) {
