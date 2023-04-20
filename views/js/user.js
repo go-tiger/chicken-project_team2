@@ -28,15 +28,11 @@ function signUp() {
       userType,
     },
     success: function (response) {
-      alert(response['message']);
+      console.log("회원가입이 완료되었습니다.")
       location.href = '/';
     },
     error: function (response) {
-      if ('Validation error' == response['responseJSON'].message) {
-        alert('중복된 정보가 있습니다.');
-      } else {
-        alert(response['responseJSON'].message);
-      }
+      alert(response.message)
     },
   });
 }
@@ -61,10 +57,11 @@ function signIn() {
     url: '/api/user/login',
     data: { email, password },
     success: function (response) {
-      location.href = '/main';
+      console.log("로그인성공!")
+      window.location.href = '/main';
     },
     error: function (response) {
-      alert(response['responseJSON'].message);
+      alert(response.message);
     },
   });
 }
