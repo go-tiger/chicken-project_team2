@@ -11,34 +11,12 @@ class UserService {
   newUser = async userInfo => {
     const hashedPassword = await bcrypt.hash(userInfo.password, 10);
     userInfo.password = hashedPassword;
-
     await this.userRepositories.registerUser(userInfo);
-
     return;
   };
 
-  allUsers = async page => {
-    const items = await this.userRepositories.getUser(page);
-    const limit = items.limit;
-    const { count, rows } = items.findItems;
-
-    //총 페이지 수
-    let totalPage = Math.ceil(count / limit);
-    // 화면에 보여줄 그룹 : 한 그룹당 5개 페이지 띄우기
-    let pageGroup = Math.ceil(page / 5);
-
-    // 한 그룹의 마지막 페이지 번호
-    let lastPage = pageGroup * 5;
-
-    // 한 그룹의 첫 페이지 번호
-    let firstPage = lastPage - 5 + 1 <= 0 ? 1 : lastPage - 5 + 1;
-
-    // 만약 마지막 페이지 번호가 총 페이지 수 보다 크다면?
-    if (lastPage > totalPage) {
-      lastPage = totalPage;
-    }
-
-    return { count, rows, firstPage, lastPage, totalPage };
+  getUsers = async () => {
+    return await this.userRepositories.getUsers();
   };
 
   oneUser = async id => {

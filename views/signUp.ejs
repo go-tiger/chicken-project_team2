@@ -204,18 +204,6 @@
           },
         });
       }
-
-      function signOut() {
-        $.ajax({
-          type: 'DELETE',
-          url: '/logout',
-          data: {},
-          success: function (response) {
-            alert(response['message']);
-            location.href = '/';
-          },
-        });
-      }
     </script>
   </body>
 </html>
