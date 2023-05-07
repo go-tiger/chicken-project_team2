@@ -9,7 +9,7 @@ const MenuController = require('../controllers/menu.controller');
 const menuController = new MenuController();
 
 // 메뉴 전체목록 불러오기
-router.get('/', menuController.getAllMenu);
+router.get('/', authMWRouter, menuController.getAllMenu);
 
 // 메뉴 등록
 router.post('/', upload.single('file'), menuController.addMenu);

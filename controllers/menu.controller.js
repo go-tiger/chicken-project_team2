@@ -6,9 +6,10 @@ class menuController {
   // 메뉴 전체목록
   getAllMenu = async (req, res) => {
     try {
+      const userid = res.locals.user.id;
       const menu = await this.menuService.getAllMenu();
 
-      res.status(200).json(menu);
+      res.status(200).json([{ Menu: menu, id: userid }]);
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }

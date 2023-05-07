@@ -4,7 +4,7 @@ $(document).ready(function () {
   const onlyAdminUrl = location.pathname.split('/')[1];
   $.ajax({
     type: 'GET',
-    url: '/api/menu/admin/menu',
+    url: '/api/menu',
     data: {},
     success: function (response) {
       let userId = response['0']['id'];
