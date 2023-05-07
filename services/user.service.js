@@ -11,8 +11,7 @@ class UserService {
   newUser = async userInfo => {
     const hashedPassword = await bcrypt.hash(userInfo.password, 10);
     userInfo.password = hashedPassword;
-    await this.userRepositories.registerUser(userInfo);
-    return;
+    return await this.userRepositories.registerUser(userInfo);
   };
 
   getUsers = async () => {
