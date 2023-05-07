@@ -3,9 +3,9 @@ const router = express.Router();
 const authMWRouter = require('../middlewares/auth');
 
 /* 토큰 검증 api */
-router.get('/login/check', authMWRouter, async (req, res) => {
-  res.json({ user: res.locals.user });
-});
+// router.get('/login/check', authMWRouter, async (req, res) => {
+//   res.json({ user: res.locals.user });
+// });
 
 /* 로그인 전 메인페이지 */
 router.get('/', (req, res) => {

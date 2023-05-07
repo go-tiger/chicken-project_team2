@@ -3,10 +3,32 @@ const OrderRepositories = require('../repositories/order.repository');
 class OrderService {
   orderRepositories = new OrderRepositories();
 
-  newUser = async userInfo => {
-    await this.orderRepositories.registerOrder();
+  getOrderList = async () => {
+    await this.orderRepositories.getOrderList();
+  };
 
-    return;
+  addOrderByMenuId = async (user, menuId) => {
+    await this.orderRepositories.addOrderByMenuId(user, menuId);
+  };
+
+  addOrder = async (userId, address, memo, totalPrice) => {
+    await this.orderRepositories.addOrder(userId, address, memo, totalPrice);
+  };
+
+  acceptOrderByOrderId = async (orderId) => {
+    await this.orderRepositories.acceptOrderByOrderId(orderId);
+  };
+
+  completeOrder = async (orderId) => {
+    await this.orderRepositories.completeOrder(orderId);
+  };
+
+  rejectOrder = async (orderId) => {
+    await this.orderRepositories.rejectOrder(orderId);
+  };
+
+  deleteOrder = async (orderId) => {
+    await this.orderRepositories.deleteOrder(orderId);
   };
 }
 

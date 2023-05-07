@@ -15,17 +15,9 @@ class UserRepositories {
     return;
   };
 
-  getUser = async page => {
-    const limit = 5;
-    const findItems = await user.findAndCountAll({
-      where: { userType: '0' },
-      attributes: { exclude: ['password'] },
-      offset: (page - 1) * limit,
-      limit: limit,
-    });
-
-    return { limit, findItems };
-  };
+  getUsers = async () => {
+    return await user.findAll({})
+  }
 
   getOneUser = async info => {
     // if (type === 'userId') {
