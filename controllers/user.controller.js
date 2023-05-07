@@ -8,7 +8,7 @@ class UserController {
 
     await this.userService.newUser(userInfo);
 
-    res.status(201);
+    res.status(201).json({});
   };
 
   getUsers = async (req, res, next) => {

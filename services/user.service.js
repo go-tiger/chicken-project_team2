@@ -68,7 +68,7 @@ class UserService {
 
     return accessToken;
   };
-
+  
   updateUser = async (userInfo, userId) => {
     const { password, address, phone } = userInfo;
     const hashedPassword = await bcrypt.hash(password, 10);

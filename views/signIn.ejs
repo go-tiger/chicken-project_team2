@@ -45,6 +45,22 @@
       </form>
     </main>
 
-    <script defer src="./js/user.js"></script>
+    <script>
+      function signIn() {
+        let email = $('#signUpEmail').val();
+        let password = $('#signUpPassword').val();
+        $.ajax({
+          type: 'POST',
+          url: '/api/user/login',
+          data: { email, password },
+          success: function (response) {
+            window.location.href = '/main';
+          },
+          error: function (response) {
+            alert(response.message);
+          },
+        });
+      }
+    </script>
   </body>
 </html>
