@@ -181,7 +181,7 @@ function cartAdd(menuId) {
   $.ajax({
     type: 'POST',
     url: `/api/cart/${menuId}`,
-    data: { menuId },
+    data: {},
     success: function (response) {
       alert(response['message']);
     },
@@ -193,7 +193,7 @@ function nowOrder(menuId) {
   $.ajax({
     type: 'POST',
     url: `/api/order/now/${menuId}`,
-    data: { menuId },
+    data: {},
     success: function (response) {
       alert(response['message']);
       location.href = '/orderchk';

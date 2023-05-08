@@ -1,49 +1,57 @@
 'use strict';
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-  class user extends Model {
+  class User extends Model {
     static associate(models) {
-      // define association here
-      models.myCart.hasMany(models.myCart, { foreignKey: 'userId' });
-      models.order.hasMany(models.order, { foreignKey: 'userId' });
-      models.orderList.hasMany(models.orderList, { foreignKey: 'userId' });
+      models.User.hasMany(models.Cart, { foreignKey: 'userId' });
+      models.User.hasMany(models.Order, { foreignKey: 'userId' });
     }
   }
-  user.init(
+
+  User.init(
     {
       userName: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         allowNull: false,
-        unique: true,
+        comment: '유저 이름',
       },
       password: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         allowNull: false,
+        comment: '유저 비밀번호',
       },
       email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         unique: true,
         allowNull: false,
+        comment: '유저 이메일',
       },
       phone: {
-        type: DataTypes.STRING,
-        // unique: true,
+        type: DataTypes.STRING(20),
         allowNull: false,
+        comment: '유저 전화번호',
       },
       address: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: false,
+        comment: '유저 주소',
       },
       userType: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0,
+        comment: '유저 권한 (ex. 0 = 유저, 1 = 사장, 2 = 관리자)',
       },
     },
     {
       sequelize,
+      modelName: 'User',
       tableName: 'users',
-      modelName: 'user',
+      charset: 'utf8mb4',
+      collate: 'utf8mb4_general_ci',
     }
   );
-  return user;
+
+  return User;
 };

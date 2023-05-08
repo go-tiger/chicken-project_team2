@@ -8,12 +8,14 @@ function getOrderLists() {
     url: '/api/order',
     data: {},
     success: function (response) {
-      let rows = response['orders'];
+      console.log(response.getOrder)
+      let rows = response['getOrder'];
+      console.log(rows)
 
       for (let i = 0; i < rows.length; i++) {
         let orderId = rows[i]['orderId'];
         let email = rows[i]['order']['user']['email'];
-        let menuName = rows[i]['menuName'];
+        let menuName = rows[i]['chickenMenu']['menuName'];
         let menuAmount = rows[i]['menuAmount'];
         let address = rows[i]['order']['address'];
         let phone = rows[i]['order']['user']['phone'];

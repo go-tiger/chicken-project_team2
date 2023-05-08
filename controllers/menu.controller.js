@@ -37,7 +37,6 @@ class menuController {
   editMenu = async (req, res) => {
     try {
       const menuId = req.params.menuId;
-      console.log(req.params);
       const { menuName, menuPrice } = req.body;
       const imgPath = req.file.path;
       const menuPhoto = imgPath.split('/')[2];

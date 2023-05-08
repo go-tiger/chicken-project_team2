@@ -4,8 +4,8 @@ class orderController {
   orderService = new OrderService();
 
   getOrderList = async (req, res, next) => {
-    await this.orderService.getOrderList();
-    res.status(200).json({});
+    const getOrder = await this.orderService.getOrderList();
+    res.status(200).json({getOrder});
   };
 
   addOrderByMenuId = async (req, res, next) => {
@@ -14,7 +14,7 @@ class orderController {
       const menuId = req.params.menuId;
 
       await this.orderService.addOrderByMenuId(user, menuId);
-      res.status(201).json({ message: '주문이 완료되었습니다.'});
+      res.status(201).json({ message: '주문이 완료되었습니다.' });
     } catch (error) {
       res.status(500).json({ 
         error: {
@@ -29,9 +29,8 @@ class orderController {
       const userId = res.locals.user.id;
 
       const { address, memo, totalPrice } = req.body;
-
-      await this.orderService.addOrder();
-      res.status(201).json({userId, address, memo, totalPrice});
+      await this.orderService.addOrder(userId, address, memo, totalPrice);
+      res.status(201).json({ message: '주문이 완료되었습니다.' });
     } catch (error) {
       res.status(500).json({ 
         error: {

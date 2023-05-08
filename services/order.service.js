@@ -4,7 +4,7 @@ class OrderService {
   orderRepositories = new OrderRepositories();
 
   getOrderList = async () => {
-    await this.orderRepositories.getOrderList();
+    return await this.orderRepositories.getOrderList();
   };
 
   addOrderByMenuId = async (user, menuId) => {

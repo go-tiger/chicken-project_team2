@@ -2,7 +2,7 @@ const { user, order, myCart, orderList, chickenMenu } = require('../models');
 
 class OrderRepositories {
   getOrderList = async () => {
-    return await orderList.findAll({
+    const getOrder = await orderList.findAll({
       include: [
         {
           model: order,
@@ -14,34 +14,42 @@ class OrderRepositories {
             },
           ],
         },
+        {
+          model: chickenMenu,
+          attributes: ['menuName'],
+        }
       ],
       attributes: {
         exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
-      },
+      }
     });
+    return getOrder
   };
 
   addOrderByMenuId = async (user, menuId) => {
-    const menu = await this.orderRepositories.findOne({
+    const menu = await chickenMenu.findOne({
       where: {id : menuId}
     })
-
     const addOrder = await order.create({
-      address: user.address,
-      totalPrice: menu.menuPrice,
-      userId: user.userId,
+      address: user.dataValues.address,
+      totalPrice: menu.dataValues.menuPrice,
+      userId: user.dataValues.id,
       orderStatus: 0,
+      memo: "즉시주문"
     });
 
     await orderList.create({
       menuAmount: 1,
       menuId,
-      userId,
-      orderId: addOrder.dateValues.id,
+      userId: user.dataValues.id,
+      orderId: addOrder.dataValues.id,
     });
   };
 
+
+
   addOrder = async (userId, address, memo, totalPrice) => {
+    
     const addOrder = await order.create({
       address,
       memo,
@@ -50,8 +58,9 @@ class OrderRepositories {
       orderStatus: 0,
     });
 
+
     const cart = await myCart.findAll({
-      where: { userId: userId },
+      where: { userId },
       raw: true,
       attributes: {
         exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
