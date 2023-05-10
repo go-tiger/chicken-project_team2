@@ -15,33 +15,21 @@ class UserRepositories {
 
   
 
+
+  // getOneUser = async info => {
+  //   const getOneUser =  await User.findOne({
+  //     where: {
+  //       [Op.or]: [{ id: info }, { email: info }],
+  //     },
+  //   });
+
+  //   return getOneUser
+  // };
+
   getUsers = async () => {
     return await user.findAll({})
   }
 
-  getOneUser = async info => {
-    // if (type === 'userId') {
-    //   const User = await user.findOne({
-    //     where: {
-    //       id: info,
-    //     },
-    //   });
-    //   return User;
-    // }
-    // if (type === 'email') {
-    //   const User = await user.findOne({
-    //     where: {
-    //       email: info,
-    //     },
-    //   });
-    //   return User;
-    // }
-    return await user.findOne({
-      where: {
-        [Op.or]: [{ id: info }, { email: info }],
-      },
-    });
-  };
 
   updateUser = async (id, password, address, phone) => {
     return await user.update(

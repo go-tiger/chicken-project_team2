@@ -16,9 +16,9 @@ class UserService {
         throw new Error('이메일 중복체크');
     }
     
-    const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    // const saltRounds = 10;
+    // const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const createUser = await this.userRepositories.createUser(
       userName,
@@ -32,29 +32,20 @@ class UserService {
     return createUser
   };
 
-
-
-  getUsers = async () => {
-    return await this.userRepositories.getUsers();
-  };
-
-  oneUser = async id => {
-    return await this.userRepositories.getOneUser(id);
-  };
-
   login = async userInfo => {
-    const user = await this.userRepositories.getOneUser(userInfo.email);
+    const user = await this.userRepositories.getUserByEmail(userInfo.email);
 
     const inPasswordCorrect = await bcrypt.compare(
       userInfo.password,
       user.password
-    );
+      );
 
     if (!user.password || !inPasswordCorrect) {
       return res
         .status(400)
         .json({ message: '이메일 또는 비밀번호가 틀렸습니다.' });
     }
+
 
     const accessToken = jwt.sign(
       {
@@ -65,6 +56,18 @@ class UserService {
 
     return accessToken;
   };
+
+
+
+  getUsers = async () => {
+    return await this.userRepositories.getUsers();
+  };
+
+  oneUser = async id => {
+    return await this.userRepositories.getOneUser(id);
+  };
+
+  
   
   updateUser = async (userInfo, userId) => {
     const { password, address, phone } = userInfo;

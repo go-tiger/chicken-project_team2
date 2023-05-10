@@ -35,7 +35,7 @@ class UserController {
       const accessToken = await this.userService.login(userInfo);
       res.cookie('accessToken', accessToken);
 
-      res.status(200).json({});
+      res.status(200).json({ message: "로그인 성공"});
     } catch (err) {
       res.status(400).json({ errorMessage: err.message });
     }
