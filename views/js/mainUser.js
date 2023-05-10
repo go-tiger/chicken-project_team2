@@ -44,7 +44,7 @@ function getMenuList() {
           </button>
         </div>
       </div>`;
-        $('#chickenMenu').append(temp_html);
+        $('#menu').append(temp_html);
       }
     },
   });

@@ -3,14 +3,12 @@ const router = express.Router();
 
 const userRouter = require('./user.routes');
 const menuRouter = require('./menu.routes');
-const mycartRouter = require('./mycart.routes');
+const cartRouter = require('./cart.routes');
 const orderRouter = require('./order.routes');
-const mypageRouter = require('./mypage.routes');
 
 router.use('/user', userRouter);
-router.use('/menu', menuRouter);
-router.use('/cart', mycartRouter);
-router.use('/order', orderRouter);
-router.use('/mypage', mypageRouter);
+// router.use('/menu', menuRouter);
+// router.use('/cart', cartRouter);
+// router.use('/order', orderRouter);
 
 module.exports = router;

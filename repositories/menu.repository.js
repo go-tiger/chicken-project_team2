@@ -1,10 +1,10 @@
-const { chickenMenu } = require('../models');
+const { menu } = require('../models');
 
 class MenuRepository {
   // 메뉴 전체목록
   getAllMenu = async () => {
     try {
-      return await chickenMenu.findAll({});
+      return await menu.findAll({});
     } catch (error) {
       error.status = 500;
       throw error;
@@ -14,7 +14,7 @@ class MenuRepository {
   // 메뉴 등록
   addMenu = async (menuName, menuPrice, menuPhoto) => {
     try {
-      return await chickenMenu.create({
+      return await menu.create({
         menuName,
         menuPrice,
         menuPhoto,
@@ -27,7 +27,7 @@ class MenuRepository {
   // 메뉴 수정
   editMenu = async (menuId, menuName, menuPrice, menuPhoto) => {
     try {
-      return await chickenMenu.update(
+      return await menu.update(
         {
           menuName,
           menuPrice,
@@ -45,7 +45,7 @@ class MenuRepository {
   // 메뉴 삭제
   delMenu = async menuId => {
     try {
-      return await chickenMenu.destroy({ where: { id: menuId } });
+      return await menu.destroy({ where: { id: menuId } });
     } catch (error) {
       throw error;
     }

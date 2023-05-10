@@ -1,19 +1,19 @@
-const { user } = require('../models');
+const { User } = require('../models');
 const { Op } = require('sequelize');
 
 class UserRepositories {
-  registerUser = async userInfo => {
-    await user.create({
-      userName: userInfo.userName,
-      password: userInfo.password,
-      email: userInfo.email,
-      phone: userInfo.phone,
-      address: userInfo.address,
-      userType: userInfo.userType,
-    });
+  createUser = async (userName, password, email, phone, address, userType) => {
+    const user = await User.create({ userName, password, email, phone, address, userType });
 
-    return;
+    return user;
   };
+
+  getUserByEmail = async (email) => {
+    const user = await User.findOne({ where: { email } });
+    return user;
+  };
+
+  
 
   getUsers = async () => {
     return await user.findAll({})

@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const authMWRouter = require('../middlewares/auth');
 
-const { user, myCart, chickenMenu } = require('../models');
+const { user, cart, menu } = require('../models');
 
 const { JWT_SECRET_KET } = process.env;
 
@@ -12,11 +12,11 @@ router.get('/order', authMWRouter, async (req, res) => {
   const userId = res.locals.user.id;
 
   try {
-    const cart = await myCart.findAll({
+    const cart = await cart.findAll({
       where: { userId: userId },
       include: [
         {
-          model: chickenMenu,
+          model: menu,
           attributes: ['menuName', 'menuPrice'],
         },
         {
@@ -34,11 +34,11 @@ router.get('/order', authMWRouter, async (req, res) => {
 router.get('/', authMWRouter, async (req, res) => {
   const userId = res.locals.user.id;
   try {
-    const cart = await myCart.findAll({
+    const cart = await cart.findAll({
       where: { userId: userId },
       include: [
         {
-          model: chickenMenu,
+          model: menu,
           attributes: ['menuName', 'menuPrice'],
         },
       ],
@@ -52,20 +52,20 @@ router.post('/:menuId', authMWRouter, async (req, res) => {
     const menuid = req.params.menuId;
     const userId = res.locals.user.id;
 
-    const findMenuAll = await myCart.findAll({
+    const findMenuAll = await cart.findAll({
       where: { menuId: menuid, userId },
       raw: true,
     });
 
     if (findMenuAll.length === 0) {
       const addMenu = 1;
-      await myCart.create({ menuAmount: addMenu, userId, menuId: menuid });
+      await cart.create({ menuAmount: addMenu, userId, menuId: menuid });
     } else {
       const addAmount = findMenuAll['0']['menuAmount'];
 
       NewAmount = addAmount + 1;
 
-      await myCart.update(
+      await cart.update(
         { menuAmount: NewAmount },
         { where: { menuId: menuid, userId } }
       );
@@ -82,7 +82,7 @@ router.put('/:menuId', async (req, res) => {
     const menuid = req.params.menuId;
     const putMenuAmount = req.body.menuAmount;
 
-    await myCart.update(
+    await cart.update(
       { menuAmount: putMenuAmount },
       { where: { id: menuid } }
     );
@@ -97,7 +97,7 @@ router.put('/:menuId', async (req, res) => {
 router.delete('/:menuId', async (req, res) => {
   try {
     const menuid = req.params.menuId;
-    await myCart.destroy({ where: { id: menuid } });
+    await cart.destroy({ where: { id: menuid } });
     res.status(201).json({ message: '메뉴가 삭제되었습니다.' });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -107,7 +107,7 @@ router.delete('/:menuId', async (req, res) => {
 //장바구니 메뉴 모두 삭제
 router.delete('/order/:userId', async (req, res) => {
   try {
-    await myCart.destroy({ where: { userId: req.params.userId } });
+    await cart.destroy({ where: { userId: req.params.userId } });
     res.status(200).json({ message: '장바구니를 비웠습니다.' });
   } catch (error) {
     res.status(500).json({ message: error.message });

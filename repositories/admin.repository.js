@@ -1,4 +1,4 @@
-const { user, order, chickenMenu } = require('../models');
+const { user, order, menu } = require('../models');
 
 class AdminRepository {
   userList = async () => {
@@ -20,11 +20,11 @@ class AdminRepository {
     return await order.findAll({});
   };
   itemList = async () => {
-    return await chickenMenu.findAll({});
+    return await menu.findAll({});
   };
 
   updateItem = async (menuName, menuPrice) => {
-    return await chickenMenu.create({
+    return await menu.create({
       menuName,
       menuPrice,
       menuPhoto: '1',

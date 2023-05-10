@@ -8,11 +8,31 @@ dotenv.config();
 class UserService {
   userRepositories = new UserRepositories();
 
-  newUser = async userInfo => {
-    const hashedPassword = await bcrypt.hash(userInfo.password, 10);
-    userInfo.password = hashedPassword;
-    return await this.userRepositories.registerUser(userInfo);
+   createUser = async (userName, password, email, phone, address, userType) => {
+
+    const existingUser = await this.userRepositories.getUserByEmail(email);
+
+    if (existingUser) {
+        throw new Error('이메일 중복체크');
+    }
+    
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const createUser = await this.userRepositories.createUser(
+      userName,
+      hashedPassword,
+      email,
+      phone,
+      address,
+      userType,
+    );
+
+    return createUser
   };
+
+
 
   getUsers = async () => {
     return await this.userRepositories.getUsers();

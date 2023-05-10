@@ -43,7 +43,7 @@ $(document).ready(function () {
                             </button>
                           </div>
                           </div>`;
-          $('#chickenMenu').append(temp_html);
+          $('#menu').append(temp_html);
         }
       } else if (editMenuId === null && onlyAdminUrl === 'admin') {
         for (let i = 0; i < rows.length; i++) {
@@ -72,13 +72,13 @@ $(document).ready(function () {
                                 <button
                                   type="submit"
                                   class="btn btn-dark col-3 mb-3"
-                                  onclick="chickenMenuDel(${menuId})"
+                                  onclick="menuDel(${menuId})"
                                 >
                                   삭제
                                 </button>
                               </div>
                             </div>`;
-          $('#chickenMenu').append(menuAppend);
+          $('#menu').append(menuAppend);
         }
       } else {
         let edit = response['0']['Menu'][editMenuId - 1];
@@ -107,7 +107,7 @@ $(document).ready(function () {
 });
 
 /* 메뉴 추가 */
-function chickenMenuAdd() {
+function menuAdd() {
   let menuName = $('#menuName').val();
   let menuPrice = $('#menuPrice').val();
   let file = $('#file')[0].files[0];
@@ -134,7 +134,7 @@ function chickenMenuAdd() {
 }
 
 /* 메뉴 수정 */
-function chickenMenuEdit() {
+function menuEdit() {
   const searchParams = new URLSearchParams(location.search);
   const menuId = searchParams.get('id');
 
@@ -164,7 +164,7 @@ function chickenMenuEdit() {
 }
 
 /* 메뉴 삭제 */
-function chickenMenuDel(menuId) {
+function menuDel(menuId) {
   $.ajax({
     type: 'DELETE',
     url: `/api/menu/${menuId}`,

@@ -1,4 +1,4 @@
-const { user, order, myCart, orderList, chickenMenu } = require('../models');
+const { user, order, cart, orderList, menu } = require('../models');
 
 class OrderRepositories {
   getOrderList = async () => {
@@ -15,7 +15,7 @@ class OrderRepositories {
           ],
         },
         {
-          model: chickenMenu,
+          model: menu,
           attributes: ['menuName'],
         }
       ],
@@ -27,7 +27,7 @@ class OrderRepositories {
   };
 
   addOrderByMenuId = async (user, menuId) => {
-    const menu = await chickenMenu.findOne({
+    const menu = await menu.findOne({
       where: {id : menuId}
     })
     const addOrder = await order.create({
@@ -59,7 +59,7 @@ class OrderRepositories {
     });
 
 
-    const cart = await myCart.findAll({
+    const cart = await cart.findAll({
       where: { userId },
       raw: true,
       attributes: {

@@ -1,8 +1,8 @@
 $(document).ready(function () {
-  getMyCart();
+  getcart();
 });
 
-function getMyCart() {
+function getcart() {
   $.ajax({
     type: 'GET',
     url: '/api/cart',
@@ -15,8 +15,8 @@ function getMyCart() {
       for (let i = 0; i < rows.length; i++) {
         let menuId = rows[i]['id'];
         let menuAmount = rows[i]['menuAmount'];
-        let menuName = rows[i]['chickenMenu']['menuName'];
-        let menuPrice = rows[i]['chickenMenu']['menuPrice'];
+        let menuName = rows[i]['menu']['menuName'];
+        let menuPrice = rows[i]['menu']['menuPrice'];
 
         totalPrice += menuPrice * menuAmount;
 

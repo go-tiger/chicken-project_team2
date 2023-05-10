@@ -23,7 +23,7 @@ router.delete('/:menuId', menuController.delMenu);
 // router.get('/admin/menu', authMWRouter, async (req, res) => {
 //   const userid = res.locals.user.id;
 //   try {
-//     const menu = await chickenMenu.findAll();
+//     const menu = await menu.findAll();
 //     res.json([{ Menu: menu, id: userid }]);
 //   } catch (error) {
 //     res.status(500).json({ message: err.message });
@@ -37,7 +37,7 @@ router.delete('/:menuId', menuController.delMenu);
 //     const { menuName, menuPrice } = req.body;
 //     const imgPath = req.file.path;
 //     const menuPhoto = imgPath.split('\\')[2];
-//     await chickenMenu.create({
+//     await menu.create({
 //       menuName,
 //       menuPrice,
 //       menuPhoto,
@@ -56,7 +56,7 @@ router.delete('/:menuId', menuController.delMenu);
 //     const { menuName, menuPrice } = req.body;
 //     const imgPath = req.file.path;
 //     const menuPhoto = imgPath.split('\\')[2];
-//     await chickenMenu.update(
+//     await menu.update(
 //       {
 //         menuName,
 //         menuPrice,
@@ -77,7 +77,7 @@ router.delete('/:menuId', menuController.delMenu);
 // router.delete('/:menuId', async (req, res) => {
 //   try {
 //     const menuId = req.params.menuId;
-//     await chickenMenu.destroy({ where: { id: menuId } });
+//     await menu.destroy({ where: { id: menuId } });
 //     res.status(201).json({ message: '메뉴 삭제가 완료되었습니다.' });
 //   } catch (error) {
 //     res.status(500).json({ message: error.message });
