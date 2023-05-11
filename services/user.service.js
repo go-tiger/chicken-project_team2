@@ -8,14 +8,13 @@ dotenv.config();
 class UserService {
   userRepositories = new UserRepositories();
 
-   createUser = async (userName, password, email, phone, address, userType) => {
-
+  createUser = async (userName, password, email, phone, address, userType) => {
     const existingUser = await this.userRepositories.getUserByEmail(email);
 
     if (existingUser) {
-        throw new Error('이메일 중복체크');
+      throw new Error('이메일 중복체크');
     }
-    
+
     // const saltRounds = 10;
     // const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -26,10 +25,10 @@ class UserService {
       email,
       phone,
       address,
-      userType,
+      userType
     );
 
-    return createUser
+    return createUser;
   };
 
   login = async userInfo => {
@@ -38,14 +37,13 @@ class UserService {
     const inPasswordCorrect = await bcrypt.compare(
       userInfo.password,
       user.password
-      );
+    );
 
     if (!user.password || !inPasswordCorrect) {
       return res
         .status(400)
         .json({ message: '이메일 또는 비밀번호가 틀렸습니다.' });
     }
-
 
     const accessToken = jwt.sign(
       {
@@ -57,8 +55,7 @@ class UserService {
     return accessToken;
   };
 
-
-
+  // 전체 유저 목록
   getUsers = async () => {
     return await this.userRepositories.getUsers();
   };
@@ -67,8 +64,6 @@ class UserService {
     return await this.userRepositories.getOneUser(id);
   };
 
-  
-  
   updateUser = async (userInfo, userId) => {
     const { password, address, phone } = userInfo;
     const hashedPassword = await bcrypt.hash(password, 10);

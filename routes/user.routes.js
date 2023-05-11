@@ -5,7 +5,9 @@ const authMWRouter = require('../middlewares/auth');
 const UserController = require('../controllers/user.controller');
 const userController = new UserController();
 
-// router.get('/list', userController.getUsers);
+// 전체 유저 목록
+router.get('/list', userController.getUsers);
+
 // router.get('/list/:id', userController.getOneUser);
 router.post('/login', userController.login);
 router.post('/signup', userController.register);

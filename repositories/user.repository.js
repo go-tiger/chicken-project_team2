@@ -3,18 +3,22 @@ const { Op } = require('sequelize');
 
 class UserRepositories {
   createUser = async (userName, password, email, phone, address, userType) => {
-    const user = await User.create({ userName, password, email, phone, address, userType });
+    const user = await User.create({
+      userName,
+      password,
+      email,
+      phone,
+      address,
+      userType,
+    });
 
     return user;
   };
 
-  getUserByEmail = async (email) => {
+  getUserByEmail = async email => {
     const user = await User.findOne({ where: { email } });
     return user;
   };
-
-  
-
 
   // getOneUser = async info => {
   //   const getOneUser =  await User.findOne({
@@ -26,10 +30,15 @@ class UserRepositories {
   //   return getOneUser
   // };
 
+  // 전체 유저 목록
   getUsers = async () => {
-    return await user.findAll({})
-  }
-
+    try {
+      return await User.findAll({});
+    } catch (error) {
+      error.status = 500;
+      throw error;
+    }
+  };
 
   updateUser = async (id, password, address, phone) => {
     return await user.update(
