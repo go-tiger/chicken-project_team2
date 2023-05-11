@@ -24,7 +24,7 @@ class UserController {
     } catch (err) {
       if (err.message === '이메일 중복체크') {
         return res.status(409).json({ message: '이미 가입된 이메일입니다.' });
-    }
+      }
       res.status(500).json({ message : err.message });
     }
   };
@@ -32,19 +32,25 @@ class UserController {
   login = async (req, res, next) => {
     try {
       const userInfo = req.body;
-      const accessToken = await this.userService.login(userInfo);
-      res.cookie('accessToken', accessToken);
-
-      res.status(200).json({ message: "로그인 성공"});
+      const { accessToken, refreshToken } = await this.userService.login(userInfo);
+      res.status(200).json({ message: "로그인 성공",accessToken, refreshToken});
     } catch (err) {
+      if (err.message === '이메일 오류') {
+        return res.status(400).json({ message: '이메일 또는 비밀번호가 잘못되었습니다.' });
+      }
+
+      if (err.message === '비밀번호 오류') {
+        return res.status(400).json({ message: '이메일 또는 비밀번호가 잘못되었습니다.' });
+      }
+
       res.status(400).json({ errorMessage: err.message });
     }
   };
 
-  // getUsers = async (req, res, next) => {
-  //   const userList = await this.userService.getUsers();
-  //   res.status(200).json({userList});
-  // };
+  getUserList = async (req, res, next) => {
+    const userList = await this.userService.getUserList();
+    res.status(200).json({userList});
+  };
 
   // getOneUser = async (req, res, next) => {
   //   const { id } = req.params;

@@ -26,8 +26,8 @@ class UserRepositories {
   //   return getOneUser
   // };
 
-  getUsers = async () => {
-    return await user.findAll({})
+  getUserList = async () => {
+    return await User.findAll({})
   }
 
 
