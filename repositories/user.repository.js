@@ -21,7 +21,7 @@ class UserRepositories {
   };
 
   // 전체 유저 목록
-  getUsers = async () => {
+  getUserList = async () => {
     try {
       return await User.findAll({});
     } catch (error) {

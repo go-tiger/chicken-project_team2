@@ -1,6 +1,7 @@
 const UserRepositories = require('../repositories/user.repository');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const jwt = require('../util/jwt.util');
+const redisCli = require('../util/redis.util');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -15,9 +16,9 @@ class UserService {
       throw new Error('이메일 중복체크');
     }
 
-    // const saltRounds = 10;
-    // const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const createUser = await this.userRepositories.createUser(
       userName,
@@ -34,30 +35,33 @@ class UserService {
   login = async userInfo => {
     const user = await this.userRepositories.getUserByEmail(userInfo.email);
 
+    // 존재하지 않는 유저
+    if (!user) {
+      throw new Error('이메일 오류');
+    }
+
     const inPasswordCorrect = await bcrypt.compare(
       userInfo.password,
       user.password
     );
 
     if (!user.password || !inPasswordCorrect) {
-      return res
-        .status(400)
-        .json({ message: '이메일 또는 비밀번호가 틀렸습니다.' });
+      throw new Error('비밀번호 오류');
     }
 
-    const accessToken = jwt.sign(
-      {
-        id: user.id,
-      },
-      process.env.JWT_SECRET_KET
-    );
+    const accessToken = jwt.sign(user);
+    const refreshToken = jwt.refresh();
 
-    return accessToken;
+    //리프레쉬 토큰 만료시간 : day를 초로 변환 (1일 = 24시간 * 60분 * 60초)
+    const expiresIn = 24 * 60 * 60;
+
+    await redisCli.set(String(user.id), refreshToken);
+    await redisCli.expire(String(user.id), expiresIn);
+    return { accessToken, refreshToken };
   };
 
-  // 전체 유저 목록
-  getUsers = async () => {
-    return await this.userRepositories.getUsers();
+  getUserList = async () => {
+    return await this.userRepositories.getUserList();
   };
 
   // 특정 유저

@@ -50,14 +50,26 @@ class UserController {
 
       res.status(200).json({ message: '로그인 성공' });
     } catch (err) {
+      if (err.message === '이메일 오류') {
+        return res
+          .status(400)
+          .json({ message: '이메일 또는 비밀번호가 잘못되었습니다.' });
+      }
+
+      if (err.message === '비밀번호 오류') {
+        return res
+          .status(400)
+          .json({ message: '이메일 또는 비밀번호가 잘못되었습니다.' });
+      }
+
       res.status(400).json({ errorMessage: err.message });
     }
   };
 
   // 전체 유저 목록
-  getUsers = async (req, res, next) => {
+  getUserList = async (req, res, next) => {
     try {
-      const userList = await this.userService.getUsers();
+      const userList = await this.userService.getUserList();
       res.status(200).json({ userList });
     } catch (error) {
       return res.status(500).json({ message: error.message });
