@@ -64,18 +64,23 @@ class UserController {
     }
   };
 
-  // getOneUser = async (req, res, next) => {
-  //   const { id } = req.params;
+  // 특정 유저
+  getOneUser = async (req, res, next) => {
+    try {
+      const { id } = req.params;
 
-  //   const oneUser = await this.userService.oneUser(id);
-  //   res.status(200).json({ oneUser });
+      const oneUser = await this.userService.oneUser(id);
+      res.status(200).json({ oneUser });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
+
+  // logout = async (req, res, next) => {
+  //   const logout = await this.userService.logout();
+
+  //   res.status(200).json({logout})
   // };
-
-  // // logout = async (req, res, next) => {
-  // //   const logout = await this.userService.logout();
-
-  // //   res.status(200).json({logout})
-  // // };
 
   // editUser = async (req, res, next) => {
   //   const { userType } = res.locals.user;

@@ -8,7 +8,9 @@ const userController = new UserController();
 // 전체 유저 목록
 router.get('/list', userController.getUsers);
 
-// router.get('/list/:id', userController.getOneUser);
+// 특정 유저
+router.get('/list/:id', userController.getOneUser);
+
 router.post('/login', userController.login);
 router.post('/signup', userController.register);
 // router.patch('/:userId', authMWRouter, userController.editUser);

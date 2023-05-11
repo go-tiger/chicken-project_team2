@@ -20,16 +20,6 @@ class UserRepositories {
     return user;
   };
 
-  // getOneUser = async info => {
-  //   const getOneUser =  await User.findOne({
-  //     where: {
-  //       [Op.or]: [{ id: info }, { email: info }],
-  //     },
-  //   });
-
-  //   return getOneUser
-  // };
-
   // 전체 유저 목록
   getUsers = async () => {
     try {
@@ -38,6 +28,16 @@ class UserRepositories {
       error.status = 500;
       throw error;
     }
+  };
+
+  // 특정 유저
+  getOneUser = async id => {
+    const getOneUser = await User.findOne({
+      where: {
+        [Op.or]: { id },
+      },
+    });
+    return getOneUser;
   };
 
   updateUser = async (id, password, address, phone) => {

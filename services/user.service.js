@@ -60,8 +60,13 @@ class UserService {
     return await this.userRepositories.getUsers();
   };
 
+  // 특정 유저
   oneUser = async id => {
-    return await this.userRepositories.getOneUser(id);
+    try {
+      return await this.userRepositories.getOneUser(id);
+    } catch (error) {
+      throw error;
+    }
   };
 
   updateUser = async (userInfo, userId) => {
