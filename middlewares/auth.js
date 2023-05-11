@@ -22,7 +22,7 @@ module.exports = async (req, res, next) => {
     } else { //// access token 유효하지 않은 경우,
       //redis cloud 리프레쉬 토큰 가져오기
       const decoded = jwt.decode(token)
-      const redisRefreshToken = await redisCli.get(String(decoded.id));
+      const redisRefreshToken = await redisCli.get(String(decoded?.id));
 
       //refresh token 이 없는 경우, 인증 실패로 처리합니다.
       if (!redisRefreshToken) {
