@@ -16,20 +16,19 @@ class menuController {
   };
 
   // 메뉴 등록
-  addMenu = async (req, res) => {
+  createMenu = async (req, res) => {
     try {
+      const imageFilePath = req.file.path;
       const { menuName, menuPrice } = req.body;
-      const imgPath = req.file.path;
-      const menuPhoto = imgPath.split('/')[2];
-      const test = await this.menuService.addMenu(
-        menuName,
-        menuPrice,
-        menuPhoto
-      );
 
-      res.status(201).json({ message: '메뉴 등록이 완료되었습니다.' });
+      if (!menuName || !menuPrice || !imageFilePath) {
+        throw new Error('메뉴 정보가 올바르지 않습니다.');
+      }
+
+      const menu = await this.menuService.createMenu(menuName, menuPrice, imageFilePath);
+      res.status(201).json(menu);
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
   };
 

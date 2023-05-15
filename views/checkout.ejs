@@ -47,5 +47,59 @@
     </main>
     <!-----------------마이페이지---------------->
   </body>
-  <script defer src="./js/order.js"></script>
+  <script>
+    $(document).ready(function () {
+      getcart();
+    });
+
+    function postOrder() {
+      let address = $('#address').val();
+      let memo = $('#memo').val();
+      let totalPrice = $('#price').val();
+
+      $.ajax({
+        type: 'POST',
+        url: '/api/order',
+        data: {
+          address,
+          memo,
+          totalPrice,
+        },
+        success: function (response) {
+          alert(response['message']);
+          location.href = '/orderchk';
+        },
+      });
+    }
+
+    function getcart() {
+      $.ajax({
+        type: 'GET',
+        url: '/api/cart/order',
+        data: {},
+        success: function (response) {
+          let rows = response['0']['cart'];
+          let address = response['0']['cart']['0']['user']['address'];
+          let totalPrice = 0;
+
+          for (let i = 0; i < rows.length; i++) {
+            let menuAmount = rows[i]['menuAmount'];
+            let menuName = rows[i]['menu']['menuName'];
+            let menuPrice = rows[i]['menu']['menuPrice'];
+
+            totalPrice += menuPrice * menuAmount;
+
+            let temp_html = `<p>${menuName}<strong> ${menuAmount} 마리</strong></p>`;
+            $('#menuList').append(temp_html);
+          }
+          temp_html = `<textarea class="form-control" id="address" rows="3">${address}</textarea>`;
+          $('#userAddress').append(temp_html);
+
+          temp_html = `<p>총 : <span>${totalPrice}</span>원</p>`;
+          $('#totalPrice').append(temp_html);
+          $('#price').val(totalPrice);
+        },
+      });
+    }
+  </script>
 </html>

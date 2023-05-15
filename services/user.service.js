@@ -52,13 +52,14 @@ class UserService {
 
     const accessToken = jwt.sign(user);
     const refreshToken = jwt.refresh();
+    const userType = user.userType
 
     //리프레쉬 토큰 만료시간 : day를 초로 변환 (1일 = 24시간 * 60분 * 60초)
     const expiresIn = 24 * 60 * 60
 
     await redisCli.set( String(user.id), refreshToken );
     await redisCli.expire( String(user.id), expiresIn);
-    return {accessToken, refreshToken}
+    return {accessToken, refreshToken, userType}
   };
 
 

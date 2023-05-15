@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include('head.ejs') %>
+    <link rel="stylesheet" href="./css/main.css" />
+
+    <title>유저리스트</title>
+  </head>
+  <body>
+    <%- include('header.ejs') %>
+
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-md-12">
+          <h2>주문 진행</h2>
+          <table class="type09 mb-3">
+            <thead >
+            </tr>
+                <th>주문번호</th>
+                <th>email</th>
+                <th>메뉴</th>
+                <th>주소</th>
+                <th>핸드폰</th>
+                <th>요청사항</th>
+                <th>진행상황</th>
+            </tr>
+            </thead>
+            <tbody id="orderIng">
+
+            </tbody>
+          </table>
+        </div>
+
+        <hr class="col-md-12 mb-5" />
+        <!----------------그룹---------------->
+        <footer class="pt-5 my-5 text-muted border-top">
+          정기치킨주식회사 &middot; &copy; 2023
+        </footer>
+      </div>
+    </div>
+    <script>
+      $.ajax({
+        type: 'GET',
+        url: '/api/order/owner',
+        data: {},
+        success: function (response) {
+          let rows = response['orders'];
+          for (let i = 0; i < rows.length; i++) {
+            let orderId = rows[i]['orderId'];
+            let email = rows[i]['order']['user']['email'];
+            let menuName = rows[i]['menuName'];
+            let menuAmount = rows[i]['menuAmount'];
+            let address = rows[i]['order']['address'];
+            let phone = rows[i]['order']['user']['phone'];
+            let memo = rows[i]['order']['memo'];
+            let orderStatus = rows[i]['order']['orderStatus'];
+
+            if (orderStatus == 0) {
+              let temp_html = `<tr>
+              <td>${orderId}</td>
+              <td>${email}</td>
+              <td>${menuName}</td>
+              <td>${menuAmount}</td>
+              <td>${address}</td>
+              <td>${phone}</td>
+              <td>${memo}</td>
+              <td><button type="button" class="btn btn-success" onclick="update(${orderId})">수락</button></td>
+              <td><button type="button" class="btn btn-danger" onclick="refuse(${orderId})">거절</button></td>
+            </tr>
+              `;
+              $('#orderList').append(temp_html);
+            } else if (orderStatus == 1) {
+              let temp_html = `<tr>
+              <td>${orderId}</td>
+              <td>${email}</td>
+              <td>${menuName}</td>
+              <td>${address}</td>
+              <td>${phone}</td>
+              <td>${memo}</td>
+              <td><button type="button" class="btn btn-secondary" onclick="done(${orderId})">진행중</button></td>
+            </tr>`;
+              $('#orderIng').append(temp_html);
+            } else if (orderStatus > 1) {
+              let orderStat = '완료';
+              if (orderStatus == 3) {
+                orderStat = '거절';
+              }
+              let temp_html = `<tr>
+              <td>${orderId}</td>
+              <td>${email}</td>
+              <td>${menuName}</td>
+              <td>${address}</td>
+              <td>${phone}</td>
+              <td>${memo}</td>
+              <td>${orderStat}</td>
+            </tr>`;
+              $('#orderDone').append(temp_html);
+            }
+          }
+        },
+      });
+
+      function update(orderId) {
+        $.ajax({
+          type: 'PUT',
+          url: `/api/order/update/${orderId}`,
+          data: {},
+          success: function (response) {
+            alert(response['message']);
+            window.location.reload();
+          },
+        });
+      }
+
+      function done(orderId) {
+        $.ajax({
+          type: 'PUT',
+          url: `/api/order/done/${orderId}`,
+          data: {},
+          success: function (response) {
+            alert(response['message']);
+            window.location.reload();
+          },
+        });
+      }
+
+      function refuse(orderId) {
+        $.ajax({
+          type: 'PUT',
+          url: `/api/order/refuse/${orderId}`,
+          data: {},
+          success: function (response) {
+            alert(response['message']);
+            window.location.reload();
+          },
+        });
+      }
+
+      $(document).ready(function () {
+        getOrderList();
+      });
+
+      function deleteOrder(orderId) {
+        $.ajax({
+          type: 'DELETE',
+          url: `/api/order/delete/${orderId}`,
+          data: {},
+          success: function (response) {
+            alert(response['message']);
+            window.location.reload();
+          },
+        });
+      }
+
+      function getOrderList() {
+        $.ajax({
+          type: 'GET',
+          url: '/api/order/admin',
+          data: {},
+          success: function (response) {
+            let rows = response['orders'];
+            for (let i = 0; i < rows.length; i++) {
+              let orderId = rows[i]['orderId'];
+              let email = rows[i]['order']['user']['email'];
+              let menuName = rows[i]['menuName'];
+              let menuAmount = rows[i]['menuAmount'];
+              let address = rows[i]['order']['address'];
+              let phone = rows[i]['order']['user']['phone'];
+              let memo = rows[i]['order']['memo'];
+              let orderStatus = rows[i]['order']['orderStatus'];
+              if (orderStatus < 2) {
+                let temp_html = `<tr>
+                    <td>${orderId}</td>          
+                    <td>${email}</td>
+                    <td>${menuName}</td>
+                    <td>${menuAmount}</td>
+                    <td>${address}</td>
+                    <td>${phone}</td>
+                    <td>${memo}</td>
+                    <td><button type="button" class="btn btn-outline-danger" onclick="deleteOrder(${orderId})">삭제</button></td>
+                  </tr>
+                  `;
+                $('#adminOrder').append(temp_html);
+              } else if (orderStatus > 1) {
+                let temp_html = `<tr>
+                    <td>${orderId}</td>          
+                    <td>${email}</td>
+                    <td>${menuName}</td>
+                    <td>${menuAmount}</td>
+                    <td>${address}</td>
+                    <td>${phone}</td>
+                    <td>${memo}</td>
+                  </tr>
+                  `;
+                $('#ordersDone').append(temp_html);
+              }
+            }
+          },
+        });
+      }
+
+    </script>
+  </body>
+</html>

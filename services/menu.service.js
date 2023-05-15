@@ -14,11 +14,19 @@ class menuService {
   };
 
   // 메뉴 등록
-  addMenu = async (menuName, menuPrice, menuPhoto) => {
+  createMenu = async (menuName, menuPrice, imageFilePath) => {
     try {
-      return await this.menuRepository.addMenu(menuName, menuPrice, menuPhoto);
+      // 파일명 추출
+      const filename = imageFilePath.split('/').pop();
+  
+      // 이미지 경로 생성
+      const imagePath = `/uploads/${filename}`;
+
+      const menu = await this.menuRepository.createMenu(menuName, menuPrice, imagePath);
+
+      return menu;
     } catch (error) {
-      throw error;
+      throw new Error('메뉴 저장에 실패했습니다.');
     }
   };
 

@@ -32,8 +32,15 @@ class UserController {
   login = async (req, res, next) => {
     try {
       const userInfo = req.body;
-      const { accessToken, refreshToken } = await this.userService.login(userInfo);
-      res.status(200).json({ message: "로그인 성공",accessToken, refreshToken});
+      if(!userInfo.email){
+        return res.status(400).json({ message: '아이디를 입력해주세요.' });
+      }      
+      if(!userInfo.password){
+        return res.status(400).json({ message: '비밀번호를 입력해주세요.' });
+      }
+
+      const { accessToken, refreshToken, userType } = await this.userService.login(userInfo);
+      res.status(200).json({ message: "로그인 성공",accessToken, refreshToken, userType});
     } catch (err) {
       if (err.message === '이메일 오류') {
         return res.status(400).json({ message: '이메일 또는 비밀번호가 잘못되었습니다.' });

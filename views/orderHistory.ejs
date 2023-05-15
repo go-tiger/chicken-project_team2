@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('head.ejs') %>
+    <link rel="stylesheet" href="./css/main.css" />
+    <title>주문확인</title>
+  </head>
+  <body>
+    <%- include('header.ejs') %> 
+
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-md-12">
+        <!----------------그룹---------------->
+          <div class="row g-5">
+            <div class="col-md-12">
+              <h2>주문 확인</h2>
+              <table class="type09 mb-3">
+                <thead >
+                </tr>
+                  <th>주문번호</th>
+                  <th>이메일</th>
+                  <th>메뉴</th>
+                  <th>수량</th>
+                  <th>주소</th>
+                  <th>핸드폰</th>
+                  <th>요청사항</th>
+                  <th>주문상태</th>
+                </tr>
+              </thead>
+              <tbody id="userOrderList">
+              </tbody>
+            </table>
+            </div>
+          </div>
+        <!----------------그룹---------------->
+          <footer class="pt-5 my-5 text-muted border-top text-center">
+            정기치킨주식회사 &middot; &copy; 2023
+          </footer>
+      </div>
+    </div>
+  </body>
+  <script>
+    $(document).ready(function () {
+      getOrderLists();
+    });
+
+    function getOrderLists() {
+      $.ajax({
+        type: 'GET',
+        url: '/api/order',
+        data: {},
+        success: function (response) {
+          console.log(response.getOrder)
+          let rows = response['getOrder'];
+          console.log(rows)
+
+          for (let i = 0; i < rows.length; i++) {
+            let orderId = rows[i]['orderId'];
+            let email = rows[i]['order']['user']['email'];
+            let menuName = rows[i]['menu']['menuName'];
+            let menuAmount = rows[i]['menuAmount'];
+            let address = rows[i]['order']['address'];
+            let phone = rows[i]['order']['user']['phone'];
+            let memo = rows[i]['order']['memo'];
+            let orderStatus = rows[i]['order']['orderStatus'];
+            let orderStat = '주문 접수 중';
+            if (orderStatus == 0) {
+              orderStat = '주문 접수 중';
+            } else if (orderStatus == 1) {
+              orderStat = '배달 중';
+            } else if (orderStatus == 2) {
+              orderStat = '배달 완료';
+            } else if (orderStatus == 3) {
+              orderStat = '주문 거절';
+            }
+            let temp_html = `<tr>
+                              <td>${orderId}</td>
+                              <td>${email}</td>
+                              <td>${menuName}</td>
+                              <td>${menuAmount}</td>
+                              <td>${address}</td>
+                              <td>${phone}</td>
+                              <td>${memo}</td>
+                              <td>${orderStat}</td>
+                              </tr>`;
+            $('#userOrderList').append(temp_html);
+          }
+        },
+      });
+    }
+
+  </script>
+</html>

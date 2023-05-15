@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('head.ejs') %>
+    <title>관리자 메인 페이지</title>
+  </head>
+  <body>
+    <!-- header -->
+    <%- include('header.ejs') %>
+    <!-- body -->
+    <div class="container">
+      <div class="row g-5">
+        <!------메뉴 추가 폼--------->
+        <div id="addMenu">
+          <h2>메뉴 추가</h2>
+          <form id="menuForm" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="menuName" class="form-label">메뉴 이름</label>
+              <input
+                type="text"
+                class="form-control"
+                id="menuName"
+                name="menuName"
+                placeholder="곱창 후라이드"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="file" class="form-label">이미지</label>
+              <input class="form-control" type="file" id="file" name="file" />
+            </div>
+
+            <div class="mb-3">
+              <label for="menuPrice" class="form-label">가격</label>
+              <input
+                type="number"
+                class="form-control"
+                id="menuPrice"
+                name="menuPrice"
+                placeholder="10000"
+              />
+            </div>
+            <button
+              type="submit"
+              class="col-2 btn btn-dark"
+              onclick="menuAdd(event)"
+            >
+              메뉴 추가
+            </button>
+          </form>
+        </div>
+        <!-----메뉴 추가 폼---------->
+        <hr class="col-12" />
+        <!--추가된 메뉴들-->
+        <div class="album bg-light">
+          <div class="container card-container">
+            <div class="row row-cols-auto row-gap-4" id="menu">
+              <!-- 여기에 치킨메뉴 -->
+            </div>
+          </div>
+          <footer class="pt-5 my-5 text-muted border-top text-center">
+            정기치킨주식회사 &middot; &copy; 2023
+          </footer>
+        </div>
+      </div>
+    </div>
+    <script>
+
+      /* 메뉴 추가 */
+      function menuAdd() {
+        let menuName = $('#menuName').val();
+        let menuPrice = $('#menuPrice').val();
+        let file = $('#file')[0].files[0];
+        /* 파일을 보낼려면 formdata에 보내야한다 */
+        /* 보낼 벨류값도 같이 */
+        let formData = new FormData();
+        formData.append('file', file);
+        formData.append('menuName', menuName);
+        formData.append('menuPrice', menuPrice);
+
+        $.ajax({
+          type: 'POST',
+          url: `/api/menu/`,
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false,
+          enctype: 'multipart/form-data',
+          success: function (response) {
+            alert(response['message']);
+            window.location.reload();
+          },
+        });
+      }
+
+    </script>
+  </body>
+</html>

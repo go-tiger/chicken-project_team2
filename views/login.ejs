@@ -3,7 +3,6 @@
   <head>
     <%- include('head.ejs') %>
     <link rel="stylesheet" href="./css/signIn.css" />
-    
     <title>Login</title>
   </head>
   <body class="text-center">
@@ -55,10 +54,24 @@
           url: '/api/user/login',
           data: { email, password },
           success: function (response) {
-            window.location.href = '/main';
+            const accessToken = response.accessToken;
+            const refreshToken = response.refreshToken;
+            const userType = response.userType
+
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+
+            
+            if(userType === 0){
+              window.location.href = '/menu';
+            } else if(userType === 1 || userType === 2){
+              window.location.href = '/owner/orders';
+            } else {
+              return false
+            }
           },
           error: function (response) {
-            alert(response.message);
+            alert(response.responseJSON.message)
           },
         });
       }

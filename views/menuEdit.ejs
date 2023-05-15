@@ -30,7 +30,6 @@
             <label for="formFile" class="form-label">이미지</label>
             <input class="form-control" type="file" id="file" name="file" />
           </div>
-
           <div class="mb-3">
             <label for="FormControlInput" class="form-label">가격</label>
             <input
@@ -56,5 +55,49 @@
       </div>
     </div>
   </body>
-  <script defer src="/js/menu.js"></script>
+  <script>
+
+      /* 메뉴 수정 */
+      function menuEdit() {
+        const searchParams = new URLSearchParams(location.search);
+        const menuId = searchParams.get('id');
+
+        let menuName = $('#menuName').val();
+        let menuPrice = $('#menuPrice').val();
+        let file = $('#file')[0].files[0];
+        /* 파일을 보낼려면 formdata에 보내야한다 */
+        /* 보낼 벨류값도 같이 */
+        let formData = new FormData();
+        formData.append('file', file);
+        formData.append('menuName', menuName);
+        formData.append('menuPrice', menuPrice);
+
+        $.ajax({
+          type: 'PUT',
+          url: `/api/menu/${menuId}`,
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false,
+          enctype: 'multipart/form-data',
+          success: function (response) {
+            alert(response['message']);
+            location.href = '/admin';
+          },
+        });
+      }
+
+      /* 메뉴 삭제 */
+      function menuDel(menuId) {
+        $.ajax({
+          type: 'DELETE',
+          url: `/api/menu/${menuId}`,
+          data: {},
+          success: function (response) {
+            alert(response['message']);
+            window.location.reload();
+          },
+        });
+      }
+  </script>
 </html>
