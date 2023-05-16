@@ -16,7 +16,7 @@ router.get('/menu', (req, res) => {
   return res.render('mainPage.ejs');
 });
 
-// 오너 메인페이지 - 오더
+// 오너 or 관리자 - 오더 관리 메인 페이지 
 router.get('/owner/orders', (req, res) => {
   res.render('orderManagement.ejs');
 });
@@ -26,7 +26,7 @@ router.get('/checkout', (req, res) => {
   res.render('checkout.ejs');
 });
 
-/* 유저  */
+/* 유저 장바구니 */
 router.get('/cart', (req, res) => {
   res.render('cart.ejs');
 });
