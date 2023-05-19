@@ -192,10 +192,45 @@
       </button>
     </div>
   </div>
-</header>
+</header>-->
 
 
 <script>
+  function getTokensFromLocalStorage() {
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+  return { accessToken, refreshToken };
+  }
+
+  $(document).ready(
+    function sendAjaxRequest() {
+    const tokens = getTokensFromLocalStorage();
+    
+    $.ajax({
+      type: 'GET',
+      url: '/api/user/info',
+      headers: {
+        'Authorization': `Bearer ${tokens.accessToken}`,
+        'Refresh': `${tokens.refreshToken}`
+      },
+      data: {},
+      success: function(response) {
+      if(!!response.newAccessToken){
+        localStorage.setItem("accessToken", response.newAccessToken);
+      }
+      console.log(response)
+
+
+      },
+      error: function(err) {
+        alert(err.message)
+      }
+    });
+  }
+  )
+  
+
+
   function signOut() {
     $.ajax({
       type: 'DELETE',
@@ -207,4 +242,4 @@
       },
     });
   }
-</script> -->
+</script> 

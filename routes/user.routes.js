@@ -4,10 +4,9 @@ const router = express.Router();
 const UserController = require('../controllers/user.controller');
 const userController = new UserController();
 
+router.get('/info', userController.getUserInfo);
 router.get('/list', userController.getUserList);
 // router.get('/list/:id', userController.getOneUser);
-router.post('/login', userController.login);
-router.post('/signup', userController.register);
 // router.patch('/:userId', authMWRouter, userController.editUser);
 // router.delete('/:userId', userController.deleteUsers);
 

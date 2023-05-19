@@ -14,7 +14,6 @@ module.exports = async (req, res, next) => {
     // access token 검증
     const token = authHeader.substring(7);
     const verificationResult = verify(token);
-
     // access token 유효한경우
     if (verificationResult.ok) {
       // access token 유효한 경우, 다음 미들웨어로 진행합니다.
@@ -44,8 +43,10 @@ module.exports = async (req, res, next) => {
         const newAccessToken = sign({ 
           id: verificationResult.id,
           role : verificationResult.role});
-      
-        res.setHeader('Authorization', `Bearer ${newAccessToken}`);
+        req.userId = verificationResult.id
+        req.userType = verificationResult.role
+        req.newAccessToken = newAccessToken
+        
         next();
       } else {
       // 리프레시 토큰이 만료되었거나 검증 실패한 경우, 인증 실패로 처리합니다.

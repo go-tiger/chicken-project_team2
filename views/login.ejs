@@ -37,7 +37,7 @@
         <button
           class="w-100 btn btn-lg btn-primary"
           type="button"
-          onclick="signIn()"
+          onclick="login()"
         >
           Login
         </button>
@@ -46,12 +46,12 @@
     </main>
 
     <script>
-      function signIn() {
+      function login() {
         let email = $('#signUpEmail').val();
         let password = $('#signUpPassword').val();
         $.ajax({
           type: 'POST',
-          url: '/api/user/login',
+          url: '/api/auth/login',
           data: { email, password },
           success: function (response) {
             const accessToken = response.accessToken;

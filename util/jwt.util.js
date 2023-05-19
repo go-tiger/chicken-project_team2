@@ -25,7 +25,7 @@ module.exports = {
         role: decoded.userType
       };
     } catch (err) {
-      const decoded = jwt.verify(token, secret, { ignoreExpiration: true });
+      decoded = jwt.verify(token, secret, { ignoreExpiration: true });
       return {
         ok: false,
         id: decoded.id,
