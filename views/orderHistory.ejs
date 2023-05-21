@@ -50,9 +50,7 @@
         url: '/api/order',
         data: {},
         success: function (response) {
-          console.log(response.getOrder)
           let rows = response['getOrder'];
-          console.log(rows)
 
           for (let i = 0; i < rows.length; i++) {
             let orderId = rows[i]['orderId'];

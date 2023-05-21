@@ -5,8 +5,8 @@ class UserController {
 
   getUserInfo = async (req, res, next) => {
     try {
-      const { userId, userType, newAccessToken }= req
-      res.status(200).json({userId, userType, newAccessToken});
+      const { userId, userType, newAccessToken, userName  } = req
+      res.status(200).json({ userId, userType, newAccessToken, userName });
     } catch (err) {
       res.status(500).json({ message : err.message });
     }

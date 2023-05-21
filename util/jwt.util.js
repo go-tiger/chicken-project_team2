@@ -8,8 +8,10 @@ module.exports = {
      // access token 발급
     const payload = { // access token에 들어갈 payload
       id: user.id,
-      userType: user.userType
+      userType: user.userType,
+      userName : user.userName
     };
+
     return jwt.sign(payload, secret, { // secret으로 sign하여 발급하고 return
       algorithm: 'HS256', // 암호화 알고리즘
       expiresIn: '1s', 	  // 유효기간
@@ -22,14 +24,16 @@ module.exports = {
       return {
         ok: true,
         id: decoded.id,
-        role: decoded.userType
+        userType: decoded.userType,
+        userName: decoded.userName
       };
     } catch (err) {
       decoded = jwt.verify(token, secret, { ignoreExpiration: true });
       return {
         ok: false,
         id: decoded.id,
-        role: decoded.userType,
+        userType: decoded.userType,
+        userName: decoded.userName,
         message: err.message,
       };
     }

@@ -1,6 +1,5 @@
 const { sign, verify, refreshVerify } = require('../util/jwt.util');
 const redisCli = require('../util/redis.util');
-const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -18,7 +17,8 @@ module.exports = async (req, res, next) => {
     if (verificationResult.ok) {
       // access token 유효한 경우, 다음 미들웨어로 진행합니다.
       req.userId = verificationResult.id,
-      req.userType = verificationResult.role
+      req.userType = verificationResult.userType,
+      req.userName = verificationResult.userName
       next();
       
     } else { //// access token 유효하지 않은 경우,
@@ -38,15 +38,18 @@ module.exports = async (req, res, next) => {
 
       //refresh token 검증
       const refreshVerificationResult = await refreshVerify(redisRefreshToken);
-      //refresh token 유효한 경우, 헤더에 access 토큰 발급
+      //refresh token 유효한 경우, access 토큰 발급
       if (refreshVerificationResult) {
         const newAccessToken = sign({ 
           id: verificationResult.id,
-          role : verificationResult.role});
+          userType : verificationResult.userType,
+          userName : verificationResult.userName
+        });
+
         req.userId = verificationResult.id
-        req.userType = verificationResult.role
+        req.userType = verificationResult.userType
+        req.userName = verificationResult.userName
         req.newAccessToken = newAccessToken
-        
         next();
       } else {
       // 리프레시 토큰이 만료되었거나 검증 실패한 경우, 인증 실패로 처리합니다.

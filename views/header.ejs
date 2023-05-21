@@ -2,38 +2,13 @@
   <div class="collapse bg-dark" id="navbarHeader">
     <div class="container">
       <div class="row">
-        <div class="col-sm-8 col-md-7 py-4">
-          <h4 class="text-white">About</h4>
-          <p class="about-text">
-            정기치킨은 깨끗한 치킨으로 여러분을 모십니다.
-          </p>
+        <div class="header-title col-sm-8 col-md-7 py-4">
+          <h4 class="header-title"></h4>
+          <p class="header-about"></p>
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
           <h4 class="text-white">Contact</h4>
           <ul class="list-unstyled">
-            <li>
-              <a href="#" class="text-white" onclick="location.href='/menu'"
-                >메뉴</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white" onclick="location.href='/mypage'"
-                >마이페이지</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white" onclick="location.href='/cart'"
-                >장바구니</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white" onclick="location.href='/checkout'"
-                >주문확인</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white" onclick="signOut()">로그아웃</a>
-            </li>
           </ul>
         </div>
       </div>
@@ -42,7 +17,7 @@
   <div class="navbar navbar-dark bg-dark shadow-sm">
     <div class="container">
       <a href="#" class="navbar-brand d-flex align-items-center">
-        <strong>정기치킨주식회사</strong>
+        <strong>정기치킨</strong>
       </a>
       <button
         class="navbar-toggler"
@@ -58,142 +33,6 @@
     </div>
   </div>
 </header>
-<!-- <header style="margin-bottom: 80px">
-  <div class="collapse bg-dark" id="navbarHeader">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 col-md-7 py-4">
-          <h4 class="text-white">이정기 사장님</h4>
-          <p class="about-text">환영합니다.</p>
-        </div>
-        <div class="col-sm-4 offset-md-1 py-4">
-          <ul class="list-unstyled">
-            <li>
-              <a href="#" class="text-white" onclick="location.href='/main'"
-                >주문목록</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-white"
-                onclick="location.href='/ownerDoing'"
-                >주문 진행중</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-white"
-                onclick="location.href='/ownerDone'"
-                >완료 및 거절</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white" onclick="location.href='/mypage'"
-                >마이페이지</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white" onclick="signOut()">로그아웃</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="navbar navbar-dark bg-dark shadow-sm">
-    <div class="container">
-      <a href="#" class="navbar-brand d-flex align-items-center">
-        <strong>정기치킨 사장님페이지</strong>
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarHeader"
-        aria-controls="navbarHeader"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<header style="margin-bottom: 80px">
-  <div class="collapse bg-dark" id="navbarHeader">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 col-md-7 py-4">
-          <h4 class="text-white">About</h4>
-          <p class="about-text">
-            정기치킨은 깨끗한 치킨으로 여러분을 모십니다.
-          </p>
-        </div>
-        <div class="col-sm-4 offset-md-1 py-4">
-          <h4 class="text-white">Contact</h4>
-          <ul class="list-unstyled">
-            <li>
-              <a href="#" class="text-white" onclick="location.href='/main'"
-                >유저 리스트</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-white"
-                onclick="location.href='/adminOrder'"
-                >주문 내역</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-white"
-                onclick="location.href='/adminDone'"
-                >완료된 건</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white" onclick="location.href='/admin'"
-                >상품 관리</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white" onclick="location.href='/mypage'"
-                >마이페이지</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white" onclick="signOut()">로그아웃</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="navbar navbar-dark bg-dark shadow-sm">
-    <div class="container">
-      <a href="#" class="navbar-brand d-flex align-items-center">
-        <strong>정기치킨 관리자 페이지</strong>
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarHeader"
-        aria-controls="navbarHeader"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </div>
-  </div>
-</header>-->
-
 
 <script>
   function getTokensFromLocalStorage() {
@@ -215,11 +54,45 @@
       },
       data: {},
       success: function(response) {
-      if(!!response.newAccessToken){
-        localStorage.setItem("accessToken", response.newAccessToken);
-      }
-      console.log(response)
+        if(!!response.newAccessToken){
+          localStorage.setItem("accessToken", response.newAccessToken);
+        }
+        const userId = response.userId 
+        const userType = response.userType
+        const name = response.userName
 
+
+
+        if(userType === 0){
+          $('.header-title h4').text(name + '님 반갑습니다.')
+          $('.about-text p').text('정기치킨은 깨끗한 환경에서 여러분을 모십니다.')
+          const headerListHTML = `
+            <li><a href="#" class="text-white" onclick="location.href='/menu'">메뉴</a></li>
+            <li><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
+            <li><a href="#" class="text-white" onclick="location.href='/cart'">장바구니</a></li>
+            <li><a href="#" class="text-white" onclick="location.href='/checkout'">주문정보</a></li>
+            <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
+          `
+          $('.list-unstyled').append(headerListHTML)
+        } else if(userType === 1){
+          $('.header-title h4').text(name + '사장님')
+          $('.about-text p').text('환영합니다.')
+          const headerListHTML = `
+            <li><a href="#" class="text-white" onclick="location.href='/orders'">주문관리</a></li>
+            <li><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
+            <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
+          `
+          $('.list-unstyled').append(headerListHTML)
+        } else if(userType === 2){
+          $('.header-title h4').text('관리자' + name)
+          $('.about-text p').text('내가 주인이다라는 생각으로 일하기')
+          const headerListHTML = `
+            <li><a href="#" class="text-white" onclick="location.href='/admin/users'">유저관리</a></li>
+            <li><a href="#" class="text-white" onclick="location.href='/admin/menu/add'">메뉴 관리</a></li>
+            <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
+          `
+          $('.list-unstyled').append(headerListHTML)
+        }
 
       },
       error: function(err) {

@@ -41,6 +41,11 @@ router.get('/orders', (req, res) => {
   res.render('orderHistory.ejs');
 });
 
+/* 관리자 유저 관리 */
+router.get('/admin/users', (req, res) => {
+  return res.render('userList.ejs');
+});
+
 /* 관리자 유저 정보 수정 */
 router.get('/admin/users/edit', (req, res) => {
       return res.render('userEdit.ejs');
