@@ -3,8 +3,8 @@
     <div class="container">
       <div class="row">
         <div class="header-title col-sm-8 col-md-7 py-4">
-          <h4 class="header-title"></h4>
-          <p class="header-about"></p>
+          <h4>이름</h4>
+          <p>내용</p>
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
           <h4 class="text-white">Contact</h4>
@@ -35,74 +35,38 @@
 </header>
 
 <script>
-  function getTokensFromLocalStorage() {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-  return { accessToken, refreshToken };
+  function handleUserInfo(userId, userType, userName) { 
+    if(userType === 0){
+      $('.header-title h4').text(userName + '님 반갑습니다.')
+      $('.header-title p').text('정기치킨은 깨끗한 환경에서 여러분을 모십니다.')
+      const headerListHTML = `
+        <li><a href="#" class="text-white" onclick="location.href='/menu'">메뉴</a></li>
+        <li><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
+        <li><a href="#" class="text-white" onclick="location.href='/cart'">장바구니</a></li>
+        <li><a href="#" class="text-white" onclick="location.href='/checkout'">주문정보</a></li>
+        <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
+      `
+      $('.list-unstyled').append(headerListHTML)
+    } else if(userType === 1){
+      $('.header-title h4').text(userName + '사장님')
+      $('.header-title p').text('환영합니다.')
+      const headerListHTML = `
+        <li><a href="#" class="text-white" onclick="location.href='/orders'">주문관리</a></li>
+        <li><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
+        <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
+      `
+      $('.list-unstyled').append(headerListHTML)
+    } else if(userType === 2){
+      $('.header-title h4').text('관리자' + userName)
+      $('.header-title p').text('내가 주인이다라는 생각으로 일하기')
+      const headerListHTML = `
+        <li><a href="#" class="text-white" onclick="location.href='/admin/users'">유저관리</a></li>
+        <li><a href="#" class="text-white" onclick="location.href='/admin/menu/add'">메뉴 관리</a></li>
+        <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
+      `
+      $('.list-unstyled').append(headerListHTML)
+    }
   }
-
-  $(document).ready(
-    function sendAjaxRequest() {
-    const tokens = getTokensFromLocalStorage();
-    
-    $.ajax({
-      type: 'GET',
-      url: '/api/user/info',
-      headers: {
-        'Authorization': `Bearer ${tokens.accessToken}`,
-        'Refresh': `${tokens.refreshToken}`
-      },
-      data: {},
-      success: function(response) {
-        if(!!response.newAccessToken){
-          localStorage.setItem("accessToken", response.newAccessToken);
-        }
-        const userId = response.userId 
-        const userType = response.userType
-        const name = response.userName
-
-
-
-        if(userType === 0){
-          $('.header-title h4').text(name + '님 반갑습니다.')
-          $('.about-text p').text('정기치킨은 깨끗한 환경에서 여러분을 모십니다.')
-          const headerListHTML = `
-            <li><a href="#" class="text-white" onclick="location.href='/menu'">메뉴</a></li>
-            <li><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
-            <li><a href="#" class="text-white" onclick="location.href='/cart'">장바구니</a></li>
-            <li><a href="#" class="text-white" onclick="location.href='/checkout'">주문정보</a></li>
-            <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
-          `
-          $('.list-unstyled').append(headerListHTML)
-        } else if(userType === 1){
-          $('.header-title h4').text(name + '사장님')
-          $('.about-text p').text('환영합니다.')
-          const headerListHTML = `
-            <li><a href="#" class="text-white" onclick="location.href='/orders'">주문관리</a></li>
-            <li><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
-            <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
-          `
-          $('.list-unstyled').append(headerListHTML)
-        } else if(userType === 2){
-          $('.header-title h4').text('관리자' + name)
-          $('.about-text p').text('내가 주인이다라는 생각으로 일하기')
-          const headerListHTML = `
-            <li><a href="#" class="text-white" onclick="location.href='/admin/users'">유저관리</a></li>
-            <li><a href="#" class="text-white" onclick="location.href='/admin/menu/add'">메뉴 관리</a></li>
-            <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
-          `
-          $('.list-unstyled').append(headerListHTML)
-        }
-
-      },
-      error: function(err) {
-        alert(err.message)
-      }
-    });
-  }
-  )
-  
-
 
   function signOut() {
     $.ajax({

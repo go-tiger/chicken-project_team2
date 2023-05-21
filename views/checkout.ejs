@@ -1,105 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <%- include('head.ejs') %>
-    <title>주문하기</title>
-  </head>
-  <body>
-    <!-----------------헤더 네비게이션---------------->
-    <%- include('header.ejs') %>
-    <!-----------------헤더 네비게이션---------------->
-    <!-----------------마이페이지---------------->
-    <main class="form-signin w-100 m-auto container">
-      <form>
-        <div class="title">
-          <h1>주문하기</h1>
-        </div>
-        <div>
-          <hr class="col-12" />
-          <!----주소(고정)----->
-          <div class="mb-3 row">
-            <label for="inputCart" class="col-2 col-form-label">주문</label>
-            <div id="menuList" class="col-10 cartMenu"></div>
-          </div>
-          <hr class="col-12" />
-          <!----주소(고정)----->
-          <!----추가된 메뉴----->
-          <div class="mb-2 row">
-            <label for="staticAddress" class="col-2 col-form-label">주소</label>
-            <div id="userAddress" class="col-6"></div>
-          </div>
-          <hr class="col-12" />
-          <!----추가된 메뉴----->
-          <!----요청사항----->
-          <div class="mb-3">
-            <label for="Textarea" class="form-label">요청사항</label>
-            <textarea class="form-control" id="memo" rows="3"></textarea>
-          </div>
-          <!----요청사항----->
-          <hr class="col-12" />
-        </div>
-        <div id="totalPrice"></div>
-        <input type="hidden" class="form-control" id="price" value="" />
-        <button type="button" class="btn btn-primary" onclick="postOrder()">
-          주문
-        </button>
-      </form>
-    </main>
-    <!-----------------마이페이지---------------->
-  </body>
-  <script>
-    $(document).ready(function () {
-      getcart();
+<main class="form-signin w-100 m-auto container">
+  <form>
+    <div class="title">
+      <h1>주문하기</h1>
+    </div>
+    <div>
+      <hr class="col-12" />
+      <!----주소(고정)----->
+      <div class="mb-3 row">
+        <label for="inputCart" class="col-2 col-form-label">주문</label>
+        <div id="menuList" class="col-10 cartMenu"></div>
+      </div>
+      <hr class="col-12" />
+      <!----주소(고정)----->
+      <!----추가된 메뉴----->
+      <div class="mb-2 row">
+        <label for="staticAddress" class="col-2 col-form-label">주소</label>
+        <div id="userAddress" class="col-6"></div>
+      </div>
+      <hr class="col-12" />
+      <!----추가된 메뉴----->
+      <!----요청사항----->
+      <div class="mb-3">
+        <label for="Textarea" class="form-label">요청사항</label>
+        <textarea class="form-control" id="memo" rows="3"></textarea>
+      </div>
+      <!----요청사항----->
+      <hr class="col-12" />
+    </div>
+    <div id="totalPrice"></div>
+    <input type="hidden" class="form-control" id="price" value="" />
+    <button type="button" class="btn btn-primary" onclick="postOrder()">
+      주문
+    </button>
+  </form>
+</main>
+
+<script>
+  $(document).ready(function () {
+    getcart();
+  });
+
+  function postOrder() {
+    let address = $('#address').val();
+    let memo = $('#memo').val();
+    let totalPrice = $('#price').val();
+
+    $.ajax({
+      type: 'POST',
+      url: '/api/order',
+      data: {
+        address,
+        memo,
+        totalPrice,
+      },
+      success: function (response) {
+        alert(response['message']);
+        location.href = '/orderchk';
+      },
     });
+  }
 
-    function postOrder() {
-      let address = $('#address').val();
-      let memo = $('#memo').val();
-      let totalPrice = $('#price').val();
+  function getcart() {
+    $.ajax({
+      type: 'GET',
+      url: '/api/cart/order',
+      data: {},
+      success: function (response) {
+        let rows = response['0']['cart'];
+        let address = response['0']['cart']['0']['user']['address'];
+        let totalPrice = 0;
 
-      $.ajax({
-        type: 'POST',
-        url: '/api/order',
-        data: {
-          address,
-          memo,
-          totalPrice,
-        },
-        success: function (response) {
-          alert(response['message']);
-          location.href = '/orderchk';
-        },
-      });
-    }
+        for (let i = 0; i < rows.length; i++) {
+          let menuAmount = rows[i]['menuAmount'];
+          let menuName = rows[i]['menu']['menuName'];
+          let menuPrice = rows[i]['menu']['menuPrice'];
 
-    function getcart() {
-      $.ajax({
-        type: 'GET',
-        url: '/api/cart/order',
-        data: {},
-        success: function (response) {
-          let rows = response['0']['cart'];
-          let address = response['0']['cart']['0']['user']['address'];
-          let totalPrice = 0;
+          totalPrice += menuPrice * menuAmount;
 
-          for (let i = 0; i < rows.length; i++) {
-            let menuAmount = rows[i]['menuAmount'];
-            let menuName = rows[i]['menu']['menuName'];
-            let menuPrice = rows[i]['menu']['menuPrice'];
+          let temp_html = `<p>${menuName}<strong> ${menuAmount} 마리</strong></p>`;
+          $('#menuList').append(temp_html);
+        }
+        temp_html = `<textarea class="form-control" id="address" rows="3">${address}</textarea>`;
+        $('#userAddress').append(temp_html);
 
-            totalPrice += menuPrice * menuAmount;
+        temp_html = `<p>총 : <span>${totalPrice}</span>원</p>`;
+        $('#totalPrice').append(temp_html);
+        $('#price').val(totalPrice);
+      },
+    });
+  }
+</script>
 
-            let temp_html = `<p>${menuName}<strong> ${menuAmount} 마리</strong></p>`;
-            $('#menuList').append(temp_html);
-          }
-          temp_html = `<textarea class="form-control" id="address" rows="3">${address}</textarea>`;
-          $('#userAddress').append(temp_html);
-
-          temp_html = `<p>총 : <span>${totalPrice}</span>원</p>`;
-          $('#totalPrice').append(temp_html);
-          $('#price').val(totalPrice);
-        },
-      });
-    }
-  </script>
-</html>
