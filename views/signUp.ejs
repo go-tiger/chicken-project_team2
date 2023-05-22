@@ -185,7 +185,7 @@
         let userType = $('input[name=btnradio]:checked').val();
         $.ajax({
           type: 'POST',
-          url: '/api/user/signup',
+          url: '/api/auth/signup',
           data: {
             userName,
             password,
@@ -200,7 +200,7 @@
             window.location.href = '/';
           },
           error: function (response) {
-            alert(response.message);
+            alert(response.responseJSON.message)
           },
         });
       }

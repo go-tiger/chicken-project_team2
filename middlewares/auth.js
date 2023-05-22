@@ -24,7 +24,6 @@ module.exports = async (req, res, next) => {
     } else { //// access token 유효하지 않은 경우,
       //redis cloud 리프레쉬 토큰 가져오기
       const redisRefreshToken = await redisCli.get(String(verificationResult.id));
-
       //refresh token 이 없는 경우, 인증 실패로 처리합니다.
       if (!redisRefreshToken) {
         return res.status(401).json({ message: '인증되지 않은 사용자입니다.' });

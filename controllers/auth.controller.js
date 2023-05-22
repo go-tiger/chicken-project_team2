@@ -7,8 +7,8 @@ class AuthController {
     try {
       const { userName, password, email, phone, address, userType } = req.body;
       if (!userName || !password || !email || !phone || !address || !userType) {
-          return res.status(400).json({ message: '모든 정보를 입력해주세요.' });
-        }
+        return res.status(400).json({ message: '모든 정보를 입력해주세요.' });
+      }
         
       if (password.length < 3) {
         return res.status(400).json({ message: '비밀번호는 4자리 이상이어야 합니다.' });
