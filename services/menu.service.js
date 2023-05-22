@@ -14,15 +14,10 @@ class menuService {
   };
 
   // 메뉴 등록
-  createMenu = async (menuName, menuPrice, imageFilePath) => {
+  createMenu = async (filePath, menuName, menuPrice) => {
     try {
-      // 파일명 추출
-      const filename = imageFilePath.split('/').pop();
-  
-      // 이미지 경로 생성
-      const imagePath = `/uploads/${filename}`;
-
-      const menu = await this.menuRepository.createMenu(menuName, menuPrice, imagePath);
+        
+      const menu = await this.menuRepository.createMenu(filePath, menuName, menuPrice );
 
       return menu;
     } catch (error) {

@@ -2,7 +2,7 @@
 <html lang="ko">
   <head>
     <%- include('head.ejs') %>
-    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="/css/main.css" />
     <title>정기치킨</title>
   </head>
   <body>
@@ -43,10 +43,12 @@
           const userType = response.userType
           const userName = response.userName
 
+          renderHeaderByUserType(userId, userType, userName)
           handleUserInfo(userId, userType, userName)
         },
         error: function(err) {
-          alert(err.message)
+          alert(err.responseJSON.message)
+          window.location.href="/"
         }
       });
     </script>

@@ -1,5 +1,11 @@
-.header-title h4, .header-title p {
+.header-title h4, 
+.header-title p, 
+#admin-nav-title {
   color: white;
+}
+
+.admin-nav-title {
+  display: none;
 }
 
 .card-container {

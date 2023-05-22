@@ -18,15 +18,15 @@ class menuController {
   // 메뉴 등록
   createMenu = async (req, res) => {
     try {
-      const imageFilePath = req.file.path;
+      const fileData = req.file;
+      const filePath = fileData.path 
       const { menuName, menuPrice } = req.body;
+      if (!menuName || !menuPrice || !filePath) {
+        throw new Error('메뉴 정보를 모두 입력해주세요.');
+      } 
 
-      if (!menuName || !menuPrice || !imageFilePath) {
-        throw new Error('메뉴 정보가 올바르지 않습니다.');
-      }
-
-      const menu = await this.menuService.createMenu(menuName, menuPrice, imageFilePath);
-      res.status(201).json(menu);
+      const menu = await this.menuService.createMenu(filePath, menuName, menuPrice);
+      res.status(201).json({menu, message: '메뉴등록이 완료되었습니다.'});
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

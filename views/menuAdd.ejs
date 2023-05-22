@@ -5,35 +5,50 @@
       <h2>메뉴 추가</h2>
       <form id="menuForm" enctype="multipart/form-data">
         <div class="mb-3">
-          <label for="menuName" class="form-label">메뉴 이름</label>
+          <label 
+            for="menuName" 
+            class="form-label">
+            메뉴 이름
+          </label>
           <input
             type="text"
             class="form-control"
             id="menuName"
             name="menuName"
-            placeholder="곱창 후라이드"
-          />
+            placeholder="메뉴 이름을 입력하세요"
+            required/>
         </div>
         <div class="mb-3">
-          <label for="file" class="form-label">이미지</label>
-          <input class="form-control" type="file" id="file" name="file" />
+          <label 
+            for="file"
+            class="form-label">
+            이미지
+          </label>
+          <input 
+            class="form-control" 
+            type="file" 
+            id="file" 
+            name="file" 
+            accept=".png, .jpg, .jpeg, .pdf"
+            required/>
         </div>
-
         <div class="mb-3">
-          <label for="menuPrice" class="form-label">가격</label>
+          <label 
+            for="menuPrice" 
+            class="form-label">
+            가격
+          </label>
           <input
             type="number"
             class="form-control"
             id="menuPrice"
             name="menuPrice"
-            placeholder="10000"
+            placeholder="가격을 정해주세요"
           />
         </div>
         <button
           type="submit"
-          class="col-2 btn btn-dark"
-          onclick="menuAdd(event)"
-        >
+          class="col-2 btn btn-dark">
           메뉴 추가
         </button>
       </form>
@@ -55,30 +70,39 @@
 </div>
 
 <script>
-  /* 메뉴 추가 */
-  function menuAdd() {
-    let menuName = $('#menuName').val();
-    let menuPrice = $('#menuPrice').val();
-    let file = $('#file')[0].files[0];
-    /* 파일을 보낼려면 formdata에 보내야한다 */
-    /* 보낼 벨류값도 같이 */
-    let formData = new FormData();
-    formData.append('file', file);
-    formData.append('menuName', menuName);
-    formData.append('menuPrice', menuPrice);
-
-    $.ajax({
-      type: 'POST',
-      url: `/api/menu/`,
-      data: formData,
-      cache: false,
-      contentType: false,
-      processData: false,
-      enctype: 'multipart/form-data',
-      success: function (response) {
-        alert(response['message']);
-        window.location.reload();
-      },
-    });
+  function handleUserInfo(userId, userType, userName){
+    $('#menuForm').submit(function(e) {
+      e.preventDefault();
+      /* 메뉴 추가 */
+      let menuName = $('#menuName').val();
+      let menuPrice = $('#menuPrice').val();
+      let file = $('#file')[0].files[0];
+      /* 보낼 벨류값도 같이 */
+      let formData = new FormData();
+      formData.append('file', file);
+      formData.append('menuName', menuName);
+      formData.append('menuPrice', menuPrice);
+      $.ajax({
+        type: 'POST',
+        url: `/api/menu/`,
+        headers: {
+          'Authorization': `Bearer ${tokens.accessToken}`,
+          'Refresh': `${tokens.refreshToken}`
+        },
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        enctype: 'multipart/form-data',
+        success: function (response) {
+        },
+        error: function(err) {
+        }
+      });
+    })
   }
+
+  
+
+  
 </script>

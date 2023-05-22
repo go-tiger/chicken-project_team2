@@ -12,15 +12,15 @@ class MenuRepository {
   };
 
   // 메뉴 등록
-  createMenu = async (menuName, menuPrice, imagePath) => {
+  createMenu = async (filePath, menuName, menuPrice ) => {
     try {
       return await Menu.create({
         menuName,
         menuPrice,
-        menuPhoto: imagePath
+        menuPhoto: filePath
       });
     } catch (error) {
-      throw error;
+      throw Error('메뉴저장에 실패했습니다.')
     }
   };
 

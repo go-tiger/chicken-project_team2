@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer')
-const upload = multer({ dest: 'uploads/' });
 const MenuController = require('../controllers/menu.controller');
 const menuController = new MenuController();
-
+const fileUpload = require('../util/multer')
 // router.get('/', menuController.getAllMenu);
-router.post('/', upload.single('file'), menuController.createMenu);
+router.post('/', fileUpload.single('file'), menuController.createMenu);
 // router.patch('/:menuId', upload.single('file'), menuController.editMenu);
 // router.delete('/:menuId', menuController.delMenu);
 

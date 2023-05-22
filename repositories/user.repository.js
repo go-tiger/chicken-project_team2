@@ -2,14 +2,23 @@ const { User } = require('../models');
 
 class UserRepositories {
   createUser = async (userName, password, email, phone, address, userType) => {
-    const user = await User.create({ userName, password, email, phone, address, userType });
+    try {
+      const user = await User.create({ userName, password, email, phone, address, userType });
 
-    return user;
+      return user
+    } catch (error) {
+      throw Error('회원가입에 실패했습니다.')
+    }
+    
   };
 
   getUserByEmail = async (email) => {
-    const user = await User.findOne({ where: { email } });
-    return user;
+    try {
+      const user = await User.findOne({ where: { email } });
+      return user;
+    } catch (error) {
+      throw Error('유저정보를 가져오는데 실패했습니다.')
+    }
   };
 
   // getOneUser = async info => {
