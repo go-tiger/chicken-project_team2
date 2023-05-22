@@ -4,14 +4,12 @@ class menuController {
   menuService = new MenuService();
 
   // 메뉴 전체목록
-  getAllMenu = async (req, res) => {
+  getMenuList = async (req, res) => {
     try {
-      const userid = res.locals.user.id;
-      const menu = await this.menuService.getAllMenu();
-
-      res.status(200).json([{ Menu: menu, id: userid }]);
+      const menu = await this.menuService.getMenuList();
+      res.status(200).json({menu});
     } catch (error) {
-      return res.status(400).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   };
 
@@ -19,14 +17,14 @@ class menuController {
   createMenu = async (req, res) => {
     try {
       const fileData = req.file;
-      const filePath = fileData.path 
+      const fileName = fileData.filename 
       const { menuName, menuPrice } = req.body;
-      if (!menuName || !menuPrice || !filePath) {
+      if (!menuName || !menuPrice || !fileName) {
         throw new Error('메뉴 정보를 모두 입력해주세요.');
       } 
 
-      const menu = await this.menuService.createMenu(filePath, menuName, menuPrice);
-      res.status(201).json({menu, message: '메뉴등록이 완료되었습니다.'});
+      await this.menuService.createMenu(fileName, menuName, menuPrice);
+      res.status(201).json({ message: '메뉴등록이 완료되었습니다.' });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -48,14 +46,15 @@ class menuController {
   };
 
   // 메뉴 삭제
-  delMenu = async (req, res) => {
+  deleteMenu = async (req, res) => {
     try {
       const menuId = req.params.menuId;
+      console.log(menuId)
+      await this.menuService.deleteMenu(menuId);
 
-      await this.menuService.delMenu(menuId);
       res.status(200).json({ message: '메뉴 삭제가 완료되었습니다.' });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: '서버 오류가 발생했습니다.' });
     }
   };
 }
