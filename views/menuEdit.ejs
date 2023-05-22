@@ -1,0 +1,90 @@
+<div class="container">
+  <div class="row g-5">
+    <!------현재메뉴확인------>
+    <div id="editMenu" class="editMenu col-sm-12 col-md-6 col-lg-4"></div>
+    <!------현재메뉴확인------>
+    <!------메뉴 수정 폼--------->
+    <div id="addMenu" class="col-sm-12 col-md-6 col-lg-8">
+      <h2>메뉴 수정</h2>
+      <div class="mb-3">
+        <label for="FormControlInput" class="form-label">메뉴 이름</label>
+        <input
+          type="text"
+          class="form-control"
+          id="menuName"
+          placeholder="곱창 후라이드"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="formFile" class="form-label">이미지</label>
+        <input class="form-control" type="file" id="file" name="file" />
+      </div>
+      <div class="mb-3">
+        <label for="FormControlInput" class="form-label">가격</label>
+        <input
+          type="number"
+          class="form-control"
+          id="menuPrice"
+          placeholder="10000"
+        />
+      </div>
+      <button
+        type="button"
+        class="col-sm-6 col-2 btn btn-dark"
+        onclick="menuEdit()"
+      >
+        메뉴 수정
+      </button>
+    </div>
+    <!-----메뉴 수정 폼---------->
+    <hr class="col-12" />
+    <footer class="pt-5 my-5 text-muted border-top">
+      정기치킨주식회사 &middot; &copy; 2023
+    </footer>
+  </div>
+</div>
+
+<script>
+  /* 메뉴 수정 */
+  function menuEdit() {
+    const searchParams = new URLSearchParams(location.search);
+    const menuId = searchParams.get('id');
+
+    let menuName = $('#menuName').val();
+    let menuPrice = $('#menuPrice').val();
+    let file = $('#file')[0].files[0];
+    /* 파일을 보낼려면 formdata에 보내야한다 */
+    /* 보낼 벨류값도 같이 */
+    let formData = new FormData();
+    formData.append('file', file);
+    formData.append('menuName', menuName);
+    formData.append('menuPrice', menuPrice);
+
+    $.ajax({
+      type: 'PUT',
+      url: `/api/menu/${menuId}`,
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      enctype: 'multipart/form-data',
+      success: function (response) {
+        alert(response['message']);
+        location.href = '/admin';
+      },
+    });
+  }
+
+  /* 메뉴 삭제 */
+  function menuDel(menuId) {
+    $.ajax({
+      type: 'DELETE',
+      url: `/api/menu/${menuId}`,
+      data: {},
+      success: function (response) {
+        alert(response['message']);
+        window.location.reload();
+      },
+    });
+  }
+</script>

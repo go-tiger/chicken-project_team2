@@ -3,7 +3,6 @@
   <head>
     <%- include('head.ejs') %>
     <link rel="stylesheet" href="./css/signIn.css" />
-    
     <title>Login</title>
   </head>
   <body class="text-center">
@@ -38,7 +37,7 @@
         <button
           class="w-100 btn btn-lg btn-primary"
           type="button"
-          onclick="signIn()"
+          onclick="login()"
         >
           Login
         </button>
@@ -47,18 +46,32 @@
     </main>
 
     <script>
-      function signIn() {
+      function login() {
         let email = $('#signUpEmail').val();
         let password = $('#signUpPassword').val();
         $.ajax({
           type: 'POST',
-          url: '/api/user/login',
+          url: '/api/auth/login',
           data: { email, password },
           success: function (response) {
-            window.location.href = '/main';
+            const accessToken = response.accessToken;
+            const refreshToken = response.refreshToken;
+            const userType = response.userType
+
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+
+            
+            if(userType === 0){
+              window.location.href = '/menu';
+            } else if(userType === 1 || userType === 2){
+              window.location.href = '/owner/orders';
+            } else {
+              return false
+            }
           },
           error: function (response) {
-            alert(response.message);
+            alert(response.responseJSON.message)
           },
         });
       }

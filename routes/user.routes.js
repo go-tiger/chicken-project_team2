@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const authJwt = require('../middlewares/auth');
 
 const UserController = require('../controllers/user.controller');
 const userController = new UserController();
@@ -13,6 +12,9 @@ router.get('/list/:id', userController.getOneUser);
 
 router.post('/login', userController.login);
 router.post('/signup', userController.register);
+router.get('/info', userController.getUserInfo);
+// router.get('/list/:id', userController.getOneUser);
+
 // router.patch('/:userId', authMWRouter, userController.editUser);
 // router.delete('/:userId', userController.deleteUsers);
 

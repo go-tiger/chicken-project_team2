@@ -3,7 +3,7 @@ const UserService = require('../services/user.service');
 class UserController {
   userService = new UserService();
 
-  register = async (req, res, next) => {
+  getUserInfo = async (req, res, next) => {
     try {
       const { userName, password, email, phone, address, userType } = req.body;
       if (!userName || !password || !email || !phone || !address || !userType) {

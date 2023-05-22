@@ -1,0 +1,196 @@
+<div class="container">
+  <div class="row g-5">
+    <!------메뉴 추가 폼--------->
+    <div id="addMenu">
+      <h2>메뉴 추가</h2>
+      <form id="menuForm" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label 
+            for="menuName" 
+            class="form-label">
+            메뉴 이름
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="menuName"
+            name="menuName"
+            placeholder="메뉴 이름을 입력하세요"
+            required/>
+        </div>
+        <div class="mb-3">
+          <label 
+            for="file"
+            class="form-label">
+            이미지
+          </label>
+          <input 
+            class="form-control" 
+            type="file" 
+            id="file" 
+            name="file" 
+            accept=".png, .jpg, .jpeg, .pdf"
+            required/>
+        </div>
+        <div class="mb-3">
+          <label 
+            for="menuPrice" 
+            class="form-label">
+            가격
+          </label>
+          <input
+            type="number"
+            class="form-control"
+            id="menuPrice"
+            name="menuPrice"
+            placeholder="가격을 정해주세요"
+          />
+        </div>
+        <button
+          type="submit"
+          class="col-2 btn btn-dark">
+          메뉴 추가
+        </button>
+      </form>
+    </div>
+    <!-----메뉴 추가 폼---------->
+    <hr class="col-12" />
+    <!--추가된 메뉴들-->
+    <div class="album bg-light">
+      <div class="container card-container">
+        <div class="row row-cols-auto row-gap-4" id="menu">
+          <h4></h4>
+          <!-- 여기에 치킨메뉴 -->
+        </div>
+      </div>
+      <footer class="pt-5 my-5 text-muted border-top text-center">
+        정기치킨주식회사 &middot; &copy; 2023
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#menuForm').submit(function(e) {
+    e.preventDefault();
+    /* 메뉴 추가 */
+    let menuName = $('#menuName').val();
+    let menuPrice = $('#menuPrice').val();
+    let file = $('#file')[0].files[0];
+    /* 보낼 벨류값도 같이 */
+    let formData = new FormData();
+    formData.append('file', file);
+    formData.append('menuName', menuName);
+    formData.append('menuPrice', menuPrice);
+    $.ajax({
+      type: 'POST',
+      url: `/api/menu/`,
+      headers: {
+        'Authorization': `Bearer ${tokens.accessToken}`,
+        'Refresh': `${tokens.refreshToken}`
+      },
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      enctype: 'multipart/form-data',
+      success: function (response) {
+        alert(response.message)
+        window.location.reload()
+      },
+      error: function(err) {
+        alert(err.responseJSON.message)
+      }
+    });
+  })
+
+  $.ajax({
+    type: 'GET',
+    url: `/api/menu`,
+    headers: {
+        'Authorization': `Bearer ${tokens.accessToken}`,
+        'Refresh': `${tokens.refreshToken}`
+      },
+    success: function (response) {
+      const menu = response.menu
+      if(menu.length === 0){
+        $('#menu h4').text('메뉴가 비어있습니다. 메뉴를 추가해주세요.')
+      }
+      menu.forEach(obj => {
+        const menuId = obj.id
+        const menuName = obj.menuName
+        const menuPrice = obj.menuPrice
+        const fileName = obj.menuPhoto
+
+        //서버에서 이미지파일을 가져옴
+        $.ajax({
+          type: 'GET',
+          url: `/uploads/${fileName}`,
+          success: function(response){
+            const menuListHTML = `
+              <div class="col" id="cardCenter">
+                  <div class="card p-3" style="width: 18rem">
+                    <img
+                      class="card-img-top img-fluid"
+                      src='/uploads/${fileName}'
+                      alt="Card image cap"
+                    />
+                    <div class="card-body">
+                      <h4 class="card-title">${menuName}</h4>
+                      <p class="card-text">가격 : ${menuPrice}원</p>
+                    </div>
+                    <div cless="my-auto">
+                      <button
+                        type="button"
+                        class="btn btn-dark col-6 mb-3"
+                        onclick="EditMenu(${menuId})"
+                      >
+                        메뉴 수정
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-dark col-5 mb-3"
+                        onclick="deleteMenu(${menuId})"
+                      >
+                        메뉴 삭제
+                      </button>
+                    </div>
+                  </div> 
+                </div>
+              `
+
+             $('#menu').append(menuListHTML)
+
+          },
+          error: function(err){
+            alert("이미지를 가져오는데 실패했습니다.")
+          }
+        })
+      });
+    },
+    error: function (err) {
+      alert(err.responseJSON.message)
+    },
+  })
+
+
+  function deleteMenu(menuId){
+    if(confirm("정말로 삭제하시겠습니까?")){
+      $.ajax({
+        type: 'DELETE',
+        url: `/api/menu/${menuId}`,
+        headers: {
+          'Authorization': `Bearer ${tokens.accessToken}`,
+          'Refresh': `${tokens.refreshToken}`
+        },
+        success: function(response){
+            alert(response.message)
+            window.location.reload()
+        },
+        error: function(err){
+          console.log(err.responseJSON.message)
+        }
+      });
+    };
+  };
+</script>

@@ -6,8 +6,6 @@ const authMWRouter = require('../middlewares/auth');
 
 const { user, cart, menu } = require('../models');
 
-const { JWT_SECRET_KET } = process.env;
-
 router.get('/order', authMWRouter, async (req, res) => {
   const userId = res.locals.user.id;
 

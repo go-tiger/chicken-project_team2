@@ -1,26 +1,42 @@
 const { User } = require('../models');
-const { Op } = require('sequelize');
 
 class UserRepositories {
   createUser = async (userName, password, email, phone, address, userType) => {
-    const user = await User.create({
-      userName,
-      password,
-      email,
-      phone,
-      address,
-      userType,
-    });
+    try {
+      const user = await User.create({
+        userName,
+        password,
+        email,
+        phone,
+        address,
+        userType,
+      });
 
-    return user;
+      return user;
+    } catch (error) {
+      throw Error('회원가입에 실패했습니다.');
+    }
   };
 
   getUserByEmail = async email => {
-    const user = await User.findOne({ where: { email } });
-    return user;
+    try {
+      const user = await User.findOne({ where: { email } });
+      return user;
+    } catch (error) {
+      throw Error('유저정보를 가져오는데 실패했습니다.');
+    }
   };
 
-  // 전체 유저 목록
+  // getOneUser = async info => {
+  //   const getOneUser =  await User.findOne({
+  //     where: {
+  //       [Op.or]: [{ id: info }, { email: info }],
+  //     },
+  //   });
+
+  //   return getOneUser
+  // };
+
   getUserList = async () => {
     try {
       return await User.findAll({});
