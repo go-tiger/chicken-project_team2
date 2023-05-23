@@ -1,7 +1,9 @@
 <div class="container">
   <div class="row g-5">
     <!------현재메뉴확인------>
-    <div id="editMenu" class="editMenu col-sm-12 col-md-6 col-lg-4"></div>
+    <div id="editMenuImage" class="editMenu col-sm-12 col-md-6 col-lg-4">
+      <img src="" alt="이미지 수정">
+    </div>
     <!------현재메뉴확인------>
     <!------메뉴 수정 폼--------->
     <div id="addMenu" class="col-sm-12 col-md-6 col-lg-8">
@@ -12,7 +14,6 @@
           type="text"
           class="form-control"
           id="menuName"
-          placeholder="곱창 후라이드"
         />
       </div>
       <div class="mb-3">
@@ -25,30 +26,28 @@
           type="number"
           class="form-control"
           id="menuPrice"
-          placeholder="10000"
         />
       </div>
       <button
-        type="button"
+        type="submit"
         class="col-sm-6 col-2 btn btn-dark"
         onclick="menuEdit()"
       >
-        메뉴 수정
+        확인
       </button>
     </div>
     <!-----메뉴 수정 폼---------->
-    <hr class="col-12" />
-    <footer class="pt-5 my-5 text-muted border-top">
+    <footer class="pt-5 my-5 text-center border-top">
       정기치킨주식회사 &middot; &copy; 2023
     </footer>
   </div>
 </div>
 
 <script>
-  /* 메뉴 수정 */
   function menuEdit() {
-    const searchParams = new URLSearchParams(location.search);
-    const menuId = searchParams.get('id');
+    const searchParams = url = window.location.href;
+    const menuId = url.substr(url.lastIndexOf('/') + 1);
+
 
     let menuName = $('#menuName').val();
     let menuPrice = $('#menuPrice').val();
@@ -75,16 +74,4 @@
     });
   }
 
-  /* 메뉴 삭제 */
-  function menuDel(menuId) {
-    $.ajax({
-      type: 'DELETE',
-      url: `/api/menu/${menuId}`,
-      data: {},
-      success: function (response) {
-        alert(response['message']);
-        window.location.reload();
-      },
-    });
-  }
 </script>

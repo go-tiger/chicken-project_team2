@@ -57,7 +57,7 @@ router.get('/admin/menu/add', (req, res) => {
 });
 
 /* 관리자 메뉴 수정 */
-router.get('/admin/menu/edit', (req, res) => {
+router.get('/admin/menu/edit/:menuId', (req, res) => {
   res.render('index.ejs', { components: 'menuEdit'});
 });
 

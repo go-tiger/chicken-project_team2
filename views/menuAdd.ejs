@@ -59,7 +59,6 @@
     <div class="album bg-light">
       <div class="container card-container">
         <div class="row row-cols-auto row-gap-4" id="menu">
-          <h4></h4>
           <!-- 여기에 치킨메뉴 -->
         </div>
       </div>
@@ -114,7 +113,7 @@
     success: function (response) {
       const menu = response.menu
       if(menu.length === 0){
-        $('#menu h4').text('메뉴가 비어있습니다. 메뉴를 추가해주세요.')
+        $('#menu').text('메뉴가 비어있습니다. 메뉴를 추가해주세요.')
       }
       menu.forEach(obj => {
         const menuId = obj.id
@@ -140,13 +139,13 @@
                       <p class="card-text">가격 : ${menuPrice}원</p>
                     </div>
                     <div cless="my-auto">
-                      <button
-                        type="button"
+                      <a 
+                        href="/admin/menu/edit/${menuId}" 
                         class="btn btn-dark col-6 mb-3"
-                        onclick="EditMenu(${menuId})"
                       >
-                        메뉴 수정
-                      </button>
+                       메뉴 수정
+                      </a>
+
                       <button
                         type="button"
                         class="btn btn-dark col-5 mb-3"
