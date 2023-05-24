@@ -120,52 +120,41 @@
         const menuName = obj.menuName
         const menuPrice = obj.menuPrice
         const fileName = obj.menuPhoto
-
-        //서버에서 이미지파일을 가져옴
-        $.ajax({
-          type: 'GET',
-          url: `/uploads/${fileName}`,
-          success: function(response){
-            const menuListHTML = `
-              <div class="col" id="cardCenter">
-                  <div class="card p-3" style="width: 18rem">
-                    <img
-                      class="card-img-top img-fluid"
-                      src='/uploads/${fileName}'
-                      alt="Card image cap"
-                    />
-                    <div class="card-body">
-                      <h4 class="card-title">${menuName}</h4>
-                      <p class="card-text">가격 : ${menuPrice}원</p>
-                    </div>
-                    <div cless="my-auto">
-                      <a 
-                        href="/admin/menu/edit/${menuId}" 
-                        class="btn btn-dark col-6 mb-3"
-                      >
-                       메뉴 수정
-                      </a>
-
-                      <button
-                        type="button"
-                        class="btn btn-dark col-5 mb-3"
-                        onclick="deleteMenu(${menuId})"
-                      >
-                        메뉴 삭제
-                      </button>
-                    </div>
-                  </div> 
+        
+        const menuListHTML = `
+          <div class="col" id="cardCenter">
+              <div class="card p-3" style="width: 18rem">
+                <img
+                  class="card-img-top img-fluid"
+                  src='/uploads/${fileName}'
+                  alt="Card image cap"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">${menuName}</h4>
+                  <p class="card-text">가격 : ${menuPrice}원</p>
                 </div>
-              `
+                <div class="my-auto">
+                  <a 
+                    href="/admin/menu/edit/${menuId}" 
+                    class="btn btn-dark col-6 mb-3"
+                  >
+                    메뉴 수정
+                  </a>
 
-             $('#menu').append(menuListHTML)
+                  <button
+                    type="button"
+                    class="btn btn-dark col-5 mb-3"
+                    onclick="deleteMenu(${menuId})"
+                  >
+                    메뉴 삭제
+                  </button>
+                </div>
+              </div> 
+            </div>
+          `
 
-          },
-          error: function(err){
-            alert("이미지를 가져오는데 실패했습니다.")
-          }
-        })
-      });
+          $('#menu').append(menuListHTML)
+        });
     },
     error: function (err) {
       alert(err.responseJSON.message)

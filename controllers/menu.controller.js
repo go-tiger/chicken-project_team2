@@ -13,6 +13,17 @@ class menuController {
     }
   };
 
+  //메뉴 아이디 조회
+  getMenuById = async (req, res) => {
+    try {
+      const menuId = req.params.menuId
+      const menu = await this.menuService.getMenuById(menuId);
+      res.status(200).json({menu});
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
+
   // 메뉴 등록
   createMenu = async (req, res) => {
     try {
@@ -34,16 +45,20 @@ class menuController {
   editMenu = async (req, res) => {
     try {
       const menuId = req.params.menuId;
+      const fileName = req.file?.filename
       const { menuName, menuPrice } = req.body;
-      const imgPath = req.file.path;
-      const menuPhoto = imgPath.split('/')[2];
-
-      await this.menuService.editMenu(menuId, menuName, menuPrice, menuPhoto);
-      res.status(201).json({ message: '메뉴 수정이 완료되었습니다.' });
+      
+      await this.menuService.editMenu(menuId, menuName, menuPrice, fileName);
+      res.status(201).json({ message: '메뉴 수정을 완료되었습니다.' });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      console.log("🚀 ~ file: menu.controller.js:54 ~ menuController ~ editMenu= ~ error:", error)
+      
+      res.status(500).json({ error});
+
+      // res.status(500).json({ message: '메뉴 수정을 실패했습니다.' });
     }
   };
+
 
   // 메뉴 삭제
   deleteMenu = async (req, res) => {
@@ -54,7 +69,7 @@ class menuController {
 
       res.status(200).json({ message: '메뉴 삭제가 완료되었습니다.' });
     } catch (error) {
-      res.status(500).json({ message: '서버 오류가 발생했습니다.' });
+      res.status(500).json({ message: '메뉴 삭제를 실패했습니다.' });
     }
   };
 }

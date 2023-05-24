@@ -6,35 +6,44 @@
     </div>
     <!------현재메뉴확인------>
     <!------메뉴 수정 폼--------->
-    <div id="addMenu" class="col-sm-12 col-md-6 col-lg-8">
+    <div id="editMenu" class="col-sm-12 col-md-6 col-lg-8">
       <h2>메뉴 수정</h2>
-      <div class="mb-3">
-        <label for="FormControlInput" class="form-label">메뉴 이름</label>
-        <input
-          type="text"
-          class="form-control"
-          id="menuName"
-        />
-      </div>
-      <div class="mb-3">
-        <label for="formFile" class="form-label">이미지</label>
-        <input class="form-control" type="file" id="file" name="file" />
-      </div>
-      <div class="mb-3">
-        <label for="FormControlInput" class="form-label">가격</label>
-        <input
-          type="number"
-          class="form-control"
-          id="menuPrice"
-        />
-      </div>
-      <button
-        type="submit"
-        class="col-sm-6 col-2 btn btn-dark"
-        onclick="menuEdit()"
-      >
-        확인
-      </button>
+      <form id="editMenuForm" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="menuName" class="form-label">메뉴 이름</label>
+          <input
+            type="text"
+            class="form-control"
+            id="menuName"
+            name="menuName"
+            required/>
+        </div>
+        <div class="mb-3">
+          <label for="file" class="form-label">이미지 (선택안할시 기존 이미지 유지)</label>
+          <input 
+            class="form-control" 
+            type="file" 
+            id="file" 
+            name="file"
+            accept=".png, .jpg, .jpeg, .pdf"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="menuPrice" class="form-label">가격</label>
+          <input
+            type="number"
+            class="form-control"
+            id="menuPrice"
+            name="menuPrice"
+            required/>
+        </div>
+        <button
+          type="submit"
+          class="col-sm-6 col-2 btn btn-dark"
+        >
+          확인
+        </button>
+      </form>  
     </div>
     <!-----메뉴 수정 폼---------->
     <footer class="pt-5 my-5 text-center border-top">
@@ -44,34 +53,72 @@
 </div>
 
 <script>
-  function menuEdit() {
-    const searchParams = url = window.location.href;
-    const menuId = url.substr(url.lastIndexOf('/') + 1);
+  $(document).ready(function(){
+    const menuId = extractIdFromURL()
 
+    $.ajax({
+      type: 'GET',
+      url: `/api/menu/${menuId}`,
+      headers: {
+          'Authorization': `Bearer ${tokens.accessToken}`,
+          'Refresh': `${tokens.refreshToken}`
+        },
+      success: function (response) {
+        if(response.menu === null){
+          alert('존재하지 않는 메뉴 입니다.')
+          window.location.href = '/admin/menu/add'
+        }
+        const menuName = response.menu.menuName
+        const menuPhoto = response.menu.menuPhoto
+        const menuPrice = response.menu.menuPrice
 
-    let menuName = $('#menuName').val();
-    let menuPrice = $('#menuPrice').val();
-    let file = $('#file')[0].files[0];
-    /* 파일을 보낼려면 formdata에 보내야한다 */
-    /* 보낼 벨류값도 같이 */
+        $('#menuName').val(menuName);
+        $('#menuPrice').val(menuPrice);
+        $('#editMenuImage img').attr("src", `/uploads/${menuPhoto}`)
+      },
+      error: function(err){
+        console.log(err)
+      }
+    })
+  })
+  
+  $('#editMenuForm').submit(function(e){
+    e.preventDefault();
+    const menuId = extractIdFromURL()
+
+    const menuName = $('#menuName').val();
+    const menuPrice = $('#menuPrice').val();
+    const file = $('#file')[0].files[0]
+
     let formData = new FormData();
     formData.append('file', file);
     formData.append('menuName', menuName);
     formData.append('menuPrice', menuPrice);
 
     $.ajax({
-      type: 'PUT',
+      type: 'PATCH',
       url: `/api/menu/${menuId}`,
+      headers: {
+        'Authorization': `Bearer ${tokens.accessToken}`,
+        'Refresh': `${tokens.refreshToken}`
+      },
       data: formData,
-      cache: false,
       contentType: false,
       processData: false,
-      enctype: 'multipart/form-data',
       success: function (response) {
-        alert(response['message']);
-        location.href = '/admin';
+        alert(response.message)
+        window.location.reload()
       },
-    });
+      error: function(err) {
+        console.log("🚀 ~ file: menuEdit.ejs:116 ~ $ ~ err:", err)
+
+      }
+    })
+  })
+
+  function extractIdFromURL(){
+    const url = window.location.href;
+    return id = url.substr(url.lastIndexOf('/') + 1);
   }
 
 </script>
