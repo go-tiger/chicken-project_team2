@@ -3,27 +3,21 @@ const { User } = require('../models');
 class UserRepositories {
   createUser = async (userName, password, email, phone, address, userType) => {
     try {
-      const user = await User.create({
-        userName,
-        password,
-        email,
-        phone,
-        address,
-        userType,
-      });
+      const user = await User.create({ userName, password, email, phone, address, userType });
 
-      return user;
+      return user
     } catch (error) {
-      throw Error('회원가입에 실패했습니다.');
+      throw Error('회원가입에 실패했습니다.')
     }
+    
   };
 
-  getUserByEmail = async email => {
+  getUserByEmail = async (email) => {
     try {
       const user = await User.findOne({ where: { email } });
       return user;
     } catch (error) {
-      throw Error('유저정보를 가져오는데 실패했습니다.');
+      throw Error('유저정보를 가져오는데 실패했습니다.')
     }
   };
 
@@ -38,23 +32,9 @@ class UserRepositories {
   // };
 
   getUserList = async () => {
-    try {
-      return await User.findAll({});
-    } catch (error) {
-      error.status = 500;
-      throw error;
-    }
-  };
+    return await User.findAll({})
+  }
 
-  // 특정 유저
-  getOneUser = async id => {
-    const getOneUser = await User.findOne({
-      where: {
-        [Op.or]: { id },
-      },
-    });
-    return getOneUser;
-  };
 
   updateUser = async (id, password, address, phone) => {
     return await user.update(
