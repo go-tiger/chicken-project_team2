@@ -13,6 +13,15 @@ class menuService {
     }
   };
 
+  // 메뉴 아이디 조회
+  getMenuById = async (menuId) => {
+    try {
+      return await this.menuRepository.getMenuById(menuId);
+    } catch (error) {
+      throw Error('메뉴를 불러오는데 실패했습니다.')
+    }
+  };
+
   // 메뉴 등록
   createMenu = async (fileName, menuName, menuPrice) => {
     try {
@@ -26,16 +35,20 @@ class menuService {
   };
 
   // 메뉴 수정
-  editMenu = async (menuId, menuName, menuPrice, menuPhoto) => {
+  editMenu = async (menuId, menuName, menuPrice, fileName) => {
     try {
-      return await this.menuRepository.editMenu(
-        menuId,
-        menuName,
-        menuPrice,
-        menuPhoto
-      );
+      const previousImageName = await this.menuRepository.editMenu(menuId, menuName, menuPrice, fileName);
+
+      if(previousImageName && fs.existsSync("uploads/" + previousImageName )){
+        try {
+          fs.unlinkSync("uploads/" + previousImageName)
+          console.log("이전 이미지 파일을 삭제하였습니다.")    
+        } catch (error) {
+          console.log(error)
+        }
+      }
     } catch (error) {
-      throw error;
+      throw Error('메뉴 수정을 실패했습니다.')
     }
   };
 
@@ -43,7 +56,6 @@ class menuService {
   deleteMenu = async menuId => {
     try {
       const fileName = await this.menuRepository.deleteMenu(menuId);
-      console.log("파일이름", fileName)
       if(fs.existsSync("uploads/" + fileName )){
         try {
           fs.unlinkSync("uploads/" + fileName)
@@ -54,7 +66,7 @@ class menuService {
       }
 
     } catch (error) {
-      throw Error('서버 오류가 발생했습니다.')
+      throw Error('메뉴 삭제를 실패했습니다.')
     }
   };
 }

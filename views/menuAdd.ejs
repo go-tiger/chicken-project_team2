@@ -59,7 +59,6 @@
     <div class="album bg-light">
       <div class="container card-container">
         <div class="row row-cols-auto row-gap-4" id="menu">
-          <h4></h4>
           <!-- 여기에 치킨메뉴 -->
         </div>
       </div>
@@ -114,59 +113,48 @@
     success: function (response) {
       const menu = response.menu
       if(menu.length === 0){
-        $('#menu h4').text('메뉴가 비어있습니다. 메뉴를 추가해주세요.')
+        $('#menu').text('메뉴가 비어있습니다. 메뉴를 추가해주세요.')
       }
       menu.forEach(obj => {
         const menuId = obj.id
         const menuName = obj.menuName
         const menuPrice = obj.menuPrice
         const fileName = obj.menuPhoto
-
-        //서버에서 이미지파일을 가져옴
-        $.ajax({
-          type: 'GET',
-          url: `/uploads/${fileName}`,
-          success: function(response){
-            const menuListHTML = `
-              <div class="col" id="cardCenter">
-                  <div class="card p-3" style="width: 18rem">
-                    <img
-                      class="card-img-top img-fluid"
-                      src='/uploads/${fileName}'
-                      alt="Card image cap"
-                    />
-                    <div class="card-body">
-                      <h4 class="card-title">${menuName}</h4>
-                      <p class="card-text">가격 : ${menuPrice}원</p>
-                    </div>
-                    <div cless="my-auto">
-                      <button
-                        type="button"
-                        class="btn btn-dark col-6 mb-3"
-                        onclick="EditMenu(${menuId})"
-                      >
-                        메뉴 수정
-                      </button>
-                      <button
-                        type="button"
-                        class="btn btn-dark col-5 mb-3"
-                        onclick="deleteMenu(${menuId})"
-                      >
-                        메뉴 삭제
-                      </button>
-                    </div>
-                  </div> 
+        
+        const menuListHTML = `
+          <div class="col" id="cardCenter">
+              <div class="card p-3" style="width: 18rem">
+                <img
+                  class="card-img-top img-fluid"
+                  src='/uploads/${fileName}'
+                  alt="Card image cap"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">${menuName}</h4>
+                  <p class="card-text">가격 : ${menuPrice}원</p>
                 </div>
-              `
+                <div class="my-auto">
+                  <a 
+                    href="/admin/menu/edit/${menuId}" 
+                    class="btn btn-dark col-6 mb-3"
+                  >
+                    메뉴 수정
+                  </a>
 
-             $('#menu').append(menuListHTML)
+                  <button
+                    type="button"
+                    class="btn btn-dark col-5 mb-3"
+                    onclick="deleteMenu(${menuId})"
+                  >
+                    메뉴 삭제
+                  </button>
+                </div>
+              </div> 
+            </div>
+          `
 
-          },
-          error: function(err){
-            alert("이미지를 가져오는데 실패했습니다.")
-          }
-        })
-      });
+          $('#menu').append(menuListHTML)
+        });
     },
     error: function (err) {
       alert(err.responseJSON.message)
