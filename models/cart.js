@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class Cart extends Model {
     static associate(models) {
       models.Cart.belongsTo(models.User, { foreignKey: 'userId' });
-      models.Cart.hasMany(models.Cart_Menu, { foreignKey: 'cartId' });
+      models.Cart.belongsToMany(models.Menu, { through: 'Cart_Menu' });
     }
   }
   Cart.init(

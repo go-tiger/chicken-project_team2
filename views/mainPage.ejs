@@ -12,6 +12,8 @@
     </div>
   </section>
 
+  <hr>
+
   <div class="album bg-light">
     <div class="container card-container">
       <div class="row row-cols-auto row-gap-4" id="menu">
@@ -25,69 +27,84 @@
 </main>
 
 <script>
-  function handleUserInfo(userId, userType, userName) {
-    // $.ajax({
-    //   type: 'GET',
-    //   url: '/api/user/menu',
-    //   data: {},
-    //   success: function (response) {
-    //     let userId = response['0']['id'];
-    //     let rows = response['0']['Menu'];
+  $.ajax({
+    type: 'GET',
+    url: `/api/menu`,
+    headers: {
+        'Authorization': `Bearer ${tokens.accessToken}`,
+        'Refresh': `${tokens.refreshToken}`
+      },
+    success: function (response) {
+      const menu = response.menu
+      if(menu.length === 0){
+        $('#menu').text('오픈 준비 중 입니다.')
+      }
+      menu.forEach(obj => {
+        const menuId = obj.id
+        const menuName = obj.menuName
+        const menuPrice = obj.menuPrice
+        const fileName = obj.menuPhoto
+        
+        const menuListHTML = `
+          <div class="col" id="cardCenter">
+              <div class="card p-3" style="width: 18rem">
+                <img
+                  class="card-img-top img-fluid"
+                  src='/uploads/${fileName}'
+                  alt="Card image cap"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">${menuName}</h4>
+                  <p class="card-text">가격 : ${menuPrice}원</p>
+                </div>
+                <div class="my-auto">
+                  <button
+                    type="button"
+                    class="btn btn-dark col-6 mb-3"
+                    onclick="addCart(${menuId})"
+                  >
+                    장바구니 추가
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-dark col-5 mb-3"
+                    onclick="quickOrder(${menuId})"
+                  >
+                    주문하기
+                  </button>
+                </div>
+              </div> 
+            </div>
+          `
 
-
-          // for (let i = 0; i < rows.length; i++) {
-          //   let menuId = rows[i]['id'];
-          //   let name = rows[i]['menuName'];
-          //   let price = rows[i]['menuPrice'];
-          //   let img = rows[i]['menuPhoto'];
-          //   let temp_html = `<div class="col" id="cardCenter">
-          //                     <div class="card p-3" style="width: 18rem">
-          //                     <img
-          //                       class="card-img-top img-fluid"
-          //                       src="../images/${img}"
-          //                       alt="Card image cap"
-          //                     />
-          //                     <div class="card-body">
-          //                       <h4 class="card-title">${name}</h4>
-          //                       <p class="card-text">가격 : ${price}원</p>
-          //                     </div>
-          //                     <div cless="my-auto">
-          //                     <button
-          //                       type="submit"
-          //                       class="btn btn-dark col-6 mb-3"
-          //                       onclick="cartAdd(${menuId})"
-          //                     >
-          //                       장바구니 추가
-          //                     </button>
-          //                     <button
-          //                       type="button"
-          //                       class="btn btn-dark col-5 mb-3"
-          //                       onclick="nowOrder(${menuId})"
-          //                     >
-          //                       주문하기
-          //                     </button>
-          //                   </div>
-          //                   </div>`;
-          //   $('#menu').append(temp_html);
-          // }
-    //   },
-    // });
-  } 
+          $('#menu').append(menuListHTML)
+        });
+    },
+    error: function (err) {
+      alert(err.responseJSON.message)
+    },
+  })
   
   /* 장바구니 추가 */
-  function cartAdd(menuId) {
+  function addCart(menuId) {
     $.ajax({
       type: 'POST',
       url: `/api/cart/${menuId}`,
-      data: {},
-      success: function (response) {
-        alert(response['message']);
+      headers: {
+        'Authorization': `Bearer ${tokens.accessToken}`,
+        'Refresh': `${tokens.refreshToken}`
       },
+      success: function (response) {
+        alert(response.message)
+      },
+      error: function(err){
+        alert("메뉴를 담는데 실패했습니다.")
+      }
     });
   }
 
   /* 바로 주문하기 */
-  function nowOrder(menuId) {
+  function quickOrder(menuId) {
     $.ajax({
       type: 'POST',
       url: `/api/order/now/${menuId}`,
