@@ -1,112 +1,135 @@
 <main class="form-signin w-100 m-auto container">
-  <form>
-    <div class="title">
-      <h1>장바구니</h1>
+  <div class="row g-5">
+    <div class="col-lg-12 order-md-last">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-dark">장바구니</span>
+      </h4>
+      <ul id="cart-list" class="list-group mb-3">
+        <a href=""></a>
+      
+        
+      </ul>
+      <div id="button-wrapper">
+        
+      </div>
     </div>
-    <div id="menuList"></div>
-    <hr class="col-12" />
-    <div id="totalPrice"></div>
-  </form>
+  </div>
 </main>
 
 <script>
-  $(document).ready(function () {
-    getcart();
+  $.ajax({
+    type: 'GET',
+    url: '/api/cart',
+    headers: {
+        'Authorization': `Bearer ${tokens.accessToken}`,
+        'Refresh': `${tokens.refreshToken}`
+      },
+      success: function (response) {
+      let totalQuantity = 0
+      let cartyArray = response.getCartInMenus.Carts
+      if(cartyArray.length <= 0){
+        const emptyCartHTML = `
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">카트메뉴가 비었습니다.</h6>
+            </div>
+          </li>
+        `
+        $('#cart-list').append(emptyCartHTML);
+
+        const buttonWrapperHTML = `<a href="/menu" class="btn btn-dark" >메뉴 고르기</a>`
+  
+        $('#button-wrapper').append(buttonWrapperHTML);
+      } else {
+        const cartId = cartyArray[0].id
+        cartyArray[0].Menus.forEach(obj => {
+          const menuId = obj.id
+          const quantity = obj.Cart_Menu.quantity
+          const menuName = obj.menuName
+          const menuPrice = obj.menuPrice
+  
+          totalQuantity += menuPrice * quantity
+          
+          const cartListHTML = `
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">${menuName}</h6>
+                <small class="text-body-secondary">${menuPrice} 원</small>
+              </div>
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  ${quantity}
+                </button>
+                <ul class="dropdown-menu">
+                  <li><button class="dropdown-item" onclick="editMenuQuantity(${cartId}, ${menuId}, 1)">1</button></li>
+                  <li><button class="dropdown-item" onclick="editMenuQuantity(${cartId}, ${menuId}, 2)">2</button></li>
+                  <li><button class="dropdown-item" onclick="editMenuQuantity(${cartId}, ${menuId}, 3)">3</button></li>
+                  <li><button class="dropdown-item" onclick="editMenuQuantity(${cartId}, ${menuId}, 4)">4</button></li>
+                </ul>
+              </div>
+            </li>
+          `
+          $('#cart-list').append(cartListHTML);
+        });
+        
+        const totalPriceHTML = `
+          <li id="total-price" class="list-group-item d-flex justify-content-between">
+            <span>Total </span>
+            <strong>${totalQuantity} 원</strong>
+          </li>
+        `
+        
+        $('#cart-list').append(totalPriceHTML);
+  
+        const buttonWrapperHTML = `
+          <button class="btn btn-dark" type="button">주문하기</button>
+          <button type="button" class="btn btn-outline-secondary" onclick="emptyToCart(${cartId})">모두삭제</button>
+        `
+  
+        $('#button-wrapper').append(buttonWrapperHTML);
+      }
+
+    },
+    error: function(error){
+      alert(error.responseJSON.message)
+    }
   });
+    
 
-  function getcart() {
+  function editMenuQuantity(cartId, menuId, quantity) {
     $.ajax({
-      type: 'GET',
-      url: '/api/cart',
-      data: {},
-      success: function (response) {
-        let userId = response['0']['id'];
-        let rows = response['0']['cart'];
-        let totalPrice = 0;
-
-        for (let i = 0; i < rows.length; i++) {
-          let menuId = rows[i]['id'];
-          let menuAmount = rows[i]['menuAmount'];
-          let menuName = rows[i]['menu']['menuName'];
-          let menuPrice = rows[i]['menu']['menuPrice'];
-
-          totalPrice += menuPrice * menuAmount;
-
-          let temp_html = `<hr class="col-12" />
-          <!----추가된 메뉴----->
-          <div class="mb-2 row">
-            <label for="staticEmail" class="col-2 col-form-label"
-              >${menuName}</label
-            >
-            <div class="col-6">
-              <input type="number" min="1" name="amount" id="menuAmount${menuId}" value="${menuAmount}" />
-            </div>
-            <div class="col-2">
-              <button type="button" class="btn btn-dark" onclick="cartMenuEdit(${menuId})">수정</button>
-            </div>
-            <div class="col-2">
-              <button type="button" class="btn btn-dark" onclick="cartMenuDel(${menuId})">삭제</button>
-            </div>
-          </div>
-          <!----추가된 메뉴----->
-          `;
-          $('#menuList').append(temp_html);
-        }
-        temp_html = `<div class="amount text-center fs-3">
-        <p>총 : <span>${totalPrice}</span>원</p>
-        </div>
-        <div class="col-sm-10">
-        </div>
-        <button
-            type="button"
-            class="btn btn-dark"
-            onclick="location.href='/order'"
-          >
-            확인
-          </button>
-          <button type="button" class="btn btn-dark" onclick="cartMenuAllDel(${userId})">비우기</button>`;
-        $('#totalPrice').append(temp_html);
+      type: 'PATCH',
+      url: `/api/cart/${cartId}/menu/${menuId}`,
+      headers: {
+        'Authorization': `Bearer ${tokens.accessToken}`,
+        'Refresh': `${tokens.refreshToken}`
       },
+      data: {quantity},
+      success: function (response) {
+        window.location.reload()
+      },
+      error: function(err){
+        alert(err.responseJSON.message)
+        window.location.reload()
+      }
     });
   }
 
-  /* 장바구니 페이지에서 메뉴 수량 수정 */
-  function cartMenuEdit(menuId) {
-    let menuAmount = $(`#menuAmount${menuId}`).val();
-    $.ajax({
-      type: 'PUT',
-      url: `/api/cart/${menuId}`,
-      data: { menuId, menuAmount },
-      success: function (response) {
-        alert(response['message']);
-        window.location.reload();
-      },
-    });
-  }
-
-  /* 장바구니 페이지에서 해당 메뉴 삭제 */
-  function cartMenuDel(menuId) {
+  function emptyToCart(cartId) {
     $.ajax({
       type: 'DELETE',
-      url: `/api/cart/${menuId}`,
-      data: { menuId },
+      url: `/api/cart/${cartId}`,
+      headers: {
+        'Authorization': `Bearer ${tokens.accessToken}`,
+        'Refresh': `${tokens.refreshToken}`
+      },
       success: function (response) {
-        alert(response['message']);
         window.location.reload();
       },
-    });
-  }
-
-  /* 장바구니 페이지에서 비우기 버튼 눌렀을때 삭제 */
-  function cartMenuAllDel(userId) {
-    $.ajax({
-      type: 'DELETE',
-      url: `/api/cart/order/${userId}`,
-      data: { userId },
-      success: function (response) {
-        alert(response['message']);
-        window.location.reload();
-      },
+      error: function(err){
+        alert(err.responseJSON.message)
+        window.location.reload()
+      }
     });
   }
 

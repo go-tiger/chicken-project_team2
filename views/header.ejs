@@ -8,10 +8,10 @@
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
           <h4 class="text-white">Contact</h4>
-          <ul class="list-unstyled order-navigation">
+          <ul class="user-navigation">
           </ul>
           <h4 id="admin-nav-title"></h4>
-          <ul class="list-unstyled admin-navigation">
+          <ul class="admin-navigation">
           </ul>
         </div>
       </div>
@@ -49,7 +49,7 @@
         <li><a href="#" class="text-white" onclick="location.href='/checkout'">주문정보</a></li>
         <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
       `
-      $('.list-unstyled').append(headerListHTML)
+      $('.user-navigation').append(headerListHTML)
     } else if(userType === 1 || userType === 2){
       $('.header-title h4').text(userName + '사장님')
       $('.header-title p').text('환영합니다.')
@@ -58,7 +58,7 @@
         <li><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
         <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
       `
-      $('.order-navigation').append(headerListHTML)
+      $('.user-navigation').append(headerListHTML)
     } else {
       false
     }
@@ -81,14 +81,8 @@
 
   }
   function signOut() {
-    $.ajax({
-      type: 'DELETE',
-      url: '/logout',
-      data: {},
-      success: function (response) {
-        alert(response['message']);
-        location.href = '/';
-      },
-    });
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    window.location.href = '/';
   }
 </script> 

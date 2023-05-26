@@ -6,13 +6,25 @@ module.exports = (sequelize, DataTypes) => {
   class Menu extends Model {
     static associate(models) {
       models.Menu.belongsToMany(models.Order, { through: 'Order_Menu' });
-      models.Menu.hasMany(models.Cart_Menu, { foreignKey: 'menuId' });
+      models.Menu.belongsToMany(models.Cart, { through: 'Cart_Menu' });
     }
   }
   Menu.init({
-    menuName: DataTypes.STRING,
-    menuPrice: DataTypes.INTEGER.UNSIGNED,
-    menuPhoto: DataTypes.STRING
+    menuName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      comment: "메뉴 이름",
+    },
+    menuPrice: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      comment: "메뉴 가격",
+    },
+    menuPhoto: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      comment: "이미지 파일이름",
+    },
   }, {
     sequelize,
     tableName: 'menus',

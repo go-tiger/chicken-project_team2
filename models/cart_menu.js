@@ -5,14 +5,24 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Cart_Menu extends Model {
     static associate(models) {
-      models.Cart_Menu.belongsTo(models.Cart, { foreignKey: 'cartId' });
-      models.Cart_Menu.belongsTo(models.Menu, { foreignKey: 'menuId' });
+      models.Cart.belongsToMany(models.Menu, {
+        through: Cart_Menu,
+        foreignKey: 'cartId',
+        otherKey: 'menuId'
+      });
+
+      models.Menu.belongsToMany(models.Cart, {
+        through: Cart_Menu,
+        foreignKey: 'menuId',
+        otherKey: 'cartId'
+      });
     }
   }
   Cart_Menu.init({
-    quantity: DataTypes.INTEGER,
-    menuId: DataTypes.INTEGER,
-    cartId: DataTypes.INTEGER
+    quantity: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+    },
   }, {
     sequelize,
     tableName: 'carts_menus',
