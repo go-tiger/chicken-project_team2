@@ -3,7 +3,7 @@ const UserService = require('../services/user.service');
 class UserController {
   userService = new UserService();
 
-  getUserInfo = async (req, res, next) => {
+  getUserInfo = async (req, res) => {
     try {
       const { userId, userType, newAccessToken, userName  } = req
       res.status(200).json({ userId, userType, newAccessToken, userName });
@@ -13,7 +13,7 @@ class UserController {
   
   }
 
-  getUserList = async (req, res, next) => {
+  getUserList = async (req, res) => {
     const userList = await this.userService.getUserList();
     res.status(200).json({userList});
   };

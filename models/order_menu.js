@@ -4,21 +4,22 @@ module.exports = (sequelize, DataTypes) => {
   class Order_Menu extends Model {
     static associate(models) {
       // define association here
-      models.Order_Menu.belongsTo(models.Order, { foreignKey: 'orderId' });
-      models.Order_Menu.belongsTo(models.Menu, { foreignKey: 'menuId' });
+      models.Order.belongsToMany(models.Menu, {
+        through: Order_Menu,
+        foreignKey: 'orderId',
+        otherKey: 'menuId'
+      });
+
+      models.Menu.belongsToMany(models.Order, {
+        through: Order_Menu,
+        foreignKey: 'menuId',
+        otherKey: 'orderId'
+      });
     }
   }
   Order_Menu.init(
     {
       quantity: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-      },
-      menuId: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-      },
-      orderId: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
       },
