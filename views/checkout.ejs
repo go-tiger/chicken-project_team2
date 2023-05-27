@@ -1,27 +1,89 @@
-<main class="form-signin w-100 m-auto container">
-  <form>
-    <h4 class="d-flex justify-content-between align-items-center mb-3">
-      <span class="text-dark">주문</span>
-    </h4>
-    <hr>
-    <h5>구매자</h5>
-    <ul>
-      <li>이름</li>
-      <li>이메일</li>
-    </ul>
-    <hr>
-    <h5>구매자</h5>
-    <ul>
-      <li>받는사람</li>
-      <li>배송주소</li>
-      <li>연락처</li>
-      <li>요청사항</li>
-    </ul>
-    <h5>결제금액</h5>
-    <p>총 50000원</p>
-    <button>주문하기</button>
+<main class="container">
+  <h4 class="mb-3">주문</h4>
+  <hr class="my-4" />
+  <form class="needs-validation" novalidate>
+    <h5 class="mb-3">구매자</h5>
+    <div class="mb-3 row">
+      <label for="staticName" class="col-12 col-form-label">이름</label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          readonly
+          class="form-control-plaintext form-control-sm"
+          id="staticName"
+          value="이정기"
+        />
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-12 col-form-label"
+        >이메일</label
+      >
+      <div class="col-sm-10">
+        <input
+          type="text"
+          readonly
+          class="form-control-plaintext form-control-sm"
+          id="staticEmail"
+          value="wjdrl3122@gmail.com"
+        />
+      </div>
+    </div>
+
+    <hr class="my-4" />
+
+    <h5 class="mb-3">받는 사람</h5>
+    <div class="mb-3 col-12">
+      <label for="contactName" class="form-label">이름</label>
+      <input
+        type="text"
+        class="form-control"
+        id="contactName"
+        placeholder="받는 사람"
+        required
+      />
+    </div>
+    <div class="mb-3 col-12">
+      <label for="contactPhone" class="form-label"
+        >연락 가능한 핸드폰</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="contactPhone"
+        placeholder="받는 사람 핸드폰"
+        required
+      />
+    </div>
+    <div class="mb-3 col-12">
+      <label for="contactAddress" class="form-label">받을 주소</label>
+      <input
+        type="text"
+        class="form-control"
+        id="contactAddress"
+        placeholder="OO시 OO구 OO동 상세주소까지 자세히 적어주세요."
+        required
+      />
+    </div>
+    <div class="mb-3 col-12">
+      <label for="memo" class="form-label">요청사항</label>
+      <textarea class="form-control" id="memo" rows="3"></textarea>
+    </div>
+
+    <hr class="my-4" />
+
+    <div class="mb-3 col-12">
+      <h5 class="mb-3">결제 금액</h5>
+      <p><strong>20000 </strong>원</p>
+      <!-- 총금액 -->
+    </div>
+
+    <hr class="my-4" />
+
+    <button class="w-100 btn btn-dark btn-lg" type="submit">주문</button>
   </form>
 </main>
+
 
 <script>
   $(document).ready(function () {
