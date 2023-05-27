@@ -1,37 +1,25 @@
 <main class="form-signin w-100 m-auto container">
   <form>
-    <div class="title">
-      <h1>주문하기</h1>
-    </div>
-    <div>
-      <hr class="col-12" />
-      <!----주소(고정)----->
-      <div class="mb-3 row">
-        <label for="inputCart" class="col-2 col-form-label">주문</label>
-        <div id="menuList" class="col-10 cartMenu"></div>
-      </div>
-      <hr class="col-12" />
-      <!----주소(고정)----->
-      <!----추가된 메뉴----->
-      <div class="mb-2 row">
-        <label for="staticAddress" class="col-2 col-form-label">주소</label>
-        <div id="userAddress" class="col-6"></div>
-      </div>
-      <hr class="col-12" />
-      <!----추가된 메뉴----->
-      <!----요청사항----->
-      <div class="mb-3">
-        <label for="Textarea" class="form-label">요청사항</label>
-        <textarea class="form-control" id="memo" rows="3"></textarea>
-      </div>
-      <!----요청사항----->
-      <hr class="col-12" />
-    </div>
-    <div id="totalPrice"></div>
-    <input type="hidden" class="form-control" id="price" value="" />
-    <button type="button" class="btn btn-primary" onclick="postOrder()">
-      주문
-    </button>
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+      <span class="text-dark">주문</span>
+    </h4>
+    <hr>
+    <h5>구매자</h5>
+    <ul>
+      <li>이름</li>
+      <li>이메일</li>
+    </ul>
+    <hr>
+    <h5>구매자</h5>
+    <ul>
+      <li>받는사람</li>
+      <li>배송주소</li>
+      <li>연락처</li>
+      <li>요청사항</li>
+    </ul>
+    <h5>결제금액</h5>
+    <p>총 50000원</p>
+    <button>주문하기</button>
   </form>
 </main>
 

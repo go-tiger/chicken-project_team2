@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Menu.init({
     menuName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
       comment: "메뉴 이름",
     },
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       comment: "메뉴 가격",
     },
     menuPhoto: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
       allowNull: false,
       comment: "이미지 파일이름",
     },

@@ -46,7 +46,7 @@
         <li><a href="#" class="text-white" onclick="location.href='/menu'">메뉴</a></li>
         <li><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
         <li><a href="#" class="text-white" onclick="location.href='/cart'">장바구니</a></li>
-        <li><a href="#" class="text-white" onclick="location.href='/checkout'">주문정보</a></li>
+        <li><a href="#" class="text-white" onclick="location.href='/orders'">주문정보</a></li>
         <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
       `
       $('.user-navigation').append(headerListHTML)
@@ -54,7 +54,7 @@
       $('.header-title h4').text(userName + '사장님')
       $('.header-title p').text('환영합니다.')
       const headerListHTML = `
-        <li><a href="#" class="text-white" onclick="location.href='/orders'">주문관리</a></li>
+        <li><a href="#" class="text-white" onclick="location.href='/owner/orders'">주문관리</a></li>
         <li><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
         <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
       `

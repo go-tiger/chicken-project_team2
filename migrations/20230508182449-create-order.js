@@ -9,15 +9,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      address: {
-        type: Sequelize.STRING,
+      contactName: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+      },
+      contactPhone: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+      },
+      contactAddress: {
+        type: Sequelize.STRING(100),
         allowNull: false,
       },
       memo: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(255),
         allowNull: true,
       },
-      orderStatus: {
+      status: {
         type: Sequelize.INTEGER.UNSIGNED,
         allowNull: false,
         defaultValue: 0,
