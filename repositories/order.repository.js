@@ -15,7 +15,7 @@ class OrderRepositories {
       });
       return orders
     } catch (error) {
-      throw Error(error)
+      throw Error(error.message)
     }
   };
 
@@ -47,10 +47,13 @@ class OrderRepositories {
 
       await user.Carts[0].Menus.forEach( async (menu) => {
         const foundMenu = await Menu.findByPk(menu.id)
-        const result = await order.addMenu(foundMenu, { through: { quantity: menu.Cart_Menu.quantity, menuId : foundMenu.id, orderId: order.id }})
+        const result = await order.addMenu(foundMenu, { through: { quantity: menu.Cart_Menu.quantity }})
       });
 
       await Cart.destroy({ where : { id: user.Carts[0].id }})
+
+      return user
+
     } catch (error) {
       throw Error(error.message)
     }
@@ -84,7 +87,7 @@ class OrderRepositories {
         userId,
       })
       const menu = await Menu.findByPk(menuId)
-      await order.addMenu(menu, { through : { quantity : 1, menuId : menu.id, orderId: order.id }})
+      await order.addMenu(menu, { through : { quantity : 1}})
     } catch (error) {
       throw Error(error.message)
     }
@@ -94,7 +97,7 @@ class OrderRepositories {
     try {
       await Order.destroy({ where: { id: orderId }});
     } catch (error) {
-      throw Error(error)
+      throw Error(error.message)
     }
   };
 }

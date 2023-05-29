@@ -98,7 +98,7 @@
           <button type="button" class="btn btn-outline-secondary" onclick="emptyToCart(${cartId})">모두삭제</button>
         `
         
-        $(checkoutButton).appendTo('#button-wrapper').on("click", function(){ checkout(payload) })
+        $(checkoutButton).appendTo('#button-wrapper').on("click", function(){checkout(payload)})
         $('#button-wrapper').append(buttonWrapperHTML);
       }
       

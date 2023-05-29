@@ -1,78 +1,98 @@
 <main class="form-signin w-100 m-auto container">
-  <div class="row">
+  <div id="editForm" class="row">
     <form>
       <div class="title">
         <h1>마이페이지</h1>
       </div>
       <div id="myProfile"></div>
       <hr class="col-12" />
-      <button
-        type="button"
-        class="btn btn-dark"
-        onclick="location.href='/mypage/edit'"
-      >
-        수정
-      </button>
-      <button type="submit" class="btn btn-dark">확인</button>
     </form>
   </div>
 </main>
 
 <script>
+    function saveUserToSessionStorage (payload){
+      sessionStorage.setItem("user", JSON.stringify(payload))
+      window.location.href="/mypage/edit"
+    }
+
     $.ajax({
       type: 'GET',
-      url: '/api/mypage',
-      data: {},
+      url: '/api/user',
+      headers: {
+            'Authorization': `Bearer ${tokens.accessToken}`,
+            'Refresh': `${tokens.refreshToken}`
+      },
       success: function (response) {
-        let email = response['0']['user']['email'];
-        let address = response['0']['user']['address'];
-        let phone = response['0']['user']['phone'];
-        let temp_html = `<!----이메일(고정)----->
+        const {address, email, phone, userName}= response.user
+
+        let temp_html = `
         <div class="mb-3 row">
-          <label for="staticEmail" class="col-12 col-form-label">이메일</label>
-          <div class="col-sm-10">
-            <input
-              type="text"
-              readonly
-              class="form-control-plaintext"
-              id="staticEmail"
-              value="${email}"
-            />
+            <label for="staticEmail" class="col-12 col-form-label">이메일</label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                readonly
+                class="form-control-plaintext"
+                id="staticEmail"
+                value="${email}"
+              />
+            </div>
           </div>
-        </div>
-        <!----이메일(고정)----->
-        <hr class="col-12" />
-        <!----주소(고정)----->
-        <div class="mb-3 row">
-          <label for="inputAddress" class="col-12 col-form-label">주소</label>
-          <div class="col-sm-10">
-            <input
-              type="text"
-              readonly
-              class="form-control-plaintext"
-              id="staticAddress"
-              value="${address}"
-            />
+          <hr class="col-12" />
+          <div class="mb-3 row">
+            <label for="staticName" class="col-12 col-form-label">이름</label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                readonly
+                class="form-control-plaintext"
+                id="staticName"
+                value="${userName}"
+              />
+            </div>
           </div>
-        </div>
-        <!----주소(고정)----->
-        <hr class="col-12" />
-        <!----핸드폰(고정)----->
-        <div class="mb-3 row">
-          <label for="inputPhone" class="col-12 col-form-label">핸드폰</label>
-          <div class="col-sm-10">
-            <input
-              type="text"
-              readonly
-              class="form-control-plaintext"
-              id="staticEmail"
-              value="${phone}"
-            />
+          <hr class="col-12" />
+          <div class="mb-3 row">
+            <label for="inputAddress" class="col-12 col-form-label">주소</label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                readonly
+                class="form-control-plaintext"
+                id="staticAddress"
+                value="${address}"
+              />
+            </div>
           </div>
-        </div>
-        <!----핸드폰(고정)----->
+          <hr class="col-12" />
+          <div class="mb-3 row">
+            <label for="inputPhone" class="col-12 col-form-label">핸드폰</label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                readonly
+                class="form-control-plaintext"
+                id="staticPhone"
+                value="${phone}"
+              />
+            </div>
+          </div>
         `;
         $('#myProfile').append(temp_html);
+        
+        const payload = { address, email, phone, userName }
+
+        const editUserButton = `
+          <button type="button" class="btn btn-dark" onclick="saveUserToSessionStorage(payload)">
+            수정
+          </button>
+        `
+
+        $(editUserButton).appendTo('#editForm').on("click", function(){saveUserToSessionStorage(payload)})
       },
+      error: function(err){
+        alert(err.responseJSON.message)
+      }
     });
 </script>

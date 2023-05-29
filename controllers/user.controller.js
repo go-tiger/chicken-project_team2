@@ -14,36 +14,36 @@ class UserController {
   }
 
   getUserList = async (req, res) => {
-    const userList = await this.userService.getUserList();
-    res.status(200).json({userList});
+    try {
+      const userList = await this.userService.getUserList();
+      res.status(200).json({userList});
+    } catch (error) {
+      res.status(500).json({ message : err.message });
+    }
   };
 
-  // getOneUser = async (req, res, next) => {
-  //   const { id } = req.params;
+  getUser = async (req, res) => {
+    try {
+      const userId = req.userId
+      const user = await this.userService.getUser(userId);
+      res.status(200).json({user});
+    } catch (error) {
+      res.status(500).json({ message : err.message });
+    }
+    
+  };
 
-  //   const oneUser = await this.userService.oneUser(id);
-  //   res.status(200).json({ oneUser });
-  // };
-
-  // // logout = async (req, res, next) => {
-  // //   const logout = await this.userService.logout();
-
-  // //   res.status(200).json({logout})
-  // // };
-
-  // editUser = async (req, res, next) => {
-  //   const { userType } = res.locals.user;
-  //   const userInfo = req.body;
-  //   if (userType === 0) {
-  //     const { id: userId } = res.locals.user;
-  //     await this.userService.updateUser(userInfo, userId);
-  //   } else if (userType === 2) {
-  //     const { userId } = req.params;
-  //     await this.userService.updateUser(userInfo, userId);
-  //   }
-
-  //   res.status(201).json({});
-  // };
+  updateUser = async (req, res, next) => {
+    try {
+      const userId = req.userId;
+      const { name, phone, address } = req.body;
+      await this.userService.updateUser(userId, name, phone, address);
+      res.status(201).json({ message : "수정이 완료되었습니다."});
+    } catch (error) {
+      res.status(500).json({ message : error.message });
+      
+    }
+  };
 
   // deleteUsers = async (req, res, next) => {
   //   try {

@@ -131,9 +131,7 @@
         },
       })
         
-      $('#form-checkout').submit(function(e){
-        handleFormSubmit(e, menuId)
-      })
+      $('#form-checkout').submit(e => handleFormSubmit(e, menuId))
     } else {
       //장바구니에서 주문했을 때 주문페이지
       const {
@@ -145,13 +143,9 @@
         menus
       } = JSON.parse(sessionStorage.getItem("cart"))
       
-      menus.forEach(menu => {
-        const menuHTML = `
-          <span class="badge rounded-pill text-bg-dark">${menu}</span>
-        `
-        $('#menu-list').append(menuHTML)
-      });
-      
+      const menuHTML = menus.map( menu => `<span class="badge rounded-pill text-bg-dark me-1">${menu}</span>`).join('')
+      $('#menu-list').append(menuHTML)
+
       $('#staticName').val(userName)
       $('#staticEmail').val(email)
       $('#contactName').val(userName)
@@ -159,9 +153,7 @@
       $('#contactAddress').val(address)
       $('#totalPrice').text(total)
 
-      $('#form-checkout').submit(function(e){
-        handleFormSubmit(e, null)
-      })
+      $('#form-checkout').submit(e => handleFormSubmit(e, null))
     }
   })
   

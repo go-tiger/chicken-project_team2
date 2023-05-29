@@ -12,30 +12,45 @@
       Refresh: `${tokens.refreshToken}`,
     },
     success: function (response) {
-      response.orders[0].Orders.forEach( order => {
+      if (response.orders[0].Orders.length < 1) {
+        const emptyOrderHistoryHTML = `
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0">주문정보가 없습니다.</h6>
+              </div>
+            </li>
+          </ul>
+          <a href="/menu" class="btn btn-dark w-100" >메뉴 고르기</a>
+        `
+        $('#order-history').append(emptyOrderHistoryHTML);
+      }
+
+      const orderListHTML = response.orders[0].Orders.map(order => {
         //오더테이블 최신순 오름차순 정렬
         const TIME_ZONE = 9 * 60 * 60 * 1000;
         const date = new Date(order.createdAt)
         const orderTime = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
-
-        const orderId = order.id
-        const contactAddress = order.contactAddress
-        const memo = order.memo
-        const orderStatus = order.status
+        const {id: orderId, contactAddress, memo, status: orderStatus} = order
         let totalPlace = 0
         
         const changeClassByStatus = 
-        orderStatus === 0 ? 'dark' 
-        : orderStatus === 1 ? 'primary' 
-        : orderStatus === 2 ? 'secondary' 
-        : ''
+          orderStatus === 0 
+            ? 'dark' 
+            : orderStatus === 1 
+            ? 'primary' 
+            : orderStatus === 2 
+            ? 'secondary' 
+            : ''
 
         const changeClassCompleted = 
-        orderStatus === 0 || orderStatus === 1 ? 'dark'
-        : orderStatus === 2 ? 'secondary'
-        : ''
+          orderStatus === 0 || orderStatus === 1 
+            ? 'dark'
+            : orderStatus === 2 
+            ? 'secondary'
+            : ''
         
-        const orderListHTML = `
+        return `
           <div class="card border-${changeClassByStatus} mb-3" style="max-width: 18rem">
             <div class="card-header border-${changeClassByStatus} text-${changeClassByStatus}">
               ${orderStatus === 0 ? '배달대기' 
@@ -61,37 +76,37 @@
               </div>
 
               <ul class="list-group order-menu-list-by-${orderId}">
+                ${
+                  order.Menus.map(menu => {
+                    const {
+                      menuName, 
+                      menuPrice, 
+                      Order_Menu: {
+                        quantity: menuQuantity
+                      }
+                    } = menu
+
+                    totalPlace += menuPrice * menuQuantity
+
+                    return `
+                      <li class="list-group-item d-flex justify-content-between align-items-center text-${changeClassCompleted}">
+                        ${menuName}
+                        <span class="badge bg-${changeClassCompleted} rounded-pill">${menuQuantity}</span>
+                      </li>
+                    `
+                  }).join('')
+                }
+                <li class="list-group-item d-flex justify-content-between align-items-center text-${changeClassCompleted}">
+                  결제금액
+                  <strong class="text-${changeClassCompleted}">${totalPlace}원</strong>
+                </li>
               </ul>
             </div>
           </div>
         `
-
-        $('#order-history').append(orderListHTML)
-        order.Menus.forEach( menu => {
-          const menuName = menu.menuName
-          const menuQuantity = menu.Order_Menu.quantity
-          const menuPrice = menu.menuPrice
-          totalPlace += menuPrice * menuQuantity
-
-          const menuListHTML = `
-            <li class="list-group-item d-flex justify-content-between align-items-center text-${changeClassCompleted}">
-              ${menuName}
-              <span class="badge bg-${changeClassCompleted} rounded-pill">${menuQuantity}</span>
-            </li>
-          `
-
-          $(`.order-menu-list-by-${orderId}`).append(menuListHTML)
-        });
-
-        const totalPlaceHTML = `
-          <li class="list-group-item d-flex justify-content-between align-items-center text-${changeClassCompleted}">
-            결제금액
-            <strong class="text-${changeClassCompleted}">${totalPlace}원</strong>
-          </li>
-        `
-        $(`.order-menu-list-by-${orderId}`).append(totalPlaceHTML)
-        
-      });
+      }).join('');
+      
+      $('#order-history').append(orderListHTML)
     },
     error: function (err) {
       alert(err.responseJSON.message)

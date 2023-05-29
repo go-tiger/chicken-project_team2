@@ -7,7 +7,7 @@ class OrderService {
     try {
       return await this.orderRepositories.getOrderList(userId);
     } catch (error) {
-      throw Error(error)
+      throw Error(error.message)
     }
   };
 
@@ -39,7 +39,7 @@ class OrderService {
     try {
       await this.orderRepositories.deleteOrder(orderId);
     } catch (error) {
-      throw Error(error)
+      throw Error(error.message)
     }
   };
 }

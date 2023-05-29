@@ -5,7 +5,10 @@ const UserController = require('../controllers/user.controller');
 const userController = new UserController();
 
 router.get('/info', userController.getUserInfo);
+router.get('/', userController.getUser);
 router.get('/list', userController.getUserList);
+router.put('/', userController.updateUser);
+
 // router.get('/list/:id', userController.getOneUser);
 // router.patch('/:userId', authMWRouter, userController.editUser);
 // router.delete('/:userId', userController.deleteUsers);

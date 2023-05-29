@@ -40,6 +40,11 @@ router.get('/mypage', (req, res) => {
   res.render('index.ejs', { components: 'myPage'});
 });
 
+/* 유저 마이페이지 */
+router.get('/mypage/edit', (req, res) => {
+  res.render('index.ejs', { components: 'myPageEdit'});
+});
+
 /* 유저 주문정보 조회 */
 router.get('/orders', (req, res) => {
   res.render('index.ejs', { components: 'orderHistory'});

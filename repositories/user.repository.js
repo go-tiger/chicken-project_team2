@@ -21,32 +21,37 @@ class UserRepositories {
     }
   };
 
-  // getOneUser = async info => {
-  //   const getOneUser =  await User.findOne({
-  //     where: {
-  //       [Op.or]: [{ id: info }, { email: info }],
-  //     },
-  //   });
-
-  //   return getOneUser
-  // };
-
   getUserList = async () => {
     return await User.findAll({})
   }
 
+  getUser = async (userId) => {
+    try {
+      return await User.findOne({
+        where : { id : userId },
+        attributes : ['userName', 'email', 'address', 'phone']
+      })  
+    } catch (error) {
+      throw Error(error.message)
+    }
+  }
 
-  updateUser = async (id, password, address, phone) => {
-    return await user.update(
-      {
-        password,
-        address,
-        phone,
-      },
-      {
-        where: { id },
-      }
-    );
+  updateUser = async (userId, name, phone, address) => {
+    try {
+      
+      await User.update(
+        {
+          userName: name,
+          phone, 
+          address
+        },
+        {
+          where: {id: userId},
+        }
+      );
+    } catch (error) {
+      throw Error(error.message)
+    }
   };
 
   deleteUser = async userId => {
