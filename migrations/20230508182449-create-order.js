@@ -1,5 +1,5 @@
 'use strict';
-/** @type {import('sequelize').Migration} */
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('orders', {
@@ -22,12 +22,10 @@ module.exports = {
         allowNull: false,
       },
       memo: {
-        type: Sequelize.STRING(255),
-        allowNull: true,
+        type: Sequelize.STRING(255)
       },
       status: {
         type: Sequelize.INTEGER.UNSIGNED,
-        allowNull: false,
         defaultValue: 0,
       },
       userId: {

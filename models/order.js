@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       status: {
         type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
+        defaultValue: 0,
         comment: "주문 상태 (ex. 0 = 배송대기, 1 = 배송중, 2 = 배송완료)",
       },
     },

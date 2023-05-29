@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Cart_Menu extends Model {
     static associate(models) {
@@ -18,15 +16,18 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  Cart_Menu.init({
-    quantity: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
-    },
-  }, {
-    sequelize,
-    tableName: 'carts_menus',
-    modelName: 'Cart_Menu',
-  });
+  Cart_Menu.init(
+    {
+      quantity: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false,
+      },
+    }, 
+    {
+      sequelize,
+      tableName: 'carts_menus',
+      modelName: 'Cart_Menu',
+    }
+  );
   return Cart_Menu;
 };

@@ -3,7 +3,6 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Order_Menu extends Model {
     static associate(models) {
-      // define association here
       models.Order.belongsToMany(models.Menu, {
         through: Order_Menu,
         foreignKey: 'orderId',

@@ -5,9 +5,6 @@
         <span class="text-dark">장바구니</span>
       </h4>
       <ul id="cart-list" class="list-group mb-3">
-        <a href=""></a>
-      
-        
       </ul>
       <div id="button-wrapper">
         
@@ -25,9 +22,11 @@
         'Refresh': `${tokens.refreshToken}`
       },
       success: function (response) {
-      let totalQuantity = 0
-      let cartyArray = response.getCartInMenus.Carts
-      if(cartyArray.length <= 0){
+      let totalPrice = 0
+      const menuArray = []
+    
+      const cartArray = response.getCartInMenus.Carts
+      if(cartArray.length <= 0){
         const emptyCartHTML = `
           <li class="list-group-item d-flex justify-content-between lh-sm">
             <div>
@@ -37,18 +36,19 @@
         `
         $('#cart-list').append(emptyCartHTML);
 
-        const buttonWrapperHTML = `<a href="/menu" class="btn btn-dark" >메뉴 고르기</a>`
+        const buttonWrapperHTML = `<a href="/menu" class="btn btn-dark w-100" >메뉴 고르기</a>`
   
         $('#button-wrapper').append(buttonWrapperHTML);
       } else {
-        const cartId = cartyArray[0].id
-        cartyArray[0].Menus.forEach(obj => {
+        const cartId = cartArray[0].id
+        cartArray[0].Menus.forEach(obj => {
           const menuId = obj.id
           const quantity = obj.Cart_Menu.quantity
           const menuName = obj.menuName
           const menuPrice = obj.menuPrice
-  
-          totalQuantity += menuPrice * quantity
+          
+          menuArray.push(menuName)
+          totalPrice += menuPrice * quantity
           
           const cartListHTML = `
           <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -75,27 +75,39 @@
         const totalPriceHTML = `
           <li id="total-price" class="list-group-item d-flex justify-content-between">
             <span>Total </span>
-            <strong>${totalQuantity} 원</strong>
+            <strong>${totalPrice} 원</strong>
           </li>
         `
         
         $('#cart-list').append(totalPriceHTML);
-  
+
+        const payload = {
+          userName : response.getCartInMenus.userName,
+          email : response.getCartInMenus.email,
+          phone : response.getCartInMenus.phone,
+          address : response.getCartInMenus.address,
+          total : totalPrice,
+          menus : menuArray
+        }
+        
+        const checkoutButton = `
+          <button class="btn btn-dark" type="button")">주문하기</button>
+        `
+
         const buttonWrapperHTML = `
-          <button class="btn btn-dark" type="button" onclick="checkout()">주문하기</button>
           <button type="button" class="btn btn-outline-secondary" onclick="emptyToCart(${cartId})">모두삭제</button>
         `
-  
+        
+        $(checkoutButton).appendTo('#button-wrapper').on("click", function(){ checkout(payload) })
         $('#button-wrapper').append(buttonWrapperHTML);
       }
-
+      
     },
     error: function(error){
       alert(error.responseJSON.message)
     }
   });
     
-
   function editMenuQuantity(cartId, menuId, quantity) {
     $.ajax({
       type: 'PATCH',
@@ -133,7 +145,8 @@
     });
   }
 
-  function checkout(){
+  function checkout(payload){
+    sessionStorage.setItem("cart", JSON.stringify(payload))
     window.location.href="/checkout"
   }
 

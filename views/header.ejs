@@ -43,20 +43,20 @@
       $('.header-title h4').text(userName + '님 반갑습니다.')
       $('.header-title p').text('정기치킨은 깨끗한 환경에서 여러분을 모십니다.')
       const headerListHTML = `
-        <li><a href="#" class="text-white" onclick="location.href='/menu'">메뉴</a></li>
-        <li><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
-        <li><a href="#" class="text-white" onclick="location.href='/cart'">장바구니</a></li>
-        <li><a href="#" class="text-white" onclick="location.href='/orders'">주문정보</a></li>
-        <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
+        <li class="mb-1" class="mb-1"><a href="#" class="text-white" onclick="location.href='/menu'">메뉴</a></li>
+        <li class="mb-1"><a href="#" class="text-white" onclick="location.href='/cart'">장바구니</a></li>
+        <li class="mb-1"><a href="#" class="text-white" onclick="location.href='/orders'">주문정보</a></li>
+        <li class="mb-1"><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
+        <li class="mb-1"><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
       `
       $('.user-navigation').append(headerListHTML)
     } else if(userType === 1 || userType === 2){
       $('.header-title h4').text(userName + '사장님')
       $('.header-title p').text('환영합니다.')
       const headerListHTML = `
-        <li><a href="#" class="text-white" onclick="location.href='/owner/orders'">주문관리</a></li>
-        <li><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
-        <li><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
+        <li class="mb-1"><a href="#" class="text-white" onclick="location.href='/owner/orders'">주문관리</a></li>
+        <li class="mb-1"><a href="#" class="text-white" onclick="location.href='/mypage'">마이페이지</a></li>
+        <li class="mb-1"><a href="#" class="text-white" onclick="signOut()">로그아웃</a></li>
       `
       $('.user-navigation').append(headerListHTML)
     } else {

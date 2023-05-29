@@ -3,32 +3,44 @@ const OrderRepositories = require('../repositories/order.repository');
 class OrderService {
   orderRepositories = new OrderRepositories();
 
-  getOrderList = async () => {
-    return await this.orderRepositories.getOrderList();
+  getOrderList = async (userId) => {
+    try {
+      return await this.orderRepositories.getOrderList(userId);
+    } catch (error) {
+      throw Error(error)
+    }
   };
 
-  addOrderByMenuId = async (user, menuId) => {
-    await this.orderRepositories.addOrderByMenuId(user, menuId);
+  addToOrder = async (userId, contactName, contactPhone, contactAddress, memo) => {
+    try {
+      await this.orderRepositories.addToOrder(userId, contactName, contactPhone, contactAddress, memo);
+    } catch (error) {
+      throw Error(error.message)
+    }
   };
 
-  addOrder = async (userId, address, memo, totalPrice) => {
-    await this.orderRepositories.addOrder(userId, address, memo, totalPrice);
+  getUserAndMenu = async (userId, menuId) => {
+    try {
+      return await this.orderRepositories.getUserAndMenu(userId, menuId);  
+    } catch (error) {
+      throw Error(error.message)
+    }
   };
 
-  acceptOrderByOrderId = async (orderId) => {
-    await this.orderRepositories.acceptOrderByOrderId(orderId);
-  };
-
-  completeOrder = async (orderId) => {
-    await this.orderRepositories.completeOrder(orderId);
-  };
-
-  rejectOrder = async (orderId) => {
-    await this.orderRepositories.rejectOrder(orderId);
+  quickOrder = async (userId, menuId, contactName, contactPhone, contactAddress, memo) => {
+    try {
+      await this.orderRepositories.quickOrder(userId, menuId, contactName, contactPhone, contactAddress, memo);  
+    } catch (error) {
+      throw Error(error.message)
+    }
   };
 
   deleteOrder = async (orderId) => {
-    await this.orderRepositories.deleteOrder(orderId);
+    try {
+      await this.orderRepositories.deleteOrder(orderId);
+    } catch (error) {
+      throw Error(error)
+    }
   };
 }
 

@@ -21,9 +21,7 @@
         <!-- 여기에 치킨메뉴 -->
       </div>
     </div>
-    <footer class="pt-5 my-5 text-muted border-top text-center">
-      정기치킨주식회사 &middot; &copy; 2023
-    </footer>
+
     </div>
 </main>
 
@@ -58,20 +56,20 @@
                   <h4 class="card-title">${menuName}</h4>
                   <p class="card-text">가격 : ${menuPrice}원</p>
                 </div>
-                <div class="my-auto">
+                <div class="d-flex justify-content-around">
                   <button
                     type="button"
-                    class="btn btn-dark col-6 mb-3"
+                    class="btn btn-dark mb-3"
                     onclick="addCart(${menuId})"
                   >
                     장바구니 추가
                   </button>
                   <button
                     type="button"
-                    class="btn btn-dark col-5 mb-3"
+                    class="btn btn-dark btn-lg mb-3"
                     onclick="quickOrder(${menuId})"
                   >
-                    주문하기
+                    <small>바로 주문하기</small>
                   </button>
                 </div>
               </div> 
@@ -108,14 +106,7 @@
 
   /* 바로 주문하기 */
   function quickOrder(menuId) {
-    $.ajax({
-      type: 'POST',
-      url: `/api/order/now/${menuId}`,
-      data: {},
-      success: function (response) {
-        alert(response['message']);
-        location.href = '/orderchk';
-      },
-    });
+    sessionStorage.removeItem('cart')
+    window.location.href=`/checkout/${menuId}`
   }
 </script>

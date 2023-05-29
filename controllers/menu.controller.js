@@ -33,7 +33,6 @@ class menuController {
       if (!menuName || !menuPrice || !fileName) {
         throw new Error('메뉴 정보를 모두 입력해주세요.');
       } 
-
       await this.menuService.createMenu(fileName, menuName, menuPrice);
       res.status(201).json({ message: '메뉴등록이 완료되었습니다.' });
     } catch (error) {

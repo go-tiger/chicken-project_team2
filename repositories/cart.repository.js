@@ -21,8 +21,6 @@ class CartRepositories {
           exclude: ["createdAt", "updatedAt", "password", "userType"]
         }
       });
-      
-
     } catch (error) {
       throw Error(error.message)
     }
@@ -32,7 +30,7 @@ class CartRepositories {
     try {
       const [cart, created] = await Cart.findOrCreate({where : {userId}})
       const menu = await Menu.findByPk(menuId);
-      await cart.addMenu(menu, { through: { quantity: 1 } });     
+      await cart.addMenu(menu, { through: { quantity: 1 } });
     } catch (error) {
       throw Error(error.message)
     }

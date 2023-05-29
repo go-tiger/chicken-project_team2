@@ -1,80 +1,100 @@
-<div class="container">
-  <div class="row g-5">
-    <div class="col-md-12">
-    <!----------------그룹---------------->
-      <div class="row g-5">
-        <div class="col-md-12">
-          <h2>주문 확인</h2>
-          <table class="type09 mb-3">
-            <thead >
-            </tr>
-              <th>주문번호</th>
-              <th>이메일</th>
-              <th>메뉴</th>
-              <th>수량</th>
-              <th>주소</th>
-              <th>핸드폰</th>
-              <th>요청사항</th>
-              <th>주문상태</th>
-            </tr>
-          </thead>
-          <tbody id="userOrderList">
-          </tbody>
-        </table>
-        </div>
-      </div>
-    <!----------------그룹---------------->
-      <footer class="pt-5 my-5 text-muted border-top text-center">
-        정기치킨주식회사 &middot; &copy; 2023
-      </footer>
-  </div>
+<div id="order-history" class="container">
+    <h4>주문정보</h4>
+    <hr />
 </div>
 
 <script>
-  $(document).ready(function () {
-    getOrderLists();
+  $.ajax({
+    type: 'GET',
+    url: '/api/order',
+    headers: {
+      Authorization: `Bearer ${tokens.accessToken}`,
+      Refresh: `${tokens.refreshToken}`,
+    },
+    success: function (response) {
+      response.orders[0].Orders.forEach( order => {
+        //오더테이블 최신순 오름차순 정렬
+        const TIME_ZONE = 9 * 60 * 60 * 1000;
+        const date = new Date(order.createdAt)
+        const orderTime = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
+
+        const orderId = order.id
+        const contactAddress = order.contactAddress
+        const memo = order.memo
+        const orderStatus = order.status
+        let totalPlace = 0
+        
+        const changeClassByStatus = 
+        orderStatus === 0 ? 'dark' 
+        : orderStatus === 1 ? 'primary' 
+        : orderStatus === 2 ? 'secondary' 
+        : ''
+
+        const changeClassCompleted = 
+        orderStatus === 0 || orderStatus === 1 ? 'dark'
+        : orderStatus === 2 ? 'secondary'
+        : ''
+        
+        const orderListHTML = `
+          <div class="card border-${changeClassByStatus} mb-3" style="max-width: 18rem">
+            <div class="card-header border-${changeClassByStatus} text-${changeClassByStatus}">
+              ${orderStatus === 0 ? '배달대기' 
+                : orderStatus === 1 ? '배달중' 
+                : orderStatus === 2 ? '배달 완료' 
+                : ''}
+              </div>
+            <div class="card-body">
+              <div class="list-group mb-3">
+                <div class="list-group-item list-group-item-action">
+                  <h6 class="text-${changeClassCompleted}"><b>주문번호</b></h6>
+                  <p class="text-body-secondary">${orderId}</p>
+
+                  <h6 class="text-${changeClassCompleted}"><b>주문일시</b></h6>
+                  <p class="text-body-secondary">${orderTime}</p>
+
+                  <h6 class="text-${changeClassCompleted}"><b>배달주소</b></h6>
+                  <p class="text-body-secondary">${contactAddress}</p>
+
+                  <h6 class="text-${changeClassCompleted}"><b>요청사항</b></h6>
+                  <p class="text-body-secondary">${memo}</p>
+                </div>
+              </div>
+
+              <ul class="list-group order-menu-list-by-${orderId}">
+              </ul>
+            </div>
+          </div>
+        `
+
+        $('#order-history').append(orderListHTML)
+        order.Menus.forEach( menu => {
+          const menuName = menu.menuName
+          const menuQuantity = menu.Order_Menu.quantity
+          const menuPrice = menu.menuPrice
+          totalPlace += menuPrice * menuQuantity
+
+          const menuListHTML = `
+            <li class="list-group-item d-flex justify-content-between align-items-center text-${changeClassCompleted}">
+              ${menuName}
+              <span class="badge bg-${changeClassCompleted} rounded-pill">${menuQuantity}</span>
+            </li>
+          `
+
+          $(`.order-menu-list-by-${orderId}`).append(menuListHTML)
+        });
+
+        const totalPlaceHTML = `
+          <li class="list-group-item d-flex justify-content-between align-items-center text-${changeClassCompleted}">
+            결제금액
+            <strong class="text-${changeClassCompleted}">${totalPlace}원</strong>
+          </li>
+        `
+        $(`.order-menu-list-by-${orderId}`).append(totalPlaceHTML)
+        
+      });
+    },
+    error: function (err) {
+      alert(err.responseJSON.message)
+    },
   });
-
-  function getOrderLists() {
-    $.ajax({
-      type: 'GET',
-      url: '/api/order',
-      data: {},
-      success: function (response) {
-        let rows = response['getOrder'];
-
-        for (let i = 0; i < rows.length; i++) {
-          let orderId = rows[i]['orderId'];
-          let email = rows[i]['order']['user']['email'];
-          let menuName = rows[i]['menu']['menuName'];
-          let menuAmount = rows[i]['menuAmount'];
-          let address = rows[i]['order']['address'];
-          let phone = rows[i]['order']['user']['phone'];
-          let memo = rows[i]['order']['memo'];
-          let orderStatus = rows[i]['order']['orderStatus'];
-          let orderStat = '주문 접수 중';
-          if (orderStatus == 0) {
-            orderStat = '주문 접수 중';
-          } else if (orderStatus == 1) {
-            orderStat = '배달 중';
-          } else if (orderStatus == 2) {
-            orderStat = '배달 완료';
-          } else if (orderStatus == 3) {
-            orderStat = '주문 거절';
-          }
-          let temp_html = `<tr>
-                            <td>${orderId}</td>
-                            <td>${email}</td>
-                            <td>${menuName}</td>
-                            <td>${menuAmount}</td>
-                            <td>${address}</td>
-                            <td>${phone}</td>
-                            <td>${memo}</td>
-                            <td>${orderStat}</td>
-                            </tr>`;
-          $('#userOrderList').append(temp_html);
-        }
-      },
-    });
-  }
 </script>

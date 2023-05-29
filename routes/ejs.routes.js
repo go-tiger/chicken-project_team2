@@ -26,6 +26,10 @@ router.get('/checkout', (req, res) => {
   res.render('index.ejs', { components: 'checkout'});
 });
 
+router.get('/checkout/:menuId', (req, res) => {
+  res.render('index.ejs', { components: 'checkout'});
+});
+
 /* 유저 장바구니 */
 router.get('/cart', (req, res) => {
   res.render('index.ejs', { components: 'cart'});

@@ -13,6 +13,6 @@ router.use('/auth', authRouter);
 router.use('/user', authJwt, userRouter);
 router.use('/menu', authJwt, menuRouter);
 router.use('/cart', authJwt, cartRouter);
-// router.use('/order', authJwt, orderRouter);
+router.use('/order', authJwt, orderRouter);
 
 module.exports = router;

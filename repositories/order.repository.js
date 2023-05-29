@@ -1,99 +1,101 @@
-const { user, order, cart, orderList, menu } = require('../models');
+const { User, Cart, Menu, Order } = require('../models');
 
 class OrderRepositories {
-  getOrderList = async () => {
-    const getOrder = await orderList.findAll({
-      include: [
-        {
-          model: order,
-          attributes: ['address', 'memo', 'orderStatus'],
-          include: [
-            {
-              model: user,
-              attributes: ['email', 'phone'],
-            },
-          ],
+  getOrderList = async (userId) => {
+    try {
+      const orders = await User.findAll({
+        where: {id : userId},
+        include: { 
+          model: Order,
+          include: {
+            model: Menu,
+          } 
         },
-        {
-          model: menu,
-          attributes: ['menuName'],
-        }
-      ],
-      attributes: {
-        exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
-      }
-    });
-    return getOrder
-  };
-
-  addOrderByMenuId = async (user, menuId) => {
-    const menu = await menu.findOne({
-      where: {id : menuId}
-    })
-    const addOrder = await order.create({
-      address: user.dataValues.address,
-      totalPrice: menu.dataValues.menuPrice,
-      userId: user.dataValues.id,
-      orderStatus: 0,
-      memo: "즉시주문"
-    });
-
-    await orderList.create({
-      menuAmount: 1,
-      menuId,
-      userId: user.dataValues.id,
-      orderId: addOrder.dataValues.id,
-    });
-  };
-
-
-
-  addOrder = async (userId, address, memo, totalPrice) => {
-    
-    const addOrder = await order.create({
-      address,
-      memo,
-      totalPrice,
-      userId,
-      orderStatus: 0,
-    });
-
-
-    const cart = await cart.findAll({
-      where: { userId },
-      raw: true,
-      attributes: {
-        exclude: ['id', 'createdAt', 'updatedAt', 'userId'],
-      },
-    });
-
-    for (let i = 0; i < cart.length; i++) {
-      let menuId = cart[i]['menuId'];
-      let menuAmount = cart[i]['menuAmount'];
-
-      await orderList.create({
-        menuAmount,
-        menuId,
-        userId,
-        orderId : addOrder.dataValues.id,
+        order: [[Order, 'status', 'ASC'],[Order, 'createdAt', 'DESC']],
       });
+      return orders
+    } catch (error) {
+      throw Error(error)
     }
   };
 
-  acceptOrderByOrderId = async (orderId) => {
-    await order.update({ orderStatus: 1 }, { where: { id: orderId } });
-  };
-  
-  completeOrder = async (orderId) => {
-    await order.update({ orderStatus: 2 }, { where: { id: orderId } });
+  addToOrder = async (userId, contactName, contactPhone, contactAddress, memo) => {
+    try {
+      const order = await Order.create({
+        contactName,
+        contactPhone,
+        contactAddress,
+        memo,
+        userId
+      })
+
+      const user = await User.findOne({
+        where : { id : userId },
+        include : [{
+          model : Cart,
+          include : {
+            model : Menu,
+            attributes: ['id'],
+            through : {
+              attributes: ['quantity'],
+            }
+          },
+          attributes: ['id']
+        }],
+        attributes: []
+      })
+
+      await user.Carts[0].Menus.forEach( async (menu) => {
+        const foundMenu = await Menu.findByPk(menu.id)
+        const result = await order.addMenu(foundMenu, { through: { quantity: menu.Cart_Menu.quantity, menuId : foundMenu.id, orderId: order.id }})
+      });
+
+      await Cart.destroy({ where : { id: user.Carts[0].id }})
+    } catch (error) {
+      throw Error(error.message)
+    }
   };
 
-  rejectOrder = async (orderId) => {
-    await order.update({ orderStatus: 3 }, { where: { id: orderId } });
+  getUserAndMenu = async (userId, menuId) => {
+    try {
+      const user = await User.findOne({
+        where : { id : userId },
+        attributes : ['userName', 'email', 'phone', 'address'],
+      })
+
+      const menu = await Menu.findOne({
+        where : { id : menuId },
+        attributes : ['menuName', 'menuPrice'],
+      })
+
+      return {user, menu}
+    } catch (error) {
+      throw Error(error.message)
+    }
+  };
+
+  quickOrder = async (userId, menuId, contactName, contactPhone, contactAddress, memo) => {
+    try {
+      const order = await Order.create({
+        contactName,
+        contactPhone,
+        contactAddress,
+        memo,
+        userId,
+      })
+      const menu = await Menu.findByPk(menuId)
+      await order.addMenu(menu, { through : { quantity : 1, menuId : menu.id, orderId: order.id }})
+    } catch (error) {
+      throw Error(error.message)
+    }
   };
 
   deleteOrder = async (orderId) => {
-    await order.destroy({ where: { id: orderId } });
+    try {
+      await Order.destroy({ where: { id: orderId }});
+    } catch (error) {
+      throw Error(error)
+    }
   };
 }
 module.exports = OrderRepositories;
