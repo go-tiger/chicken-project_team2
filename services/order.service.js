@@ -3,9 +3,17 @@ const OrderRepositories = require('../repositories/order.repository');
 class OrderService {
   orderRepositories = new OrderRepositories();
 
-  getOrderList = async (userId) => {
+  getUserOrders = async (userId) => {
     try {
-      return await this.orderRepositories.getOrderList(userId);
+      return await this.orderRepositories.getUserOrders(userId);
+    } catch (error) {
+      throw Error(error.message)
+    }
+  };
+
+  getOrderList = async () => {
+    try {
+      return await this.orderRepositories.getOrderList();
     } catch (error) {
       throw Error(error.message)
     }
@@ -30,6 +38,15 @@ class OrderService {
   quickOrder = async (userId, menuId, contactName, contactPhone, contactAddress, memo) => {
     try {
       await this.orderRepositories.quickOrder(userId, menuId, contactName, contactPhone, contactAddress, memo);  
+    } catch (error) {
+      throw Error(error.message)
+    }
+  };
+
+  updateOrderStatus = async (orderId, status) => {
+    try {
+      const updateStatus = Number(status) + 1 
+      await this.orderRepositories.updateOrderStatus(orderId, updateStatus);  
     } catch (error) {
       throw Error(error.message)
     }

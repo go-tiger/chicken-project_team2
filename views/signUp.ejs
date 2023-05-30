@@ -9,15 +9,14 @@
     <div class="container bg-sign">
       <div class="card bg-sign mx-auto">
         <article class="card-body mx-auto">
-          <div class="logoBox">
+          <div class="logoBox mb-3">
             <img
               id="logo"
               src="./images/Logo.png"
               alt="Logo-Makr-3-Dh-TDI"
-              border="0"
             />
           </div>
-          <form id="myForm">
+          <form id="form-signup">
             <!-- form-group// email-->
             <div class="form-group input-group">
               <div class="input-group-prepend">
@@ -158,16 +157,15 @@
             <!-- submit-button// -->
             <div class="form-group">
               <button
-                type="button"
+                type="submit"
                 class="btn btn-dark btn-block"
                 style="width: 100%"
-                onclick="signUp()"
               >
                 Create Account
               </button>
             </div>
             <!-- submit-button// -->
-            <p class="text-center">계정이 있나요?<a href="/"> Log In</a></p>
+            <p class="text-center"><a href="/" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">계정이 이미 있나요?</a></p>
           </form>
         </article>
       </div>
@@ -175,7 +173,9 @@
     </div>
     <!--container end.//-->
     <script>
-      function signUp() {
+      $('#form-signup').submit(function(e){
+        e.preventDefault();
+
         let userName = $('#userName').val();
         let password = $('#pw').val();
         let confirm = $('#rePw').val();
@@ -203,7 +203,7 @@
             alert(response.responseJSON.message)
           },
         });
-      }
+      })
     </script>
   </body>
 </html>

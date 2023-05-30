@@ -7,13 +7,12 @@
   </head>
   <body class="text-center">
     <main class="form-signin w-100 m-auto">
-      <form>
+      <form id="form-login">
         <div>
           <img
             id="logo"
             src="./images/Logo.png"
             alt="Logo-Makr-3-Dh-TDI"
-            border="0"
           />
         </div>
         <div class="form-floating">
@@ -35,18 +34,19 @@
           <label for="floatingPassword">Password</label>
         </div>
         <button
-          class="w-100 btn btn-lg btn-primary"
-          type="button"
-          onclick="login()"
+          class="w-100 btn btn-lg btn-primary mb-4"
+          type="submit"
         >
           Login
         </button>
-        <a class="btn btn-link" href="/signup"> 회원이 아니신가요?? </a>
+        <p class="text-center"><a href="/signup" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">회원이 아니신가요??</a></p>
       </form>
     </main>
 
     <script>
-      function login() {
+      $('#form-login').submit(function(e){
+        e.preventDefault();
+
         let email = $('#signUpEmail').val();
         let password = $('#signUpPassword').val();
         $.ajax({
@@ -74,7 +74,8 @@
             alert(response.responseJSON.message)
           },
         });
-      }
+      })
+        
     </script>
   </body>
 </html>

@@ -1,195 +1,161 @@
-<div class="container">
-  <div class="row g-5">
-    <div class="col-md-12">
-      <h2>주문 진행</h2>
-      <table class="type09 mb-3">
-        <thead >
-        </tr>
-            <th>주문번호</th>
-            <th>email</th>
-            <th>메뉴</th>
-            <th>주소</th>
-            <th>핸드폰</th>
-            <th>요청사항</th>
-            <th>진행상황</th>
-        </tr>
-        </thead>
-        <tbody id="orderIng">
-
-        </tbody>
-      </table>
-    </div>
-
-    <hr class="col-md-12 mb-5" />
-    <!----------------그룹---------------->
-    <footer class="pt-5 my-5 text-muted border-top">
-      정기치킨주식회사 &middot; &copy; 2023
-    </footer>
-  </div>
+<div id="order-history" class="container">
+  <h4>주문 관리</h4>
+  <hr />
 </div>
 
 <script>
-  function handleUserInfo(userId, userType, userName){
-    console.log(userId, userType, userName)
+  $.ajax({
+    type: 'GET',
+    url: '/api/order/list',
+    headers: {
+      Authorization: `Bearer ${tokens.accessToken}`,
+      Refresh: `${tokens.refreshToken}`,
+    },
+    success: function (response) {
+      if (response.orders.length < 1) {
+        const emptyOrderHistoryHTML = `
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0">현재 주문정보가 없습니다.</h6>
+              </div>
+            </li>
+          </ul>
+        `
+        $('#order-history').append(emptyOrderHistoryHTML);
+      }
+
+      const orderListHTML = response.orders.map(order => {
+        //오더테이블 최신순 오름차순 정렬
+        const TIME_ZONE = 9 * 60 * 60 * 1000;
+        const date = new Date(order.createdAt)
+        const orderTime = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
+        const {id: orderId, contactAddress, memo, status: orderStatus} = order
+        let totalPlace = 0
+        
+        const changeClassByStatus = 
+          orderStatus === 0 
+            ? 'dark' 
+            : orderStatus === 1 
+            ? 'primary' 
+            : orderStatus === 2 
+            ? 'secondary' 
+            : ''
+
+        const changeClassCompleted = 
+          orderStatus === 0 || orderStatus === 1 
+            ? 'dark'
+            : orderStatus === 2 
+            ? 'secondary'
+            : ''
+        
+        return `
+          <div class="card border-${changeClassByStatus} mb-3" style="max-width: 18rem">
+            <button 
+              type="button" 
+              class="btn btn-${changeClassByStatus}"
+              onclick="updateOrderStatus(${orderId}, ${orderStatus})">
+              ${orderStatus === 0 ? '배달대기' 
+                : orderStatus === 1 ? '배달중' 
+                : orderStatus === 2 ? '배달 완료' 
+                : ''}  
+            </button>
+            <div class="card-body">
+              <div class="list-group mb-3">
+                <div class="list-group-item list-group-item-action">
+                  <h6 class="text-${changeClassCompleted}"><b>주문번호</b></h6>
+                  <p class="text-body-secondary">${orderId}</p>
+
+                  <h6 class="text-${changeClassCompleted}"><b>주문일시</b></h6>
+                  <p class="text-body-secondary">${orderTime}</p>
+
+                  <h6 class="text-${changeClassCompleted}"><b>배달주소</b></h6>
+                  <p class="text-body-secondary">${contactAddress}</p>
+
+                  <h6 class="text-${changeClassCompleted}"><b>요청사항</b></h6>
+                  <p class="text-body-secondary">${memo}</p>
+                </div>
+              </div>
+
+              <ul class="list-group order-menu-list-by-${orderId}">
+                ${
+                  order.Menus.map(menu => {
+                    const {
+                      menuName, 
+                      menuPrice, 
+                      Order_Menu: {
+                        quantity: menuQuantity
+                      }
+                    } = menu
+
+                    totalPlace += menuPrice * menuQuantity
+
+                    return `
+                      <li class="list-group-item d-flex justify-content-between align-items-center text-${changeClassCompleted}">
+                        ${menuName}
+                        <span class="badge bg-${changeClassCompleted} rounded-pill">${menuQuantity}</span>
+                      </li>
+                    `
+                  }).join('')
+                }
+                <li class="list-group-item d-flex justify-content-between align-items-center text-${changeClassCompleted}">
+                  결제금액
+                  <strong class="text-${changeClassCompleted}">${totalPlace}원</strong>
+                </li>
+              </ul>
+              <div class="d-grid d-flex justify-content-end mt-2">
+                <button class="btn btn-outline-danger me-md-2 btn-sm" type="button" onclick="deleteOrder(${orderId})">주문취소</button>
+              </div>
+            </div>
+          </div>
+        `
+      }).join('');
+      
+      $('#order-history').append(orderListHTML)
+    },
+    error: function (err) {
+      alert(err.responseJSON.message)
+    },
+  });
+
+  function updateOrderStatus(orderId, orderStatus){
+    if(orderStatus < 2){
+       $.ajax({
+        type: 'PATCH',
+        url: `/api/order/${orderId}`,
+        headers: {
+        Authorization: `Bearer ${tokens.accessToken}`,
+        Refresh: `${tokens.refreshToken}`,
+        },
+        data: {orderStatus},
+        success: function (response) {
+          alert(response.message)
+          location.reload()
+        },
+        error: function(err){
+          alert(err.responseJSON.message)
+        }
+      })
+    }
   }
-  // $.ajax({
-  //   type: 'GET',
-  //   url: '/api/order/owner',
-  //   data: {},
-  //   success: function (response) {
-  //     let rows = response['orders'];
-  //     for (let i = 0; i < rows.length; i++) {
-  //       let orderId = rows[i]['orderId'];
-  //       let email = rows[i]['order']['user']['email'];
-  //       let menuName = rows[i]['menuName'];
-  //       let menuAmount = rows[i]['menuAmount'];
-  //       let address = rows[i]['order']['address'];
-  //       let phone = rows[i]['order']['user']['phone'];
-  //       let memo = rows[i]['order']['memo'];
-  //       let orderStatus = rows[i]['order']['orderStatus'];
 
-  //       if (orderStatus == 0) {
-  //         let temp_html = `<tr>
-  //         <td>${orderId}</td>
-  //         <td>${email}</td>
-  //         <td>${menuName}</td>
-  //         <td>${menuAmount}</td>
-  //         <td>${address}</td>
-  //         <td>${phone}</td>
-  //         <td>${memo}</td>
-  //         <td><button type="button" class="btn btn-success" onclick="update(${orderId})">수락</button></td>
-  //         <td><button type="button" class="btn btn-danger" onclick="refuse(${orderId})">거절</button></td>
-  //       </tr>
-  //         `;
-  //         $('#orderList').append(temp_html);
-  //       } else if (orderStatus == 1) {
-  //         let temp_html = `<tr>
-  //         <td>${orderId}</td>
-  //         <td>${email}</td>
-  //         <td>${menuName}</td>
-  //         <td>${address}</td>
-  //         <td>${phone}</td>
-  //         <td>${memo}</td>
-  //         <td><button type="button" class="btn btn-secondary" onclick="done(${orderId})">진행중</button></td>
-  //       </tr>`;
-  //         $('#orderIng').append(temp_html);
-  //       } else if (orderStatus > 1) {
-  //         let orderStat = '완료';
-  //         if (orderStatus == 3) {
-  //           orderStat = '거절';
-  //         }
-  //         let temp_html = `<tr>
-  //         <td>${orderId}</td>
-  //         <td>${email}</td>
-  //         <td>${menuName}</td>
-  //         <td>${address}</td>
-  //         <td>${phone}</td>
-  //         <td>${memo}</td>
-  //         <td>${orderStat}</td>
-  //       </tr>`;
-  //         $('#orderDone').append(temp_html);
-  //       }
-  //     }
-  //   },
-  // });
-
-  // function update(orderId) {
-  //   $.ajax({
-  //     type: 'PUT',
-  //     url: `/api/order/update/${orderId}`,
-  //     data: {},
-  //     success: function (response) {
-  //       alert(response['message']);
-  //       window.location.reload();
-  //     },
-  //   });
-  // }
-
-  // function done(orderId) {
-  //   $.ajax({
-  //     type: 'PUT',
-  //     url: `/api/order/done/${orderId}`,
-  //     data: {},
-  //     success: function (response) {
-  //       alert(response['message']);
-  //       window.location.reload();
-  //     },
-  //   });
-  // }
-
-  // function refuse(orderId) {
-  //   $.ajax({
-  //     type: 'PUT',
-  //     url: `/api/order/refuse/${orderId}`,
-  //     data: {},
-  //     success: function (response) {
-  //       alert(response['message']);
-  //       window.location.reload();
-  //     },
-  //   });
-  // }
-
-  // $(document).ready(function () {
-  //   getOrderList();
-  // });
-
-  // function deleteOrder(orderId) {
-  //   $.ajax({
-  //     type: 'DELETE',
-  //     url: `/api/order/delete/${orderId}`,
-  //     data: {},
-  //     success: function (response) {
-  //       alert(response['message']);
-  //       window.location.reload();
-  //     },
-  //   });
-  // }
-
-  // function getOrderList() {
-  //   $.ajax({
-  //     type: 'GET',
-  //     url: '/api/order/admin',
-  //     data: {},
-  //     success: function (response) {
-  //       let rows = response['orders'];
-  //       for (let i = 0; i < rows.length; i++) {
-  //         let orderId = rows[i]['orderId'];
-  //         let email = rows[i]['order']['user']['email'];
-  //         let menuName = rows[i]['menuName'];
-  //         let menuAmount = rows[i]['menuAmount'];
-  //         let address = rows[i]['order']['address'];
-  //         let phone = rows[i]['order']['user']['phone'];
-  //         let memo = rows[i]['order']['memo'];
-  //         let orderStatus = rows[i]['order']['orderStatus'];
-  //         if (orderStatus < 2) {
-  //           let temp_html = `<tr>
-  //               <td>${orderId}</td>          
-  //               <td>${email}</td>
-  //               <td>${menuName}</td>
-  //               <td>${menuAmount}</td>
-  //               <td>${address}</td>
-  //               <td>${phone}</td>
-  //               <td>${memo}</td>
-  //               <td><button type="button" class="btn btn-outline-danger" onclick="deleteOrder(${orderId})">삭제</button></td>
-  //             </tr>
-  //             `;
-  //           $('#adminOrder').append(temp_html);
-  //         } else if (orderStatus > 1) {
-  //           let temp_html = `<tr>
-  //               <td>${orderId}</td>          
-  //               <td>${email}</td>
-  //               <td>${menuName}</td>
-  //               <td>${menuAmount}</td>
-  //               <td>${address}</td>
-  //               <td>${phone}</td>
-  //               <td>${memo}</td>
-  //             </tr>
-  //             `;
-  //           $('#ordersDone').append(temp_html);
-  //         }
-  //       }
-  //     },
-  //   });
-  // }
+      
+  function deleteOrder(orderId){
+    $.ajax({
+      type: 'DELETE',
+      url: `/api/order/${orderId}`,
+      headers: {
+      Authorization: `Bearer ${tokens.accessToken}`,
+      Refresh: `${tokens.refreshToken}`,
+      },
+      success: function (response) {
+        alert(response.message)
+        location.reload()
+      },
+      error: function(err){
+        alert(err.responseJSON.message)
+      }
+    })
+  }
 
 </script>

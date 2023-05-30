@@ -1,10 +1,10 @@
 const { User, Cart, Menu, Order } = require('../models');
 
 class OrderRepositories {
-  getOrderList = async (userId) => {
+  getUserOrders = async (userId) => {
     try {
       const orders = await User.findAll({
-        where: {id : userId},
+        where: {id: userId},
         include: { 
           model: Order,
           include: {
@@ -12,6 +12,20 @@ class OrderRepositories {
           } 
         },
         order: [[Order, 'status', 'ASC'],[Order, 'createdAt', 'DESC']],
+      });
+      return orders
+    } catch (error) {
+      throw Error(error.message)
+    }
+  };
+
+  getOrderList = async () => {
+    try {
+      const orders = await Order.findAll({
+        include: { 
+          model: Menu,
+        },
+        order: [['status', 'ASC'],['createdAt', 'DESC']],
       });
       return orders
     } catch (error) {
@@ -30,13 +44,13 @@ class OrderRepositories {
       })
 
       const user = await User.findOne({
-        where : { id : userId },
-        include : [{
-          model : Cart,
-          include : {
-            model : Menu,
+        where: { id: userId },
+        include: [{
+          model: Cart,
+          include: {
+            model: Menu,
             attributes: ['id'],
-            through : {
+            through: {
               attributes: ['quantity'],
             }
           },
@@ -62,13 +76,13 @@ class OrderRepositories {
   getUserAndMenu = async (userId, menuId) => {
     try {
       const user = await User.findOne({
-        where : { id : userId },
+        where : { id: userId },
         attributes : ['userName', 'email', 'phone', 'address'],
       })
 
       const menu = await Menu.findOne({
-        where : { id : menuId },
-        attributes : ['menuName', 'menuPrice'],
+        where: { id: menuId },
+        attributes: ['menuName', 'menuPrice'],
       })
 
       return {user, menu}
@@ -87,7 +101,15 @@ class OrderRepositories {
         userId,
       })
       const menu = await Menu.findByPk(menuId)
-      await order.addMenu(menu, { through : { quantity : 1}})
+      await order.addMenu(menu, { through: { quantity : 1}})
+    } catch (error) {
+      throw Error(error.message)
+    }
+  };
+
+  updateOrderStatus = async (orderId, status) => {
+    try {
+      await Order.update({status}, {where: { id : orderId}})
     } catch (error) {
       throw Error(error.message)
     }

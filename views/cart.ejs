@@ -20,8 +20,8 @@
     headers: {
         'Authorization': `Bearer ${tokens.accessToken}`,
         'Refresh': `${tokens.refreshToken}`
-      },
-      success: function (response) {
+    },
+    success: function (response) {
       let totalPrice = 0
       const menuArray = []
     

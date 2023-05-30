@@ -32,7 +32,6 @@
           const userName = response.userName
 
           renderHeaderByUserType(userId, userType, userName)
-          handleUserInfo(userId, userType, userName)
         },
         error: function(err) {
           alert(err.responseJSON.message)

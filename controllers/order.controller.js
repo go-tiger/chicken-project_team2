@@ -3,10 +3,19 @@ const OrderService = require('../services/order.service');
 class orderController {
   orderService = new OrderService();
 
-  getOrderList = async (req, res) => {
+  getUserOrders = async (req, res) => {
     try {
       const userId = req.userId;
-      const orders = await this.orderService.getOrderList(userId);
+      const orders = await this.orderService.getUserOrders(userId);
+      res.status(200).json({orders});
+    } catch (error) {
+      res.status(500).json({ error : error.message});
+    }
+  };
+
+  getOrderList = async (req, res) => {
+    try {
+      const orders = await this.orderService.getOrderList();
       res.status(200).json({orders});
     } catch (error) {
       res.status(500).json({ error : error.message});
@@ -50,9 +59,20 @@ class orderController {
       await this.orderService.quickOrder(userId, menuId, contactName, contactPhone, contactAddress, memo);
       res.status(200).json({ message: '주문이 완료되었습니다.' });
     } catch (error) {
-      res.status(500).json({ 
-        error : error.message
-      });
+      res.status(500).json({ error : error.message });
+    }
+  };
+
+  updateOrderStatus = async (req, res) => {
+    try {
+      const orderId = req.params.orderId;
+      const {orderStatus: status} = req.body
+      console.log("🚀 ~ file: order.controller.js:72 ~ orderController ~ updateOrderStatus= ~ status:", status)
+      
+      await this.orderService.updateOrderStatus(orderId, status);
+      res.status(200).json({ message: '변경 완료' });
+    } catch (error) {
+      res.status(500).json({ error : error.message });
     }
   };
 
@@ -62,7 +82,7 @@ class orderController {
       await this.orderService.deleteOrder(orderId);
       res.status(201).json({ message : '삭제되었습니다.'});
     } catch (error) {
-      res.status(500).json({ error : error.message});
+      res.status(500).json({ error : error.message });
     }
   };
 }
