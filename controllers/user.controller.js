@@ -36,6 +36,19 @@ class UserController {
     try {
       const userId = req.userId;
       const { name, phone, address } = req.body;
+
+      if (!name || !phone || !address) {
+        return res.status(400).json({ message: '모든 정보를 입력해주세요.' });
+      }
+
+      if(!/^[a-zA-Z가-힣]{2,10}$/.test(name)){
+        return res.status(400).json({ message: '이름은 2글자 이상 10글자 이하로 입력 해주세요.' });
+      }
+
+      if(!/^\d{3}-\d{4}-\d{4}$/.test(phone)){
+        return res.status(400).json({ message: '잘못된 형식의 핸드폰 번호입니다.' });
+      }
+
       await this.userService.updateUser(userId, name, phone, address);
       res.status(201).json({ message : "수정이 완료되었습니다."});
     } catch (error) {

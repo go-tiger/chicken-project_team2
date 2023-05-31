@@ -46,9 +46,6 @@
       </form>  
     </div>
     <!-----메뉴 수정 폼---------->
-    <footer class="pt-5 my-5 text-center border-top">
-      정기치킨주식회사 &middot; &copy; 2023
-    </footer>
   </div>
 </div>
 
@@ -107,11 +104,10 @@
       processData: false,
       success: function (response) {
         alert(response.message)
-        window.location.reload()
+        window.location.href="/admin/menu/add"
       },
       error: function(err) {
-        console.log("🚀 ~ file: menuEdit.ejs:116 ~ $ ~ err:", err)
-
+        alert(err.responseJSON.message)
       }
     })
   })

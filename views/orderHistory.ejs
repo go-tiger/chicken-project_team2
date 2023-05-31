@@ -31,7 +31,7 @@
         const TIME_ZONE = 9 * 60 * 60 * 1000;
         const date = new Date(order.createdAt)
         const orderTime = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
-        const {orderId: id, contactAddress, memo, orderStatus: status} = order
+        const {id: orderId, contactAddress, memo, status: orderStatus} = order
         let totalPlace = 0
         
         const changeClassByStatus = 
