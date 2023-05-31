@@ -50,11 +50,7 @@ class menuController {
       await this.menuService.editMenu(menuId, menuName, menuPrice, fileName);
       res.status(201).json({ message: '메뉴 수정을 완료되었습니다.' });
     } catch (error) {
-      console.log("🚀 ~ file: menu.controller.js:54 ~ menuController ~ editMenu= ~ error:", error)
-      
-      res.status(500).json({ error});
-
-      // res.status(500).json({ message: '메뉴 수정을 실패했습니다.' });
+      res.status(500).json({ message: '메뉴 수정을 실패했습니다.' });
     }
   };
 

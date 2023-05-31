@@ -4,12 +4,10 @@ class UserRepositories {
   createUser = async (userName, password, email, phone, address, userType) => {
     try {
       const user = await User.create({ userName, password, email, phone, address, userType });
-
       return user
     } catch (error) {
       throw Error('회원가입에 실패했습니다.')
     }
-    
   };
 
   getUserByEmail = async (email) => {
@@ -22,14 +20,17 @@ class UserRepositories {
   };
 
   getUserList = async () => {
-    return await User.findAll({})
+    return await User.findAll({
+      attributes: ['id', 'email', 'userName', 'phone', 'address', 'userType'],
+      order: [['id', 'ASC']]
+    })
   }
 
   getUser = async (userId) => {
     try {
       return await User.findOne({
-        where : { id : userId },
-        attributes : ['userName', 'email', 'address', 'phone']
+        where: { id: userId },
+        attributes: ['userName', 'email', 'address', 'phone']
       })  
     } catch (error) {
       throw Error(error.message)
@@ -54,14 +55,41 @@ class UserRepositories {
     }
   };
 
-  deleteUser = async userId => {
+  getUserByUserId = async (userId) => {
     try {
-      const removeUser = await user.destroy({
+      return await User.findOne({
+        where: { id: userId },
+      })  
+    } catch (error) {
+      throw Error(error.message)
+    }
+  }
+
+  editUserByUserId = async (userId, name, phone, address, hashedPassword) => {
+    try {
+      await User.update(
+        {
+          userName: name,
+          phone, 
+          address,
+          ...(hashedPassword ? { password : hashedPassword } : {}),
+        },
+        {
+          where: {id: userId},
+        }
+      );
+    } catch (error) {
+      throw Error(error.message)
+    }
+  };
+
+  deleteUser = async (userId) => {
+    try {
+      User.destroy({
         where: { id: userId },
       });
-      return removeUser;
     } catch (err) {
-      throw err;
+      throw Error(error.message)
     }
   };
 }

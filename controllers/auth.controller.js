@@ -10,13 +10,22 @@ class AuthController {
         return res.status(400).json({ message: '모든 정보를 입력해주세요.' });
       }
         
-      if (password.length < 3) {
+      if (password.length < 4) {
         return res.status(400).json({ message: '비밀번호는 4자리 이상이어야 합니다.' });
+      }
+
+      if(!/^\d{3}-\d{4}-\d{4}$/.test(phone)){
+        return res.status(400).json({ message: '잘못된 형식의 핸드폰 번호입니다.' });
       }
       
       if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(email)) {
         return res.status(400).json({ message: '유효한 이메일 주소를 입력해주세요.' });
       }
+
+      if(!/^[a-zA-Z가-힣]{2,10}$/.test(name)){
+        return res.status(400).json({ message: '이름은 2글자 이상 10글자 이하로 입력 해주세요.' });
+      }
+
 
       const createUser = await this.authService.createUser(userName, password, email, phone, address, userType);
 

@@ -55,9 +55,8 @@ router.get('/admin/users', (req, res) => {
   return res.render('index.ejs', { components: 'userList'});
 });
 
-/* 관리자 유저 정보 수정 */
-router.get('/admin/users/edit', (req, res) => {
-      return res.render('index.ejs', { components: 'userEdit'});
+router.get('/admin/user/edit/:userId', (req, res) => {
+  return res.render('index.ejs', { components: 'userEdit'});
 });
 
 /* 관리자 메뉴 추가 */
