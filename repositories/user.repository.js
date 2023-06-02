@@ -13,6 +13,8 @@ class UserRepositories {
   getUserByEmail = async (email) => {
     try {
       const user = await User.findOne({ where: { email } });
+      console.log("🚀 ~ file: user.repository.js:16 ~ UserRepositories ~ getUserByEmail= ~ user:", user)
+      
       return user;
     } catch (error) {
       throw Error('유저정보를 가져오는데 실패했습니다.')
