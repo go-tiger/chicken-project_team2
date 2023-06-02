@@ -22,7 +22,7 @@ class AuthController {
         return res.status(400).json({ message: '유효한 이메일 주소를 입력해주세요.' });
       }
 
-      if(!/^[a-zA-Z가-힣]{2,10}$/.test(name)){
+      if(!/^[a-zA-Z가-힣]{2,10}$/.test(userName)){
         return res.status(400).json({ message: '이름은 2글자 이상 10글자 이하로 입력 해주세요.' });
       }
 
